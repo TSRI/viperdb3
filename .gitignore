@@ -1,5 +1,7 @@
 *.pyc
 *.orig
+.DS_Store
+.DS_Store?
 bin/
 include/
 lib/
