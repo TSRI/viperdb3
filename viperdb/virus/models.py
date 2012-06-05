@@ -27,6 +27,10 @@ class Virus (models.Model):
     def clean(self):
         self.entry_id = self.entry_id.lower()
 
+    def clean_family(self):
+        if self.family:
+            self.family = self.family.lower()
+
     def __unicode__(self):
         return self.entry_id
 

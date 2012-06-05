@@ -12,14 +12,10 @@
 {% for virus in viruses %}
 	<tr>
 		<td>{{ virus.name }}</td>
-		<td>{{ virus.family }}</td>
+		<td><a href="{% url family:info virus.family %}">{{ virus.family }}</a></td>
 		<td>{{ virus.genus }}</td>
 		<td>{{ virus.get_tnumber }}</td>
-		<td>
-			<a href="{% url virus:info virus.entry_id %}">
-				{{ virus }}
-			</a>
-		</td>
+		<td><a href="{% url virus:info virus.entry_id %}">{{ virus }}</a></td>
 	</tr>
 {% endfor %}
 </table>

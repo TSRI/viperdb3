@@ -174,36 +174,20 @@ MEDIA_BUNDLES = (
         'js/jquery.min.js',
         'js/underscore-min.js',
     ),
-    ('add.js',
-        'js/jquery.formset.min.js'
-    ),
-    ('bar-graph.js',
+    ('d3.js', 
         'js/d3.v2.min.js',
-        'js/d3.tip.min.js',
-        'js/graph.coffee',
+        'js/d3.tip.min.js'
     ),
-    ('scatter-graph.js',
-        'js/d3.v2.min.js',
-        'js/d3.tip.min.js',
-        'js/scatter-graph.coffee',
-    ),
-    ('phi-psi.js',
-        'js/d3.v2.min.js',
-        'js/d3.tip.min.js',
-        'js/phi-psi.coffee',
-    ),
-    ('main.css', 
-        'css/main.sass'
-    ),
-    ('graph.css', 
-        'css/graph.sass'
-    ),
-    ('scatter-graph.css',
-        'css/scatter-graph.sass'
-    ),
-    ('phi-psi.css',
-        'css/phi-psi.sass'
-    ),
+    ('add.js',           'js/jquery.formset.min.js'),
+    ('bar-graph.js',     'js/virus/graph.coffee'),
+    ('scatter-graph.js', 'js/virus/scatter-graph.coffee'),
+    ('phi-psi.js',       'js/virus/phi-psi.coffee'),
+    ('step-one.js',      'js/virus/step-one.coffee'),
+    ('step-two.js',      'js/virus/step-two.coffee'),
+    ('main.css',          'css/main.sass'),
+    ('graph.css',         'css/graph.sass'),
+    ('scatter-graph.css', 'css/scatter-graph.sass'),
+    ('phi-psi.css',       'css/phi-psi.sass'),
 )
 
 COPY_MEDIA_FILETYPES = ('gif', 'jpg', 'jpeg', 'png', 'svg', 'svgz', 'html',
