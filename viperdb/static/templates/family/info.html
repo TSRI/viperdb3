@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+{% for virus in viruses %}
+{{ virus }}
+{% endfor %}
+
+<a href="{% url family:graph family_name %}">Graph</a>
+
+
+{% endblock content %}

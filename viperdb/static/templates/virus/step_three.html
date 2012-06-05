@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% load media %}
+
+{% block scripts %}
+    {% include_media 'main.css' %}
+{% endblock scripts %}
+
+{% block content %}
+    <form method='post'>
+        <div>
+            <div>
+            {% for row in viperize_matrix %}
+                {% for element in row %}
+                    {{ element }}
+                {% endfor %}
+                <br/>
+            {% endfor %}
+            </div>
+            <div>
+            {% for row in 123|make_list %}
+                [
+                {% for element in 123|make_list %}
+                    <input name='matrix' type='input' value='0' />
+                {% endfor %}
+                ]
+                [<input name='matrix' type='input' value='0' />]
+                <br/>
+            {% endfor %}
+            </div>
+            <div>
+                {% for row in unit_matrix %}
+                    {% for element in row %}
+                        {{ element }}
+                    {% endfor %}
+                    <br/>
+                {% endfor %}
+            </div>
+        </div>
+        {% csrf_token %}
+        {{ matrix_form }}
+
+        {% for chain_form in chain_formset %}
+            Original chain {{ chain_form.chain.auth_asym_id }} found in PDB has been changed
+            in CIF to: {{ chain_form.chain.label_asym_id }}
+            Description: {{ chain_form.chain.label_entity_key__pdbx_description }}
+            {{ chain_form }}
+        {% endfor %}
+        {{ chain_formset.management_form }}
+        <input type='submit' value='Submit'/>
+    </form>
+{% endblock %}

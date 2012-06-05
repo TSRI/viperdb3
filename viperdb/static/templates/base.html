@@ -1,0 +1,28 @@
+{% load media %}
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title></title>
+    {% block styles %}
+    {% endblock styles %}
+    {% include_media 'main.css' %}
+<body>
+    <header>
+        {% include "header.html" %}
+    </header> 
+    {% include "sidebar.html" %}
+    <div id='content'>
+        {% block content %}
+        {% endblock %}
+    </div>
+    <footer>
+        {% block footer %}
+        {% endblock footer %}
+    </footer>
+    {% include_media 'main.js' %}
+    {% block scripts %}
+    {% endblock scripts %}
+</body>
+</html>

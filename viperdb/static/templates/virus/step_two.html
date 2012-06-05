@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% load media %}
+
+{% block scripts %}
+    {% include_media 'add.js' %}
+{% load coffeescript %}
+<!-- <script type='text/javascript' src="{{ STATIC_URL}}js/jquery.formset.min.js"></script> -->
+<script type='text/javascript'>
+    {% inlinecoffeescript %}
+    $ ->
+        prefill_info = (entry_key) ->
+            $.ajax 
+                url: "http://localhost:8000/api/v1/polymer"
+                data:
+                    entry_key: entry_key
+                    format: 'json'
+                success: (data) ->
+                    $.each data.objects, (index, polymer) ->
+                        input = $("<input></input>").attr 
+                            type: 'checkbox'
+                            name: 'entity_accession_id_'+index
+#                        input.append($("<p></p>").html(polymer.pdbx_description))
+                        hidden_input = $("<input></input>").attr
+                            type: 'hidden'
+                            name: 'entity_accession_id'
+                            value: polymer.pdbx_db_accession
+                        $(".js-polymers").append(input)
+                                         .append(hidden_input)
+                error: (err) ->
+                    console.log err
+                    # TODO: Log error
+                dataType: 'json'
+
+            $.ajax
+                url: "http://localhost:8000/api/v1/struct"
+                data:
+                    entry_key: entry_key
+                    format: 'json'
+                success: (data) ->
+                    virus = data.objects[0]
+                    $("#id_deposition_date").val virus.entry_key.deposition_date
+                    $("#id_name").val virus.title
+                dataType: 'json'
+
+            $("#virus_form").attr 'hidden', false
+
+
+        $('.formset').formset
+            prefix: '{{ layer_formset.prefix }}'
+
+        $("#id_unique").on 'click', () ->
+            $("label[for=id_unique_relative_id], #id_unique_relative_id")[if this.checked then "hide" else "show"]()
+
+        $.ajax
+            url: "http://localhost:8000/viruses/add_entry/start_pdbase" 
+            data:
+                entry_id: $('#id_entry_id').val()
+                format: 'json'
+            success: (data) ->
+                prefill_info data.entry_key
+                $("#virus_form").attr "hidden", not data.pdbase
+                $(".message").attr "hidden", data.pdbase
+            error: (err) ->
+                console.log err
+            dataType: 'json'
+
+    {% endinlinecoffeescript %}
+</script>
+{% endblock scripts %}
+
+{% block content %}
+<p class='message'>Please be patient while we run PDBase</p>
+<form method="post" enctype="multipart/form-data" id='virus_form' hidden='true'>
+    {% csrf_token %}
+    {{ form }}
+    {% for layer_form in layer_formset %}
+        <div class="formset">
+        {{ layer_form }}
+        <span class="js-polymers"></span>
+        {% for polymer in polymers %}
+            <input type='checkbox' name='entity_accession_id_{{ forloop.parentloop.counter0 }}'>{{ polymer.description }}<br>
+            <input type='hidden' name='entity_accession_id' value='{{ polymer.pdbx_db_accession }}' />
+        {% endfor %}
+        </div>
+    {% endfor %}
+    {{ layer_formset.management_form }}
+
+    <input id="virus_form_submit" type="submit" value="Submit"/>
+</form>
+{% endblock content %}

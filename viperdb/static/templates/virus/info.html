@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% load media %}
+
+{% block scripts %}
+    {% include_media 'scatter-graph.js' %}
+{% endblock scripts %}
+
+{% block styles %}
+    {% include_media 'scatter-graph.css' %}
+{% endblock styles %}
+
+{% block content %}
+{{ virus }}
+{{ virus.entry_key }}
+<a href="{% url family:info virus.family %}">{{ virus.family }}</a>
+{{ virus.genus }}
+{{ virus.get_tnumber }}
+
+<a href="{% url virus:phi_psi virus.entry_id %}">Phi-Psi Explorer</a>
+
+<input id="js-entry_key" type='hidden' value="{{ virus.entry_key }}"></input>
+
+{% for chain in chains %}
+<div id="graph-{{chain.label_asym_id}}" class="js-asa-chart">
+    <input class="js-chain-id" type='hidden' value="{{ chain.label_asym_id }}">
+    </input>
+    <!-- underline -->
+    Subunit {{ chain.label_asym_id }}
+</div>
+{% endfor %}
+
+{% endblock content %}

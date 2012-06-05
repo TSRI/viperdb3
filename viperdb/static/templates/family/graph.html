@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% load media %}
+
+{% block scripts %}
+    {% include_media 'bar-graph.js' %}
+{% endblock %}
+
+{% block styles %}
+    {% include_media 'graph.css' %}
+{% endblock %}
+
+{% block content %}
+<div class="leftSidebar">
+    <div id='chartLegend'></div>
+</div>
+<div class="mainContent">
+    <div id='barChart'></div>
+</div>
+<input type='button' id='js-graphtype' value='CLICK'></input>
+{% endblock content %}

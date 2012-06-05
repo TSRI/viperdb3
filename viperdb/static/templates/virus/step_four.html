@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div>
+    {% if diameters %}
+        {{ diameters }}
+    {% endif %}
+    <form method="post"> 
+         {% csrf_token %}
+        {{ form }}
+        <input type="submit" value="Submit"/>
+        {{ ia_form }}
+    </form>
+</div>
+{% endblock content %}

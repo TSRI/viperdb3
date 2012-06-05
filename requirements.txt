@@ -1,0 +1,16 @@
+django
+psycopg2
+amara
+fabric
+urllib3
+nose
+redis
+gunicorn
+django-annoying
+django-celery
+django-tastypie
+django-mediagenerator
+django-debug-toolbar
+django-pdb
+django-supervisor
+

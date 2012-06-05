@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<table>
+	<thead>
+		<td>Name</td>
+		<td>Family</td>
+		<td>Genus</td>
+		<td>T-Number</td>
+		<td>Entry ID</td>
+{% for virus in viruses %}
+	<tr>
+		<td>{{ virus.name }}</td>
+		<td>{{ virus.family }}</td>
+		<td>{{ virus.genus }}</td>
+		<td>{{ virus.get_tnumber }}</td>
+		<td>
+			<a href="{% url virus:info virus.entry_id %}">
+				{{ virus }}
+			</a>
+		</td>
+	</tr>
+{% endfor %}
+</table>
+
+{% endblock %}
