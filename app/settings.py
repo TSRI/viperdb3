@@ -8,7 +8,6 @@ djcelery.setup_loader()
 
 RUN_ENV = 'DJANGO_RUN_ENV'
 
-from settings_local import BROKER_HOST, BROKER_PORT, BROKER_USER, BROKER_PASSWORD, BROKER_VHOST
 from settings_local import DB_USERNAME, DB_PASSWORD, DB_HOST, DB_PORT
 
 CELERY_RESULT_BACKEND = "amqp"
@@ -24,7 +23,7 @@ ADMINS = (
 MANAGERS = ADMINS
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'ENGINE': 'django.db.backends.mysql',
         'NAME': 'viperdb',                      
         'USER': DB_USERNAME,
         'PASSWORD': DB_PASSWORD,
@@ -129,7 +128,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.admin',
-    'virus',
+    'viperdb',
     'djcelery',
     'api',
     'gunicorn',
