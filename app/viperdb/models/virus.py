@@ -8,12 +8,6 @@ class Virus (models.Model):
     class Meta:
         app_label = "viperdb"
 
-    FILE_REMOTE = 1
-    FILE_LOCAL = 2
-    FILE_UPLOAD = 3
-    FILE_SOURCE_CHOICES = ((FILE_REMOTE, 'Use up-to-date PDB and CIF files from RCSB'),
-                           (FILE_LOCAL, 'Use existing PDB and CIF files on VIPERdb'),
-                           (FILE_UPLOAD, 'Upload your own PDB and CIF files to VIPERdb'))
     MTX_VIPERIZE = 1
     MTX_INPUT = 2
     MTX_UNIT = 3

@@ -1,11 +1,8 @@
-{% extends "base.html" %}
-
-{% load media %}
-
-
+{% extends "admin/base.html" %}
 
 {% block scripts %}
-    {% include_media "step-one.js" %}
+  {% load compressed %}
+  {% compressed_js 'add_entry' %}
 {% endblock scripts %}
 
 {% block content %}

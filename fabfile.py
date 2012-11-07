@@ -1,12 +1,11 @@
 from fabric.api import *
 
-env.ve = "~/.env/bin/"
 env.activate = "source ~/.env/bin/activate"
 env.hosts = ["localhost"]
 
 def virtualenv(command):
     "Run a command within a virtualenv"
-    return env.ve + command
+    return "%s %s" % (env.activate, command)
 
 def manage(cmd):
     local('python app/manage.py %s' % (cmd))

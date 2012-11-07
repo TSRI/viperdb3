@@ -3,11 +3,11 @@ from utils import project
 import os
 
 # Celery configuration
-# import djcelery
-# djcelery.setup_loader()
+import djcelery
+djcelery.setup_loader()
 
-# CELERY_RESULT_BACKEND = "redis"
-# CELERY_IMPORTS = ("virus.tasks", )
+BROKER_URL = "redis://localhost:6379/0"
+CELERY_RESULT_BACKEND = "redis://localhost:6379/0"
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -171,14 +171,13 @@ PIPELINE_JS = {
             'js/underscore-min.js',
         ),
         'output_filename': 'js/main.js',
-        'variant': 'datauri',
     },
     'add_entry': {
         'source_filenames': (
             'js/virus/step-one.coffee',
             'js/virus/step-two.coffee',
         ),
-        'output_filename': 'add_entry.coffee',
+        'output_filename': 'js/add_entry.js',
         'variant': 'datauri',
     },
     'graph': {
@@ -188,7 +187,7 @@ PIPELINE_JS = {
             'js/virus/graph.coffee',
             'js/virus/scatter-graph.coffee',
         ),
-        'output_filename': 'graph.coffee',
+        'output_filename': 'js/graph.js',
         'variant': 'datauri',
     },
 }
