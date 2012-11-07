@@ -2,6 +2,10 @@ from django.db import models
 from viperdb.models import Virus, MmsEntry, Entity
 
 class Layer(models.Model):
+
+    class Meta:
+        app_label = "viperdb"
+
     layer_key = models.AutoField(primary_key=True)
     layer_id = models.CharField(max_length=32, verbose_name="Layer ID")
     entry_key = models.ForeignKey(MmsEntry, db_column='entry_key', 
@@ -20,6 +24,10 @@ class Layer(models.Model):
 
 
 class LayerEntity(models.Model):
+
+    class Meta:
+        app_label = "viperdb"
+        
     layer_key = models.ForeignKey(Layer, primary_key=True, db_column='layer_key')
     entity_key = models.ForeignKey(Entity)
     entry_key = models.ForeignKey(Virus)

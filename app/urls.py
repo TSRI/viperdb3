@@ -7,12 +7,14 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 admin.autodiscover()
 
 urlpatterns = patterns('',
-    url(r'^$',          'viperdb.views.home', name='home'),
+    url(r'^$',          'viperdb.views.misc.home', name='home'),
     url(r'^admin/',     include(admin.site.urls)),
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
-    url(r'^virus/',     include('viperdb.virus.urls', namespace='virus', app_name='virus')),
-    url(r'^family/',    include('viperdb.family.urls', namespace='family', app_name='family')),
-    url(r'^api/',       include('viperdb.api.urls', namespace='api')),
+    url(r'^viruses/',     include('viperdb.urls.viruses', namespace='virus', 
+                                app_name='viperdb')),
+    url(r'^family/',    include('viperdb.urls.families', namespace='family', 
+                                app_name='viperdb')),
+    url(r'^api/',       include('api.urls', namespace='api')),
 )
 
 urlpatterns += staticfiles_urlpatterns()

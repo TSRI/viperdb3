@@ -3,15 +3,11 @@ from utils import project
 import os
 
 # Celery configuration
-import djcelery
-djcelery.setup_loader()
+# import djcelery
+# djcelery.setup_loader()
 
-RUN_ENV = 'DJANGO_RUN_ENV'
-
-from settings_local import DB_USERNAME, DB_PASSWORD, DB_HOST, DB_PORT
-
-CELERY_RESULT_BACKEND = "amqp"
-CELERY_IMPORTS = ("virus.tasks", )
+# CELERY_RESULT_BACKEND = "redis"
+# CELERY_IMPORTS = ("virus.tasks", )
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -25,10 +21,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'viperdb',                      
-        'USER': DB_USERNAME,
-        'PASSWORD': DB_PASSWORD,
-        'HOST': DB_HOST,                      
-        'PORT': DB_PORT,
+        'USER': os.getenv("VIPERDB_USERNAME"),
+        'PASSWORD': os.getenv("VIPERDB_PASSWORD"),
+        'HOST': os.getenv("VIPERDB_HOST"),                      
+        'PORT': os.getenv("VIPERDB_PORT"),
     }
 }
 
@@ -116,7 +112,7 @@ MIDDLEWARE_CLASSES = (
 if DEBUG:
     MIDDLEWARE_CLASSES += ('django_pdb.middleware.PdbMiddleware',)
 
-ROOT_URLCONF = 'viperdb.urls'
+ROOT_URLCONF = 'urls'
 
 TEMPLATE_DIRS = (project('static/templates/'),)
 
@@ -128,14 +124,16 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.admin',
+    'django_extensions',
+    'south',
+    'adminplus',
     'viperdb',
     'djcelery',
     'api',
     'gunicorn',
-    'django_pdb',
-    'mediagenerator',
     'debug_toolbar',
-    'djsupervisor'
+    'djsupervisor',
+    'pipeline',
 )
 
 DEBUG_TOOLBAR_PANELS = (
@@ -163,34 +161,64 @@ DEBUG_TOOLBAR_CONFIG = {
 MEDIA_DEV_MODE = DEBUG
 DEV_MEDIA_URL = '/static/'
 PRODUCTION_MEDIA_URL = '/static/'
-GENERATED_MEDIA_DIR = '/usr/people/viperdb/website/viperdb/_generated_media/'
-GENERATED_MEDIA_NAMES_MODULE =  'viperdb._generated_media_names'
-GENERATED_MEDIA_NAMES_FILE = "/usr/people/viperdb/website/viperdb/_generated_media_names.py"
 GLOBAL_MEDIA_DIRS = (os.path.join(os.path.dirname(__file__), 'static'),)
 
-MEDIA_BUNDLES = (
-    ('main.js',
-        'js/jquery.min.js',
-        'js/underscore-min.js',
-    ),
-    ('d3.js', 
-        'js/d3.v2.min.js',
-        'js/d3.tip.min.js'
-    ),
-    ('add.js',           'js/jquery.formset.min.js'),
-    ('bar-graph.js',     'js/virus/graph.coffee'),
-    ('scatter-graph.js', 'js/virus/scatter-graph.coffee'),
-    ('phi-psi.js',       'js/virus/phi-psi.coffee'),
-    ('step-one.js',      'js/virus/step-one.coffee'),
-    ('step-two.js',      'js/virus/step-two.coffee'),
-    ('main.css',          'css/main.sass'),
-    ('graph.css',         'css/graph.sass'),
-    ('scatter-graph.css', 'css/scatter-graph.sass'),
-    ('phi-psi.css',       'css/phi-psi.sass'),
-)
+# django-pipeline settings
+PIPELINE_JS = {
+    'main': {
+        'source_filenames': (
+            'js/jquery.min.js',
+            'js/underscore-min.js',
+        ),
+        'output_filename': 'js/main.js',
+        'variant': 'datauri',
+    },
+    'add_entry': {
+        'source_filenames': (
+            'js/virus/step-one.coffee',
+            'js/virus/step-two.coffee',
+        ),
+        'output_filename': 'add_entry.coffee',
+        'variant': 'datauri',
+    },
+    'graph': {
+        'source_filenames': (
+            'js/d3.v2.min.js',
+            'js/d3.tip.min.js',
+            'js/virus/graph.coffee',
+            'js/virus/scatter-graph.coffee',
+        ),
+        'output_filename': 'graph.coffee',
+        'variant': 'datauri',
+    },
+}
 
-COPY_MEDIA_FILETYPES = ('gif', 'jpg', 'jpeg', 'png', 'svg', 'svgz', 'html',
-                        'ico', 'swf', 'ttf', 'otf', 'eot', 'woff')
+PIPELINE_CSS = {
+    'main': {
+        'source_filenames': (
+            'css/main.sass',
+        )
+    },
+    'graph': {
+        'source_filenames': (
+            'css/graph.sass',
+            'css/scatter-graph.sass',
+        ),
+        'output_filename': 'js/graph.css',
+        'variant': 'datauri',
+    }
+}
+PIPELINE_COMPILERS = (
+    'pipeline.compilers.coffee.CoffeeScriptCompiler',    
+    'pipeline.compilers.sass.SASSCompiler',
+)
+PIPELINE_COFFEE_SCRIPT_BINARY = '/usr/local/bin/coffee'
+PIPELINE_SASS_BINARY = '/usr/local/bin/sass'
+STATICFILES_STORAGE = "pipeline.storage.PipelineStorage"
+
+# ('phi-psi.js',       'js/virus/phi-psi.coffee'),
+# ('phi-psi.css',       'css/phi-psi.sass'),
+
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
 # the site admins on every HTTP 500 error.

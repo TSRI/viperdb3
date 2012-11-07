@@ -1,6 +1,6 @@
 from django.conf.urls.defaults import patterns, url
 
-urlpatterns = patterns("viperdb.virus.views",
+urlpatterns = patterns("viperdb.views.viruses",
     url(r"^$", "index", name="index"),
     url(r"^add_entry$", "step_one", name="add_entry"),
     url(r"^add_entry/step_two/(?P<entry_id>[a-z0-9]{4})$",   "step_two",   name="step_two"),

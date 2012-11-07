@@ -1,21 +1,23 @@
 
+from datetime import datetime
+
+from django.core.urlresolvers import reverse
+from django.forms.formsets import formset_factory
+from django.shortcuts import redirect, get_object_or_404
+
 from annoying.decorators import render_to, ajax_request
 from annoying.functions import get_object_or_None
 from celery.execute import send_task
 from celery.task.sets import subtask
-from celery.task.control import revoke
-from django.core.urlresolvers import reverse
-from django.forms.formsets import formset_factory
-from django.shortcuts import redirect, get_object_or_404
-from forms import VirusForm, InitialVirusForm, LayerForm
-from viperdb.virus.forms import MatrixChoiceForm, ChainForm, MoveChainForm, ImageAnalysisForm
-from helpers import get_pdb_info
-from viperdb.virus.helpers import get_mismatched_chains 
-from viperdb.virus.models import Virus, MmsEntry, LayerEntity, StructRef
-from viperdb.virus.models import VirusResidueAsa, Layer, AtomSite, Entity
-from viperdb.settings_local import DB_HOST
-from celery.task.control import inspect
-from datetime import datetime
+from celery.task.control import revoke, inspect
+from viperdb.helpers import get_pdb_info
+
+from viperdb.helpers import get_mismatched_chains 
+from viperdb.models import Virus, MmsEntry, LayerEntity, StructRef
+from viperdb.models import VirusResidueAsa, Layer, AtomSite, Entity
+from viperdb.forms import (VirusForm, InitialVirusForm, LayerForm,
+                           MatrixChoiceForm, ChainForm, MoveChainForm, 
+                           ImageAnalysisForm)
 
 @render_to("virus/index.html")
 def index(request):

@@ -3,6 +3,7 @@ from django.db import models
 
 class MmsEntry(models.Model):
     class Meta:
+        app_label = "viperdb"
         db_table = 'MMS_ENTRY'
         managed = False
 
@@ -17,6 +18,7 @@ class MmsEntry(models.Model):
 
 class AtomSite(models.Model):
     class Meta:
+        app_label = "viperdb"
         db_table = 'ATOM_SITE'
         managed = False
 
@@ -29,6 +31,7 @@ class AtomSite(models.Model):
 
 class Entity(models.Model):
     class Meta:
+        app_label = "viperdb"
         db_table = 'ENTITY'
         managed = False
 
@@ -39,6 +42,7 @@ class Entity(models.Model):
 
 class StructRef(models.Model):
     class Meta:
+        app_label = "viperdb"
         db_table = 'STRUCT_REF'
         managed = False
 
@@ -49,6 +53,7 @@ class StructRef(models.Model):
 
 class IcosMatrix(models.Model):
     class Meta:
+        app_label = "viperdb"
         db_table = 'ICOS_MATRIX'
         managed = False
 
@@ -66,6 +71,7 @@ class IcosMatrix(models.Model):
 
 class AuMatrix(models.Model):
     class Meta:
+        app_label = "viperdb"
         db_table = "AU_MATRIX"
         managed = False
 
@@ -96,6 +102,7 @@ class VirusEnergy(models.Model):
         These are known as 'interfaces'
     """
     class Meta:
+        app_label = "viperdb"
         db_table = "VIRUS_ENERGY"
         managed = False
 
@@ -118,6 +125,7 @@ class Struct(models.Model):
         Some fields are not completed
     """
     class Meta:
+        app_label = "viperdb"
         db_table = "STRUCT"
         managed = False
 
@@ -142,6 +150,7 @@ class VirusResidueAsaManager(models.Manager):
 class VirusResidueAsa(models.Model):
     """ Unmanaged model for virus_residue_asa. Some fields are not completed """
     class Meta:
+        app_label = "viperdb"
         db_table = "VIRUS_RESIDUE_ASA"
         managed = False
 

@@ -1,8 +1,8 @@
 from django.conf.urls.defaults import *
 from tastypie.api import Api
-from viperdb.api.resources import VirusResource, InterfaceResource, PolymerResource
-from viperdb.api.resources import MmsEntryResource, StructResource
-from viperdb.api.resources import VirusResidueAsaResource, AtomSiteResource
+from api.resources import VirusResource, InterfaceResource, PolymerResource
+from api.resources import MmsEntryResource, StructResource
+from api.resources import VirusResidueAsaResource, AtomSiteResource
 
 virus = VirusResource()
 interface = InterfaceResource()

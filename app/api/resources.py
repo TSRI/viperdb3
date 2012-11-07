@@ -1,7 +1,7 @@
 from tastypie import fields
 from tastypie.resources import ModelResource, ALL, ALL_WITH_RELATIONS
-from viperdb.virus.models import Virus, VirusEnergy, Entity, MmsEntry, Struct
-from viperdb.virus.models import VirusResidueAsa, AtomSite
+from viperdb.models import Virus, VirusEnergy, Entity, MmsEntry, Struct
+from viperdb.models import VirusResidueAsa, AtomSite
 
 class VirusResource(ModelResource):
     interfaces = fields.ToManyField('api.resources.InterfaceResource', 

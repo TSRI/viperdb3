@@ -2,7 +2,7 @@ from fabric.api import *
 
 env.ve = "~/.env/bin/"
 env.activate = "source ~/.env/bin/activate"
-env.hosts = ['viperdb@127.0.0.1']
+env.hosts = ["localhost"]
 
 def virtualenv(command):
     "Run a command within a virtualenv"
@@ -16,12 +16,16 @@ def bootstrap():
 
 def bootstrap_server(_local=True):
     with cd("viperdb3"):
-        f = local if _local else sudo 
+        f = sudo
+        # f = local if _local else sudo 
+        f('gem install bundler --no-ri --no-rdoc')
+        f('bundle install')
+        f("npm install -g coffee-script")
         f(virtualenv("pip install -r requirements.txt"))
 
 def serve():
     with cd('viperdb'):
-        manage('runserver')
+        manage('runserver_plus --threaded')
     
 
 

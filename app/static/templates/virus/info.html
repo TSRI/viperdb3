@@ -18,7 +18,7 @@
 {{ virus.genus }}
 {{ virus.get_tnumber }}
 
-<a href="{% url virus:phi_psi virus.entry_id %}">Phi-Psi Explorer</a>
+<a href="{% url viperdb:phi_psi virus.entry_id %}">Phi-Psi Explorer</a>
 
 <input id="js-entry_key" type='hidden' value="{{ virus.entry_key }}"></input>
 

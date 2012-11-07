@@ -5,7 +5,7 @@ Welcome to ViperDB3!
 
 <ul>
 {% for virus in viruses %}
-    <li><a href="{% url virus:info virus.entry_id %}">{{ virus }}</a></li>
+    <li><a href="{% url viperdb:info virus.entry_id %}">{{ virus }}</a></li>
 {% endfor %}
 </ul>
 {% endblock content %}

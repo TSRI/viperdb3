@@ -1,9 +1,7 @@
-import os
-from annoying.decorators import render_to
-from viperdb.models import Virus
 
-def project(*args):
-    return os.path.join(os.path.dirname(__file__), *args)
+from annoying.decorators import render_to
+
+from viperdb.models import Virus
 
 @render_to("index.html")
 def home(request):

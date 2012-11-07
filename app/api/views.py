@@ -2,7 +2,7 @@ from annoying.decorators import ajax_request
 from django.shortcuts import get_object_or_404
 from django.db import connection, transaction
 from django.http import HttpResponse
-from viperdb.virus.models import Virus
+from viperdb.models import Virus
 from viperdb.api.phi_psi import phi_psi_query 
 from decimal import Decimal
 from math import acos, cos, sin

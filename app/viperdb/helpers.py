@@ -2,7 +2,7 @@ import urllib2
 from amara import bindery
 from django.db.models.aggregates import Min, Max
 from django.shortcuts import get_object_or_404
-from viperdb.virus.models import Virus, AtomSite, IcosMatrix, AuMatrix, MmsEntry
+from viperdb.models import Virus, AtomSite, IcosMatrix, AuMatrix, MmsEntry
 from celery.execute import send_task
 from annoying.functions import get_object_or_None
 

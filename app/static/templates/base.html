@@ -1,4 +1,4 @@
-{% load media %}
+{% load compressed %}
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
         "http://www.w3.org/TR/html4/loose.dtd">
@@ -7,7 +7,7 @@
     <title></title>
     {% block styles %}
     {% endblock styles %}
-    {% include_media 'main.css' %}
+    {% compressed_css "main" %}
 <body>
     <header>
         {% include "header.html" %}
@@ -21,7 +21,7 @@
         {% block footer %}
         {% endblock footer %}
     </footer>
-    {% include_media 'main.js' %}
+    {% compressed_js 'main' %}
     {% block scripts %}
     {% endblock scripts %}
 </body>

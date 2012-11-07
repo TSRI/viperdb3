@@ -1,5 +1,6 @@
-from annoying.decorators import render_to, ajax_request
-from viperdb.virus.models import Virus
+
+from annoying.decorators import render_to
+from viperdb.models import Virus
 
 @render_to("family/index.html")
 def index(request):

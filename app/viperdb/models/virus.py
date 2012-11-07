@@ -5,6 +5,9 @@ from django.db.models.deletion import CASCADE
 
 class Virus (models.Model):
 
+    class Meta:
+        app_label = "viperdb"
+
     FILE_REMOTE = 1
     FILE_LOCAL = 2
     FILE_UPLOAD = 3
