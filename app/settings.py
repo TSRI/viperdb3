@@ -64,7 +64,7 @@ MEDIA_ROOT = project('media/')
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/home/media/media.lawrence.com/static/"
-STATIC_ROOT = project('_generated_media') if DEBUG else project('static')
+STATIC_ROOT = project('static/')
 
 # URL prefix for static files.
 # Example: "http://media.lawrence.com/static/"
@@ -80,7 +80,7 @@ STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    project('static_files'),
+    project('static_files/'),
 )
 
 # List of finder classes that know how to find static files in
@@ -109,12 +109,10 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
 )
-if DEBUG:
-    MIDDLEWARE_CLASSES += ('django_pdb.middleware.PdbMiddleware',)
 
 ROOT_URLCONF = 'urls'
 
-TEMPLATE_DIRS = (project('static/templates/'),)
+TEMPLATE_DIRS = (project('static_files/templates/'),)
 
 INSTALLED_APPS = (
     'django.contrib.auth',
@@ -158,11 +156,6 @@ DEBUG_TOOLBAR_CONFIG = {
     'TAG': 'body',
 }
 
-MEDIA_DEV_MODE = DEBUG
-DEV_MEDIA_URL = '/static/'
-PRODUCTION_MEDIA_URL = '/static/'
-GLOBAL_MEDIA_DIRS = (os.path.join(os.path.dirname(__file__), 'static'),)
-
 # django-pipeline settings
 PIPELINE_JS = {
     'main': {
@@ -174,6 +167,7 @@ PIPELINE_JS = {
     },
     'add_entry': {
         'source_filenames': (
+            'js/jquery.formset.min.js',
             'js/virus/step-one.coffee',
             'js/virus/step-two.coffee',
         ),
@@ -193,11 +187,7 @@ PIPELINE_JS = {
 }
 
 PIPELINE_CSS = {
-    'main': {
-        'source_filenames': (
-            'css/main.sass',
-        )
-    },
+    'main': {'source_filenames': ('css/main.sass',)},
     'graph': {
         'source_filenames': (
             'css/graph.sass',
@@ -213,10 +203,9 @@ PIPELINE_COMPILERS = (
 )
 PIPELINE_COFFEE_SCRIPT_BINARY = '/usr/local/bin/coffee'
 PIPELINE_SASS_BINARY = '/usr/local/bin/sass'
-STATICFILES_STORAGE = "pipeline.storage.PipelineStorage"
-
-# ('phi-psi.js',       'js/virus/phi-psi.coffee'),
-# ('phi-psi.css',       'css/phi-psi.sass'),
+PIPELINE_CSS_COMPRESSOR = None
+PIPELINE_JS_COMPRESSOR = None
+STATICFILES_STORAGE = "pipeline.storage.PipelineCachedStorage"
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to

@@ -9,3 +9,4 @@ lib64
 .Python
 settings_local.py
 viperdb/_generated_media*
+*.sass-cache/*

@@ -2,22 +2,23 @@ from django.views.generic import FormView
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.core.urlresolvers import reverse
+from django.forms.formsets import formset_factory
 
 from annoying.decorators import render_to, ajax_request
 from annoying.functions import get_object_or_None
 from celery.execute import send_task
 from celery.task.sets import subtask
 
-from viperdb.forms import (InitialVirusForm)
+from viperdb.forms import (InitialVirusForm, LayerForm, VirusForm)
 from viperdb.models import (MmsEntry, Virus)
 
-class AddEntryView(FormView):
+class StepOneView(FormView):
     template_name = "virus/step_one.html"
     form_class = InitialVirusForm
 
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
-        return super(AddEntryView, self).dispatch(request, *args, **kwargs)
+        return super(StepOneView, self).dispatch(request, *args, **kwargs)
 
     def get_success_url(self):
         return reverse('virus:step_two', args=[self.entry_id])
@@ -56,7 +57,58 @@ class AddEntryView(FormView):
         # send_task('virus.run_pdbase', args=[self.entry_id], kwargs={})
         # TODO: options to forgo analysis.
 
-        return super(AddEntryView, self).form_valid(form)
+        return super(StepOneView, self).form_valid(form)
+
+class StepTwoView(FormView):
+    template_name = "virus/step_two.html"
+    form_class = VirusForm
+
+    def get_initial(self):
+        return {'entry_id': self.kwargs['entry_id']}
+
+    def get_context_data(self, **kwargs):
+        kwargs = super(StepTwoView, self).get_context_data(**kwargs)
+        kwargs.update({'layer_formset': formset_factory(LayerForm)})
+
+        return kwargs
+
+    def get_success_url(self):
+        return reverse('virus:step_three', args=[entry_id])
+
+    def post(self, request, *args, **kwargs):
+        virus_form = self.get_form(self.form_class)
+        layer_formset = self.get_form(formset_factory(LayerForm))
+
+        if virus_form.is_valid() and layer_formset.is_valid():
+            return self.form_valid(virus_form, layer_formset)
+        else:
+            return self.form_invalid(virus_form, layer_formset)
+
+    def form_valid(virus_form, layer_formset):
+        virus = virus_form.save(commit=False)
+        prepare_virus(virus, entry_id, layer_formset)
+        virus.save()
+
+        mms_entry = MmsEntry.objects.get(entry_key=str(virus.entry_key))
+        prepare_mms_entry(mms_entry, virus)
+        mms_entry.save()
+
+        virus_polymers = Entity.objects.filter(type='polymer', entry_key=virus.entry_key)
+        entity_choices = request.POST.getlist('entity_accession_id')
+        for index, layer_form in enumerate(layer_formset):
+            layer = layer_form.save(commit=False)
+            prepare_layer(virus, layer)
+            layer.save()
+
+            entity_selections = request.POST.getlist('entity_accession_id_' + str(index))
+            map(lambda l_e: l_e.save(), prepare_layer_entity(virus, virus_polymers, layer, entity_choices, entity_selections))
+
+        return HttpResponseRedirect(self.get_success_url())
+
+    def form_invalid(virus_form, layer_formset):
+        pass
+
+
 
 @ajax_request
 def start_pdbase(request):
@@ -74,40 +126,40 @@ def get_polymers(request, entry_id):
     r = StructRef.objects.filter(entry_id=entry_id)
     return {"polymers": r}
 
-@render_to("virus/step_two.html")
-def step_two(request, entry_id):
-    """Step two of virus entry"""
-    LayerFormSet = formset_factory(LayerForm)
+# @render_to("virus/step_two.html")
+# def step_two(request, entry_id):
+#     """Step two of virus entry"""
+#     LayerFormSet = formset_factory(LayerForm)
 
-    if request.method == "POST":
-        virus_form = VirusForm(request.POST)
-        layer_formset = LayerFormSet(request.POST)
+#     if request.method == "POST":
+#         virus_form = VirusForm(request.POST)
+#         layer_formset = LayerFormSet(request.POST)
 
-        if virus_form.is_valid() and layer_formset.is_valid():
-            virus = virus_form.save(commit=False)
-            prepare_virus(virus, entry_id, layer_formset)
-            virus.save()
+#         if virus_form.is_valid() and layer_formset.is_valid():
+#             virus = virus_form.save(commit=False)
+#             prepare_virus(virus, entry_id, layer_formset)
+#             virus.save()
 
-            mms_entry = MmsEntry.objects.get(entry_key=str(virus.entry_key))
-            prepare_mms_entry(mms_entry, virus)
-            mms_entry.save()
+#             mms_entry = MmsEntry.objects.get(entry_key=str(virus.entry_key))
+#             prepare_mms_entry(mms_entry, virus)
+#             mms_entry.save()
 
-            virus_polymers = Entity.objects.filter(type='polymer', entry_key=virus.entry_key)
-            entity_choices = request.POST.getlist('entity_accession_id')
-            for index, layer_form in enumerate(layer_formset):
-                layer = layer_form.save(commit=False)
-                prepare_layer(virus, layer)
-                layer.save()
+#             virus_polymers = Entity.objects.filter(type='polymer', entry_key=virus.entry_key)
+#             entity_choices = request.POST.getlist('entity_accession_id')
+#             for index, layer_form in enumerate(layer_formset):
+#                 layer = layer_form.save(commit=False)
+#                 prepare_layer(virus, layer)
+#                 layer.save()
 
-                entity_selections = request.POST.getlist('entity_accession_id_' + str(index))
-                map(lambda l_e: l_e.save(), prepare_layer_entity(virus, virus_polymers, layer, entity_choices, entity_selections))
-            return redirect(reverse('virus:step_three', args=[entry_id]))
+#                 entity_selections = request.POST.getlist('entity_accession_id_' + str(index))
+#                 map(lambda l_e: l_e.save(), prepare_layer_entity(virus, virus_polymers, layer, entity_choices, entity_selections))
+#             return redirect(reverse('virus:step_three', args=[entry_id]))
 
-    else:
-        layer_formset = LayerFormSet()
-        virus_form = VirusForm(initial={"entry_id": entry_id})
+#     else:
+#         layer_formset = LayerFormSet()
+#         virus_form = VirusForm(initial={"entry_id": entry_id})
 
-    return {'form': virus_form, 'layer_formset': layer_formset}
+#     return {'form': virus_form, 'layer_formset': layer_formset}
 
 def prepare_virus(virus, entry_id, virus_layers): 
     """Prepare virus for entry into database"""

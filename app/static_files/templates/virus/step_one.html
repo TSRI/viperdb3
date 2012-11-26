@@ -1,9 +1,4 @@
-{% extends "admin/base.html" %}
-
-{% block scripts %}
-  {% load compressed %}
-  {% compressed_js 'add_entry' %}
-{% endblock scripts %}
+{% extends "virus/base_add_entry.html" %}
 
 {% block content %}
 <form method="post" enctype="multipart/form-data" id='virus_form'>
