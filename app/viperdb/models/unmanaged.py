@@ -72,7 +72,7 @@ class IcosMatrix(models.Model):
 class AuMatrix(models.Model):
     class Meta:
         app_label = "viperdb"
-        db_table = "AU_MATRIX"
+        db_table = "au_matrix"
         managed = False
 
     au_matrix_key = models.IntegerField(primary_key=True)
@@ -103,7 +103,7 @@ class VirusEnergy(models.Model):
     """
     class Meta:
         app_label = "viperdb"
-        db_table = "VIRUS_ENERGY"
+        db_table = "virus_energy"
         managed = False
 
     virus_energy_key = models.IntegerField(primary_key=True)
@@ -151,7 +151,7 @@ class VirusResidueAsa(models.Model):
     """ Unmanaged model for virus_residue_asa. Some fields are not completed """
     class Meta:
         app_label = "viperdb"
-        db_table = "VIRUS_RESIDUE_ASA"
+        db_table = "virus_residue_asa"
         managed = False
 
     objects = VirusResidueAsaManager()

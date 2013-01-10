@@ -1,5 +1,11 @@
 {% extends "virus/base_add_entry.html" %}
 
+{% load compressed %}
+{% block extrahead %}
+    {{ block.super }}
+    {% compressed_js 'step_two' %}
+{% endblock extrahead %}
+
 {% block content %}
 <p class='message'>Please be patient while we run PDBase</p>
 <form method="post" enctype="multipart/form-data" id='virus_form' hidden='true'>

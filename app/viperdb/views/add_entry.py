@@ -10,7 +10,7 @@ from celery.execute import send_task
 from celery.task.sets import subtask
 
 from viperdb.forms import (InitialVirusForm, LayerForm, VirusForm)
-from viperdb.models import (MmsEntry, Virus)
+from viperdb.models import (MmsEntry, Virus, Entity)
 
 class StepOneView(FormView):
     template_name = "virus/step_one.html"
@@ -21,41 +21,43 @@ class StepOneView(FormView):
         return super(StepOneView, self).dispatch(request, *args, **kwargs)
 
     def get_success_url(self):
-        return reverse('virus:step_two', args=[self.entry_id])
+        return reverse('virus:step_two')
 
     def form_valid(self, form):
-        self.entry_id = form.cleaned_data['entry_id']
+        entry_id = form.cleaned_data['entry_id']
 
-        virus = get_object_or_None(MmsEntry, id=self.entry_id)
+        virus = get_object_or_None(MmsEntry, id=entry_id)
         if virus:
             virus.delete()
 
         pdb_file_source = int(form.cleaned_data["file_source"])
         if pdb_file_source == InitialVirusForm.FILE_REMOTE:
-            send_task("virus.get_pdb_files", args=[self.entry_id], 
+            send_task("virus.get_pdb_files", args=[entry_id], 
                       kwargs={'callback': subtask('virus.run_pdbase')})
         elif pdb_file_source == InitialVirusForm.FILE_LOCAL:
-            task = send_task('virus.check_file_count', args=[self.entry_id], 
+            task = send_task('virus.check_file_count', args=[entry_id], 
                              kwargs={})
             if task.get() is not 2:
                 return redirect(reverse('virus:add_entry'))
             # else:
-            #     send_task('virus.run_pdbase', args=[self.entry_id], kwargs={})
+            #     send_task('virus.run_pdbase', args=[entry_id], kwargs={})
         elif pdb_file_source == InitialVirusForm.FILE_UPLOAD:
             # TODO: allow for file upload
             pass
-#                task = send_task('virus.check_file_count', args=[self.entry_id], kwargs={})
+#                task = send_task('virus.check_file_count', args=[entry_id], kwargs={})
 #                if not task.get():
 #                    pdb_file = request.FILES['pdb_file_upload']
 #                    cif_file = request.FILES['cif_file_upload']
 #                    if pdb_file and cif_file:
-#                        send_task('virus:handle_pdb_files', args=[self.entry_id, pdb_file, cif_file], kwargs={})
+#                        send_task('virus:handle_pdb_files', args=[entry_id, pdb_file, cif_file], kwargs={})
 #                    else:
 #                        return redirect(reverse('virus:initial_virus'))
 #                else:
 #                    return redirect(reverse('virus:initial_virus'))
-        # send_task('virus.run_pdbase', args=[self.entry_id], kwargs={})
+        # send_task('virus.run_pdbase', args=[entry_id], kwargs={})
         # TODO: options to forgo analysis.
+
+        self.request.session['entry_id'] = entry_id
 
         return super(StepOneView, self).form_valid(form)
 
@@ -63,8 +65,10 @@ class StepTwoView(FormView):
     template_name = "virus/step_two.html"
     form_class = VirusForm
 
-    def get_initial(self):
-        return {'entry_id': self.kwargs['entry_id']}
+    # def get_initial(self):
+    #     orig = super(StepTwoView, self).get_initial()
+    #     orig['entry_id'] = self.request.session['entry_id']
+    #     return orig
 
     def get_context_data(self, **kwargs):
         kwargs = super(StepTwoView, self).get_context_data(**kwargs)
@@ -84,7 +88,8 @@ class StepTwoView(FormView):
         else:
             return self.form_invalid(virus_form, layer_formset)
 
-    def form_valid(virus_form, layer_formset):
+    def form_valid(self, virus_form, layer_formset):
+        entry_id = self.request.session['entry_id']
         virus = virus_form.save(commit=False)
         prepare_virus(virus, entry_id, layer_formset)
         virus.save()
@@ -94,7 +99,7 @@ class StepTwoView(FormView):
         mms_entry.save()
 
         virus_polymers = Entity.objects.filter(type='polymer', entry_key=virus.entry_key)
-        entity_choices = request.POST.getlist('entity_accession_id')
+        entity_choices = self.request.POST.getlist('entity_accession_id')
         for index, layer_form in enumerate(layer_formset):
             layer = layer_form.save(commit=False)
             prepare_layer(virus, layer)
@@ -105,7 +110,8 @@ class StepTwoView(FormView):
 
         return HttpResponseRedirect(self.get_success_url())
 
-    def form_invalid(virus_form, layer_formset):
+    def form_invalid(self, virus_form, layer_formset):
+        return super(StepTwoView, self).form_invalid(virus_form)
         pass
 
 

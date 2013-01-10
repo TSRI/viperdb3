@@ -168,11 +168,17 @@ PIPELINE_JS = {
     'add_entry': {
         'source_filenames': (
             'js/jquery.formset.min.js',
-            'js/virus/step-one.coffee',
-            'js/virus/step-two.coffee',
         ),
         'output_filename': 'js/add_entry.js',
         'variant': 'datauri',
+    },
+    'step_one': {
+        'source_filenames': ('js/virus/step-one.coffee',),
+        'output_filename': 'js/step-one.js',
+    },
+    'step_two': {
+        'source_filenames': ('js/virus/step-two.coffee',),
+        'output_filename': 'js/step-two.js',
     },
     'graph': {
         'source_filenames': (

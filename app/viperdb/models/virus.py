@@ -36,7 +36,9 @@ class Virus (models.Model):
         return self.layers.all()[0].tnumber
 
     def get_chains(self):
-        return VirusResidueAsa.objects.filter(entry_key=self.entry_key).distinct('label_asym_id')
+        return (VirusResidueAsa.objects
+                .filter(entry_key=self.entry_key)
+                .distinct('label_asym_id'))
 
     entry_id = models.CharField(max_length=8, primary_key=True, db_column='entry_id')
     entry_key = models.ForeignKey('MmsEntry', db_column='entry_key', unique=True)
