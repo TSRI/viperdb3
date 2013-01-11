@@ -3,7 +3,7 @@ from django.core.urlresolvers import reverse
 from django.forms.formsets import formset_factory
 from django.http import HttpResponseRedirect
 from django.utils.decorators import method_decorator
-from django.views.generic import FormView
+from django.views.generic import FormView, TemplateView
 
 from annoying.decorators import render_to, ajax_request
 from annoying.functions import get_object_or_None
@@ -11,7 +11,8 @@ from celery.execute import send_task
 from celery.task.sets import subtask
 
 from viperdb.forms import (InitialVirusForm, LayerForm, VirusForm, 
-                           MatrixChoiceForm, ChainForm)
+                           MatrixChoiceForm, ChainForm, MoveChainForm,
+                           ImageAnalysisForm)
 from viperdb.models import (MmsEntry, Virus, Entity, StructRef, LayerEntity, AtomSite)
 from viperdb.helpers import get_mismatched_chains
 from django.shortcuts import redirect
@@ -300,37 +301,37 @@ def step_three(request, entry_id):
 
     # ChainFormSet = formset_factory(ChainForm, extra=len(mismatched_chains))
 
-    if request.method == "POST":
-        matrix_form = MatrixChoiceForm(request.POST)
-        chain_formset = ChainFormSet(request.POST)
+    # if request.method == "POST":
+    #     matrix_form = MatrixChoiceForm(request.POST)
+    #     chain_formset = ChainFormSet(request.POST)
 
-        if matrix_form.is_valid() and chain_formset.is_valid():
-            matrix_choice = int(matrix_form.cleaned_data['matrix_selection'])
+    #     if matrix_form.is_valid() and chain_formset.is_valid():
+    #         matrix_choice = int(matrix_form.cleaned_data['matrix_selection'])
 
-            if matrix_choice is Virus.MTX_UNIT:
-                input_matrix = unit_matrix
-            if matrix_choice is Virus.MTX_INPUT:
-                input_matrix = request.POST.getlist('matrix')
-            elif matrix_choice is Virus.MTX_VIPERIZE:
-                input_matrix = viperize_matrix
+    #         if matrix_choice is Virus.MTX_UNIT:
+    #             input_matrix = unit_matrix
+    #         if matrix_choice is Virus.MTX_INPUT:
+    #             input_matrix = request.POST.getlist('matrix')
+    #         elif matrix_choice is Virus.MTX_VIPERIZE:
+    #             input_matrix = viperize_matrix
 
-            matrix = make_2d_matrix(input_matrix)
-            vector = [input_matrix[(i*4) + 3] for i in range(3)]
-            prepare_matrix(virus, matrix, vector)
-            virus.save()
+    #         matrix = make_2d_matrix(input_matrix)
+    #         vector = [input_matrix[(i*4) + 3] for i in range(3)]
+    #         prepare_matrix(virus, matrix, vector)
+    #         virus.save()
 
-            for index, chain_form in enumerate(chain_formset):
-                chain_choice = int(chain_form.cleaned_data['chain_selection'])
-                if chain_choice is Virus.CHAIN_REVERT:
-                    rename_chain(entry_key, mismatched_chains[index]['label_asym_id'], mismatched_chains[index]['auth_asym_id'])
-                elif chain_choice is Virus.CHAIN_INPUT:
-                    rename_chain(entry_key, mismatched_chains[index]['label_asym_id'], chain_form.cleaned_data['chain_input'])
-                elif chain_choice is Virus.CHAIN_MAINTAIN:
-                    # Do nothing.
-                    pass
+    #         for index, chain_form in enumerate(chain_formset):
+    #             chain_choice = int(chain_form.cleaned_data['chain_selection'])
+    #             if chain_choice is Virus.CHAIN_REVERT:
+    #                 rename_chain(entry_key, mismatched_chains[index]['label_asym_id'], mismatched_chains[index]['auth_asym_id'])
+    #             elif chain_choice is Virus.CHAIN_INPUT:
+    #                 rename_chain(entry_key, mismatched_chains[index]['label_asym_id'], chain_form.cleaned_data['chain_input'])
+    #             elif chain_choice is Virus.CHAIN_MAINTAIN:
+    #                 # Do nothing.
+    #                 pass
 
-            send_task('virus.make_vdb', args=[entry_id], kwargs={})
-            return redirect(reverse('virus:step_four', args=[entry_id]))
+    #         send_task('virus.make_vdb', args=[entry_id], kwargs={})
+    #         return redirect(reverse('virus:step_four', args=[entry_id]))
     # else:
     #     matrix_form = MatrixChoiceForm()
     #     chain_formset = ChainFormSet()
@@ -359,42 +360,102 @@ def rename_chain(entry_key, chain_to_rename, rename_to):
     atom_sites = AtomSite.objects.filter(entry_key=entry_key, label_asym_id=chain_to_rename).update(label_asym_id=rename_to)
     print atom_sites
 
-#VDB created at this point.
-@render_to('virus/step_four.html')
-def step_four(request, entry_id):
-    virus = Virus.objects.get(pk=entry_id)
-    diameters = get_diameters(virus)
+class StepFourView(FormView):
+    template_name = "virus/step_four.html"
+    form_class = MoveChainForm
 
-    if request.method == 'POST': 
-        chains = AtomSite.objects.filter(entry_key=virus.entry_key).values('label_asym_id').distinct()
-        form = MoveChainForm(request.POST)
-        ia_form = ImageAnalysisForm(request.POST)
+    def get_context_data(self, **kwargs):
+        virus = Virus.objects.get(pk=self.request.session['entry_id'])
+        diameters = get_diameters(virus)
+
+        context = super(StepFourView, self).get_context_data(**kwargs)
+        context.update({
+            'form': self.get_form(self.form_class),
+            'ia_form': ImageAnalysisForm(),
+            'diameters': diameters,
+        })
+        return context
+
+    def post(self, request, *args, **kwargs):
+        self.virus = Virus.objects.get(pk=request.session['entry_id'])
+        self.diameters = get_diameters(self.virus)
+
+        chains = (AtomSite.objects
+                    .filter(entry_key=self.virus.entry_key)
+                    .values('label_asym_id').distinct())
+        form = self.get_form(self.form_class)
+        ia_form = self.get_form(ImageAnalysisForm)
 
         if form.is_valid() and ia_form.is_valid():
-            if int(form.cleaned_data['move_selection']) == MoveChainForm.MOVE_ALL:
-                for chain in chains:
-                    au_matrix = move_chain(virus, chain['label_asym_id'], int(form.cleaned_data['matrix_selection']))
-                    au_matrix.save()
-                send_task('virus.make_vdb', args=[entry_id], kwargs={})
-                return redirect(reverse("virus:step_four", args=[entry_id]))
-            else:
-                save_diameters(virus, diameters)
+            return self.form_valid(form, ia_form)
+        else:
+            return self.form_invalid(form, ia_form)
 
-                ia_choice = int(ia_form.cleaned_data['analysis_selection'])
-                if ia_choice == ImageAnalysisForm.IMAGE_ONLY:
-                    send_task('virus.prepare_images', args=[entry_id], kwargs={})
-                elif ia_choice == ImageAnalysisForm.ANALYSIS_ONLY:
-                    send_task('virus.start_analysis', args=[entry_id], kwargs= {})
-                elif ia_choice == ImageAnalysisForm.BOTH_IMAGE_AND_ANALYSIS:
-                    send_task('virus.start_analysis', args=[entry_id], kwargs= {})
-                    send_task('virus.prepare_images', args=[entry_id], kwargs={})
+    def form_valid(self, form, ia_form):
+        entry_id = self.request.session['entry_id']
 
-                return redirect(reverse("virus:step_five", args=[entry_id]))
-    else:
-        form = MoveChainForm()
-        ia_form = ImageAnalysisForm()
+        if int(form.cleaned_data['move_selection']) == MoveChainForm.MOVE_ALL:
+            for chain in chains:
+                au_matrix = move_chain(virus, chain['label_asym_id'], 
+                                       int(form.cleaned_data['matrix_selection']))
+                au_matrix.save()
+            send_task('virus.make_vdb', args=[entry_id], kwargs={})
+            return redirect(reverse("virus:step_four"))
+        else:
+            save_diameters(self.virus, self.diameters)
 
-    return {"form": form, "ia_form": ia_form, "diameters": diameters}
+            ia_choice = int(ia_form.cleaned_data['analysis_selection'])
+            if ia_choice == ImageAnalysisForm.IMAGE_ONLY:
+                send_task('virus.prepare_images', args=[entry_id], kwargs={})
+            elif ia_choice == ImageAnalysisForm.ANALYSIS_ONLY:
+                send_task('virus.start_analysis', args=[entry_id], kwargs={})
+            elif ia_choice == ImageAnalysisForm.BOTH_IMAGE_AND_ANALYSIS:
+                send_task('virus.start_analysis', args=[entry_id], kwargs= {})
+                send_task('virus.prepare_images', args=[entry_id], kwargs={})
+
+            return redirect(reverse("virus:step_five"))
+
+
+
+    def form_invalid(self, form, ia_form):
+        pass
+
+#VDB created at this point.
+# @render_to('virus/step_four.html')
+# def step_four(request, entry_id):
+#     virus = Virus.objects.get(pk=entry_id)
+#     diameters = get_diameters(virus)
+
+#     if request.method == 'POST': 
+#         chains = AtomSite.objects.filter(entry_key=virus.entry_key).values('label_asym_id').distinct()
+#         form = MoveChainForm(request.POST)
+#         ia_form = ImageAnalysisForm(request.POST)
+
+#         if form.is_valid() and ia_form.is_valid():
+#             if int(form.cleaned_data['move_selection']) == MoveChainForm.MOVE_ALL:
+#                 for chain in chains:
+#                     au_matrix = move_chain(virus, chain['label_asym_id'], int(form.cleaned_data['matrix_selection']))
+#                     au_matrix.save()
+#                 send_task('virus.make_vdb', args=[entry_id], kwargs={})
+#                 return redirect(reverse("virus:step_four", args=[entry_id]))
+#             else:
+#                 save_diameters(virus, diameters)
+
+#                 ia_choice = int(ia_form.cleaned_data['analysis_selection'])
+#                 if ia_choice == ImageAnalysisForm.IMAGE_ONLY:
+#                     send_task('virus.prepare_images', args=[entry_id], kwargs={})
+#                 elif ia_choice == ImageAnalysisForm.ANALYSIS_ONLY:
+#                     send_task('virus.start_analysis', args=[entry_id], kwargs= {})
+#                 elif ia_choice == ImageAnalysisForm.BOTH_IMAGE_AND_ANALYSIS:
+#                     send_task('virus.start_analysis', args=[entry_id], kwargs= {})
+#                     send_task('virus.prepare_images', args=[entry_id], kwargs={})
+
+#                 return redirect(reverse("virus:step_five", args=[entry_id]))
+    # else:
+    #     form = MoveChainForm()
+    #     ia_form = ImageAnalysisForm()
+
+    # return {"form": form, "ia_form": ia_form, "diameters": diameters}
 
 def move_chain(virus, chain, matrix_number):
     """Moving chains from one orientation to another"""
@@ -430,6 +491,13 @@ def save_diameters(virus, diameters):
         prepare_diameters(layer, diameters)
         layer.save()
 
+class StepFiveView(TemplateView):
+    template_name = "virus/step_five.html"
+
+    def get_context_data(self, **kwargs):
+        context = super(StepFiveView, self).get_context_data(**kwargs)
+        context.update({'entry_id': self.request.session['entry_id']})
+        return context
 
 @render_to('virus/step_five.html')
 def step_five(request, entry_id):
