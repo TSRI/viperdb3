@@ -53,7 +53,10 @@ def get_pdb_info(entry_id):
 def get_mismatched_chains(entry_key):
     mismatched_chains = []
 
-    chains = AtomSite.objects.values('auth_asym_id', 'label_asym_id', 'label_entity_key__pdbx_description').filter(label_entity_key__entry_key=entry_key).distinct()
+    chains = (AtomSite.objects
+              .values('auth_asym_id', 'label_asym_id', 'label_entity_key__pdbx_description')
+              .filter(label_entity_key__entry_key=entry_key)
+              .distinct())
     for chain in chains:
         if chain['auth_asym_id'] != chain['label_asym_id']:
             mismatched_chains.append(chain)

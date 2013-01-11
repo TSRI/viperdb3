@@ -44,7 +44,7 @@ $ ->
     $.ajax
         url: "http://localhost:8000/viruses/add_entry/start_pdbase" 
         data:
-            entry_id: $('#id_entry_id').val()
+            entry_id: $('#entry_id').val()
             format: 'json'
         success: (data) ->
             prefill_info data.entry_key

@@ -1,16 +1,20 @@
-from django.views.generic import FormView
 from django.contrib.auth.decorators import login_required
-from django.utils.decorators import method_decorator
 from django.core.urlresolvers import reverse
 from django.forms.formsets import formset_factory
+from django.http import HttpResponseRedirect
+from django.utils.decorators import method_decorator
+from django.views.generic import FormView
 
 from annoying.decorators import render_to, ajax_request
 from annoying.functions import get_object_or_None
 from celery.execute import send_task
 from celery.task.sets import subtask
 
-from viperdb.forms import (InitialVirusForm, LayerForm, VirusForm)
-from viperdb.models import (MmsEntry, Virus, Entity)
+from viperdb.forms import (InitialVirusForm, LayerForm, VirusForm, 
+                           MatrixChoiceForm, ChainForm)
+from viperdb.models import (MmsEntry, Virus, Entity, StructRef, LayerEntity, AtomSite)
+from viperdb.helpers import get_mismatched_chains
+from django.shortcuts import redirect
 
 class StepOneView(FormView):
     template_name = "virus/step_one.html"
@@ -65,19 +69,15 @@ class StepTwoView(FormView):
     template_name = "virus/step_two.html"
     form_class = VirusForm
 
-    # def get_initial(self):
-    #     orig = super(StepTwoView, self).get_initial()
-    #     orig['entry_id'] = self.request.session['entry_id']
-    #     return orig
-
     def get_context_data(self, **kwargs):
         kwargs = super(StepTwoView, self).get_context_data(**kwargs)
-        kwargs.update({'layer_formset': formset_factory(LayerForm)})
+        kwargs.update({'layer_formset': formset_factory(LayerForm),
+                       'entry_id' : self.request.session['entry_id']})
 
         return kwargs
 
     def get_success_url(self):
-        return reverse('virus:step_three', args=[entry_id])
+        return reverse('virus:step_three')
 
     def post(self, request, *args, **kwargs):
         virus_form = self.get_form(self.form_class)
@@ -105,8 +105,17 @@ class StepTwoView(FormView):
             prepare_layer(virus, layer)
             layer.save()
 
-            entity_selections = request.POST.getlist('entity_accession_id_' + str(index))
-            map(lambda l_e: l_e.save(), prepare_layer_entity(virus, virus_polymers, layer, entity_choices, entity_selections))
+            entity_selections = self.request.POST.getlist('entity_accession_id_' + str(index))
+
+            layer_entity_dict = {
+                'virus': virus,
+                'virus_polymers': virus_polymers,
+                'layer': layer,
+                'entity_choices': entity_choices, 
+                'entity_selections': entity_selections,
+            }
+            for layer_entity in prepare_layer_entities(**layer_entity_dict):
+                layer_entity.save()
 
         return HttpResponseRedirect(self.get_success_url())
 
@@ -158,7 +167,7 @@ def get_polymers(request, entry_id):
 #                 layer.save()
 
 #                 entity_selections = request.POST.getlist('entity_accession_id_' + str(index))
-#                 map(lambda l_e: l_e.save(), prepare_layer_entity(virus, virus_polymers, layer, entity_choices, entity_selections))
+#                 map(lambda l_e: l_e.save(), prepare_layer_entities(virus, virus_polymers, layer, entity_choices, entity_selections))
 #             return redirect(reverse('virus:step_three', args=[entry_id]))
 
 #     else:
@@ -182,33 +191,114 @@ def prepare_layer(virus, layer):
     layer.entry_key = virus.entry_key
     layer.entry_id = virus
 
-def prepare_layer_entity(virus, virus_polymers, layer, entity_choices, entity_selections):
+def prepare_layer_entities(virus, virus_polymers, layer, entity_choices, entity_selections):
     """Prepares and yields layer entities"""
-    print len(virus_polymers)
+
     for index, entity_selection in enumerate(virus_polymers):
         if entity_selections[index] == 'on':
             struct_ref = get_object_or_None(StructRef, 
                                             entry_key=virus.entry_key, 
                                             pdbx_db_accession=entity_choices[index])
             if not struct_ref:
-                struct_ref = StructRef.objects.filter(entry_key=virus.entry_key).order_by('entity_key')[index]
-            layer_entity = LayerEntity(entity_key=struct_ref.entity_key.pk, 
+                struct_ref = (StructRef.objects
+                              .filter(entry_key=virus.entry_key)
+                              .order_by('entity_key')[index])
+            layer_entity = LayerEntity(entity_key=struct_ref.entity_key, 
                                        layer_key=layer, 
-                                       entry_key=str(virus.entry_key))
+                                       entry_key=virus)
             yield layer_entity
 
+class StepThreeView(FormView):
+    template_name = "virus/step_three.html"
+    form_class = MatrixChoiceForm
+    unit_matrix = [1,0,0,0,
+                   0,1,0,0,
+                   0,0,1,0]
+    input_matrix = []
+
+    def get_viperize_matrix(self, entry_id):
+        return send_task('virus.get_matrix', args=[entry_id], kwargs={}).get().split()
+
+    def get_context_data(self, **kwargs):
+        virus = Virus.objects.get(entry_id=self.request.session['entry_id'])
+        self.viperize_matrix = self.get_viperize_matrix(virus.pk)
+        mismatched_chains = get_mismatched_chains(virus.entry_key)
+        ChainFormset = formset_factory(ChainForm, extra=len(mismatched_chains))
+
+        chain_formset = ChainFormset()
+        for index, chain_form in enumerate(chain_formset):
+            chain_form.chain = mismatched_chains[index]
+
+        kwargs = super(StepThreeView, self).get_context_data(**kwargs)
+        kwargs.update({
+            'viperize_matrix': make_2d_matrix(self.viperize_matrix, with_vector=True),
+            'unit_matrix': make_2d_matrix(self.unit_matrix, with_vector=True),
+            'chain_formset': chain_formset,
+            'matrix_form': self.get_form(self.form_class),
+        })
+        return kwargs
+
+    def post(self, request, *args, **kwargs):
+
+        matrix_form = self.get_form(self.form_class)
+        chain_formset = self.get_form(formset_factory(ChainForm))
+        virus = Virus.objects.get(entry_id=self.request.session['entry_id'])
+
+        self.mismatched_chains = get_mismatched_chains(virus.entry_key)
+        self.viperize_matrix = self.get_viperize_matrix(virus.pk)
+
+        if matrix_form.is_valid() and chain_formset.is_valid():
+            return self.form_valid(request, virus, matrix_form, chain_formset)
+        else:
+            return self.form_invalid(request, virus, matrix_form, chain_formset)
+
+    def form_valid(self, request, virus, matrix_form, chain_formset):
+        matrix_choice = int(matrix_form.cleaned_data['matrix_selection'])
+
+        if matrix_choice is Virus.MTX_UNIT:
+            user_matrix = unit_matrix
+        if matrix_choice is Virus.MTX_INPUT:
+            user_matrix = request.POST.getlist('matrix')
+        elif matrix_choice is Virus.MTX_VIPERIZE:
+            user_matrix = self.viperize_matrix
+
+        matrix = make_2d_matrix(user_matrix)
+        vector = [user_matrix[(i*4) + 3] for i in range(3)]
+        prepare_matrix(virus, matrix, vector)
+        virus.save()
+
+        # This will fail if chains have already been renamed
+        for index, chain_form in enumerate(chain_formset):
+            chain_choice = int(chain_form.cleaned_data['chain_selection'])
+            if chain_choice is Virus.CHAIN_REVERT:
+                rename_chain(virus.entry_key, 
+                             self.mismatched_chains[index]['label_asym_id'], 
+                             self.mismatched_chains[index]['auth_asym_id'])
+            elif chain_choice is Virus.CHAIN_INPUT:
+                rename_chain(virus.entry_key, 
+                             self.mismatched_chains[index]['label_asym_id'], 
+                             chain_form.cleaned_data['chain_input'])
+            elif chain_choice is Virus.CHAIN_MAINTAIN:
+                # Do nothing.
+                pass
+
+        send_task('virus.make_vdb', args=[request.session['entry_id']], kwargs={})
+        return redirect(reverse('virus:step_four'))
+
+    def form_invalid(self, request, virus, matrix_form, chain_formset):
+        pass
 
 @render_to('virus/step_three.html')
 def step_three(request, entry_id):
     """Step three for virus entry"""
-    virus = get_object_or_404(Virus, entry_id=entry_id)
-    entry_key = virus.entry_key
-    unit_matrix = [1,0,0,0,0,1,0,0,0,0,1,0]
-    viperize_matrix = send_task('virus.get_matrix', args=[entry_id], kwargs={}).get().split()
-    input_matrix = []
-    mismatched_chains = get_mismatched_chains(entry_key)
+    # virus = get_object_or_404(Virus, entry_id=entry_id)
+    # entry_key = virus.entry_key
+    # unit_matrix = [1,0,0,0,0,1,0,0,0,0,1,0]
+    # viperize_matrix = send_task('virus.get_matrix', args=[entry_id], kwargs={}).get().split()
+    # input_matrix = []
+    # mismatched_chains = get_mismatched_chains(entry_key)
 
-    ChainFormSet = formset_factory(ChainForm, extra=len(mismatched_chains))
+    # ChainFormSet = formset_factory(ChainForm, extra=len(mismatched_chains))
 
     if request.method == "POST":
         matrix_form = MatrixChoiceForm(request.POST)
@@ -241,16 +331,16 @@ def step_three(request, entry_id):
 
             send_task('virus.make_vdb', args=[entry_id], kwargs={})
             return redirect(reverse('virus:step_four', args=[entry_id]))
-    else:
-        matrix_form = MatrixChoiceForm()
-        chain_formset = ChainFormSet()
-        for index, chain_form in enumerate(chain_formset):
-            chain_form.chain = mismatched_chains[index]
+    # else:
+    #     matrix_form = MatrixChoiceForm()
+    #     chain_formset = ChainFormSet()
+    #     for index, chain_form in enumerate(chain_formset):
+    #         chain_form.chain = mismatched_chains[index]
 
-    return {"matrix_form": matrix_form,
-            "viperize_matrix": make_2d_matrix(viperize_matrix, with_vector=True),
-            "unit_matrix": make_2d_matrix(unit_matrix, with_vector=True),
-            "chain_formset": chain_formset}
+    # return {"matrix_form": matrix_form,
+    #         "viperize_matrix": make_2d_matrix(viperize_matrix, with_vector=True),
+    #         "unit_matrix": make_2d_matrix(unit_matrix, with_vector=True),
+    #         "chain_formset": chain_formset}
 
 def make_2d_matrix(src_matrix, with_vector=False):
     """Turns a 1x12 vector into a 3x4 matrix"""
