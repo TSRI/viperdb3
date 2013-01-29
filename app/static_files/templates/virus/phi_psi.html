@@ -1,14 +1,13 @@
 {% extends 'base.html' %}
 
-{% load media %}
+{% load compressed %}
 
 {% block scripts %}
-    {% include_media "d3.js" %}
-    {% include_media "phi-psi.js" %}
+    {% compressed_js "graph" %}
 {% endblock scripts %}
 
 {% block styles %}
-    {% include_media "phi-psi.css" %}
+    {% compressed_css "graph" %}
 {% endblock styles %}
 
 {% block content %}

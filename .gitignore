@@ -8,5 +8,6 @@ lib/
 lib64
 .Python
 settings_local.py
-viperdb/_generated_media*
 app/static_files/css/.sass-cache/
+app/static_files/js/virus/*.js
+app/static_files/css/*.css

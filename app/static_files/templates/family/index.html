@@ -5,7 +5,7 @@
 
 {% for family in families %}
 {{ family.family }}
-<a href="{% url family:graph family.family %}">Graph</a>
+<a href="{% url families:graph family.family %}">Graph</a>
 {% endfor %}
 
 

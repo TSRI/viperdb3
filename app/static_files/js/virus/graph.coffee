@@ -18,8 +18,8 @@ $ ->
             v_data = virus.interfaces
             virus_set.push virus.entry_id
             min_value = _.chain(v_data).pluck('assocn_nrg_total').min().value() * 0.05
-            v_interfaces = _.filter v_data, (interface) ->
-                interface.assocn_nrg_total < min_value
+            v_interfaces = _.filter v_data, (_interface) ->
+                _interface.assocn_nrg_total < min_value
             _.each v_interfaces, (i, index) ->
                 i.name = "#{i.auth_1_asym_id}#{i.viper_matrix_1}-#{i.auth_2_asym_id}#{i.viper_matrix_2}"
                 if not interfaces[i.name]?
@@ -33,12 +33,12 @@ $ ->
     set_interface_data = () ->
         data = []
         i = 0
-        for own interface, matched_viruses of interfaces
+        for own _interface, matched_viruses of interfaces
             data[i] = []
             for virus in matched_viruses
                 if virus.entry_id not in exclude_set
                     data[i].push 
-                        interface: interface
+                        _interface: _interface
                         virus: virus.entry_id
                         value: if association then virus.association else virus.buried
             i++
@@ -109,7 +109,7 @@ $ ->
             .attr("class", "yAxis")
             .attr("fill", "black")
             .attr("style", "font-size: 12; font-family: Helvetica, sans-serif")
-            .text((datum) -> datum[0].interface)
+            .text((datum) -> datum[0]._interface)
         yAxis.attr('y', (datum, index, group) -> y(index * viruses.length))
              .attr('dy',((barHeight+10) * viruses.length)/2) 
         yAxis.exit().remove()

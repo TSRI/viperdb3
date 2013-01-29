@@ -5,6 +5,8 @@ from django.db.models.deletion import CASCADE
 
 from celery.execute import send_task
 
+from viperdb.models import VirusResidueAsa
+
 class VirusAdmin(admin.ModelAdmin):
     actions = ['start_analysis', 'generate_images']
     readonly_fields = ('entry_key', 'layer_count',)
@@ -86,9 +88,9 @@ class Virus (models.Model):
         return self.layers.all()[0].tnumber
 
     def get_chains(self):
-        return (VirusResidueAsa.objects
-                .filter(entry_key=self.entry_key)
-                .distinct('label_asym_id'))   
+        queryset = VirusResidueAsa.objects.filter(entry_key=self.entry_key)
+        queryset.query.group_by = ['label_asym_id']
+        return queryset
 
     def analyze(self):
         send_task('virus.start_analysis', args=[self.entry_id])

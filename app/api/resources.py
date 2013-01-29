@@ -34,7 +34,8 @@ class AtomSiteResource(ModelResource):
                                   'entry_key',
                                   full=True)
     class Meta:
-        queryset = AtomSite.objects.distinct('label_asym_id')
+        queryset = AtomSite.objects.all()
+        queryset.query.group_by = ['label_asym_id']
         resource_name = 'atom_site'
         filtering = {
             'entry_key': ALL,
