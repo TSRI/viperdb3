@@ -1,12 +1,29 @@
-from django.db import models
 
-# Create your models here.
+from django.contrib import admin
+from django.db import models
 from django.db.models.deletion import CASCADE
+
+from celery.execute import send_task
+
+class VirusAdmin(admin.ModelAdmin):
+    actions = ['start_analysis', 'generate_images']
+    readonly_fields = ('entry_key', 'layer_count',)
+
+
+    def start_analysis(self, request, queryset):
+        [virus.analyze() for virus in queryset.all()]
+    start_analysis.short_description = "Start analysis with selected viruses"
+
+    def generate_images(self, request, queryset):
+        [virus.generate_images() for virus in queryset.all()]
+    generate_images.short_description = "Generate images for selected viruses"
+
 
 class Virus (models.Model):
 
     class Meta:
         app_label = "viperdb"
+        verbose_name_plural = 'Viruses'
 
     MTX_VIPERIZE = 1
     MTX_INPUT = 2
@@ -22,34 +39,16 @@ class Virus (models.Model):
                      (CHAIN_INPUT, 'Provide your own label: '),
                      (CHAIN_MAINTAIN, 'Leave it as is.'))
 
-    def clean(self):
-        self.entry_id = self.entry_id.lower()
-
-    def clean_family(self):
-        if self.family:
-            self.family = self.family.lower()
-
-    def __unicode__(self):
-        return self.entry_id
-
-    def get_tnumber(self):
-        return self.layers.all()[0].tnumber
-
-    def get_chains(self):
-        return (VirusResidueAsa.objects
-                .filter(entry_key=self.entry_key)
-                .distinct('label_asym_id'))
-
     entry_id = models.CharField(max_length=8, primary_key=True, db_column='entry_id')
-    entry_key = models.ForeignKey('MmsEntry', db_column='entry_key', unique=True)
+    entry_key = models.IntegerField(unique=True, editable=False)
     pubmed_id = models.CharField(max_length=8, blank=True, null=True, verbose_name='Pubmed ID')
-    name = models.CharField(max_length=255)
-    generic_name = models.CharField(max_length=255)
-    deposition_date = models.DateField()
-    genome = models.CharField(max_length=8)
+    name = models.CharField(max_length=255, null=True, blank=True)
+    generic_name = models.CharField(max_length=255, null=True, blank=True)
+    deposition_date = models.DateField(null=True, blank=True)
+    genome = models.CharField(max_length=8, null=True, blank=True)
     family = models.CharField(max_length=32, null=True, blank=True)
-    genus = models.CharField(max_length=32)
-    host = models.CharField(max_length=32)
+    genus = models.CharField(max_length=32, null=True, blank=True)
+    host = models.CharField(max_length=32, null=True, blank=True)
     resolution = models.FloatField(blank=True, null=True)
     unique = models.BooleanField()
     unique_relative = models.ForeignKey('Virus', null=True, blank=True)
@@ -72,4 +71,27 @@ class Virus (models.Model):
     prepared = models.BooleanField()
     times_viewed = models.IntegerField(editable=False, default=0, blank=True)
     private = models.BooleanField(editable=False)
-    
+
+    def clean(self):
+        self.entry_id = self.entry_id.lower()
+
+    def clean_family(self):
+        if self.family:
+            self.family = self.family.lower()
+
+    def __unicode__(self):
+        return self.entry_id
+
+    def get_tnumber(self):
+        return self.layers.all()[0].tnumber
+
+    def get_chains(self):
+        return (VirusResidueAsa.objects
+                .filter(entry_key=self.entry_key)
+                .distinct('label_asym_id'))   
+
+    def analyze(self):
+        send_task('virus.start_analysis', args=[self.entry_id])
+
+    def generate_images(self):
+        send_task('virus.prepare_images', args=[self.entry_id], kwargs={})

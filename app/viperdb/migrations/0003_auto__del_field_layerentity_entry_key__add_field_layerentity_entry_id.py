@@ -8,13 +8,21 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        # Removing unique constraint on 'Layer', fields ['entry_key']
-        db.delete_unique('viperdb_layer', ['entry_key'])
+        # Deleting field 'LayerEntity.entry_key'
+        db.delete_column('viperdb_layerentity', 'entry_key_id')
+
+        # Adding field 'LayerEntity.entry_id'
+        db.add_column('viperdb_layerentity', 'entry_id',
+                      self.gf('django.db.models.fields.related.ForeignKey')(default='2ms2', to=orm['viperdb.Virus']),
+                      keep_default=False)
 
 
     def backwards(self, orm):
-        # Adding unique constraint on 'Layer', fields ['entry_key']
-        db.create_unique('viperdb_layer', ['entry_key'])
+
+        # User chose to not deal with backwards NULL issues for 'LayerEntity.entry_key'
+        raise RuntimeError("Cannot reverse this migration. 'LayerEntity.entry_key' and its values cannot be restored.")
+        # Deleting field 'LayerEntity.entry_id'
+        db.delete_column('viperdb_layerentity', 'entry_id_id')
 
 
     models = {
@@ -72,7 +80,7 @@ class Migration(SchemaMigration):
             'Meta': {'object_name': 'Layer'},
             'ave_diameter': ('django.db.models.fields.FloatField', [], {'null': 'True', 'blank': 'True'}),
             'entry_id': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'layers'", 'db_column': "'entry_id'", 'to': "orm['viperdb.Virus']"}),
-            'entry_key': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['viperdb.MmsEntry']", 'db_column': "'entry_key'"}),
+            'entry_key': ('django.db.models.fields.IntegerField', [], {}),
             'layer_id': ('django.db.models.fields.CharField', [], {'max_length': '32'}),
             'layer_key': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'layer_name': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
@@ -84,7 +92,7 @@ class Migration(SchemaMigration):
         'viperdb.layerentity': {
             'Meta': {'object_name': 'LayerEntity'},
             'entity_key': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['viperdb.Entity']"}),
-            'entry_key': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['viperdb.Virus']"}),
+            'entry_id': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['viperdb.Virus']"}),
             'layer_key': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['viperdb.Layer']", 'primary_key': 'True', 'db_column': "'layer_key'"})
         },
         'viperdb.mmsentry': {
@@ -113,7 +121,7 @@ class Migration(SchemaMigration):
             'ave_diameter': ('django.db.models.fields.FloatField', [], {'null': 'True', 'blank': 'True'}),
             'deposition_date': ('django.db.models.fields.DateField', [], {}),
             'entry_id': ('django.db.models.fields.CharField', [], {'max_length': '8', 'primary_key': 'True', 'db_column': "'entry_id'"}),
-            'entry_key': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['viperdb.MmsEntry']", 'unique': 'True', 'db_column': "'entry_key'"}),
+            'entry_key': ('django.db.models.fields.IntegerField', [], {'unique': 'True'}),
             'family': ('django.db.models.fields.CharField', [], {'max_length': '32', 'null': 'True', 'blank': 'True'}),
             'generic_name': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
             'genome': ('django.db.models.fields.CharField', [], {'max_length': '8'}),

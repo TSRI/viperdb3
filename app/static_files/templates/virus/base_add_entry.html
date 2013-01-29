@@ -2,6 +2,7 @@
 
 {% load compressed %}
 {% block extrahead %}
+  {{ block.super }}
   {% compressed_js 'main' %}
   {% compressed_js 'add_entry' %}
 {% endblock extrahead %}

@@ -8,77 +8,20 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        # Adding model 'Virus'
-        db.create_table('viperdb_virus', (
-            ('entry_id', self.gf('django.db.models.fields.CharField')(max_length=8, primary_key=True, db_column='entry_id')),
-            ('entry_key', self.gf('django.db.models.fields.IntegerField')(unique=True)),
-            ('pubmed_id', self.gf('django.db.models.fields.CharField')(max_length=8, null=True, blank=True)),
-            ('name', self.gf('django.db.models.fields.CharField')(max_length=255)),
-            ('generic_name', self.gf('django.db.models.fields.CharField')(max_length=255)),
-            ('deposition_date', self.gf('django.db.models.fields.DateField')()),
-            ('genome', self.gf('django.db.models.fields.CharField')(max_length=8)),
-            ('family', self.gf('django.db.models.fields.CharField')(max_length=32, null=True, blank=True)),
-            ('genus', self.gf('django.db.models.fields.CharField')(max_length=32)),
-            ('host', self.gf('django.db.models.fields.CharField')(max_length=32)),
-            ('resolution', self.gf('django.db.models.fields.FloatField')(null=True, blank=True)),
-            ('unique', self.gf('django.db.models.fields.BooleanField')(default=False)),
-            ('unique_relative', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['viperdb.Virus'], null=True, blank=True)),
-            ('layer_count', self.gf('django.db.models.fields.IntegerField')()),
-            ('matrix_0_0', self.gf('django.db.models.fields.FloatField')(null=True, blank=True)),
-            ('matrix_0_1', self.gf('django.db.models.fields.FloatField')(null=True, blank=True)),
-            ('matrix_0_2', self.gf('django.db.models.fields.FloatField')(null=True, blank=True)),
-            ('matrix_1_0', self.gf('django.db.models.fields.FloatField')(null=True, blank=True)),
-            ('matrix_1_1', self.gf('django.db.models.fields.FloatField')(null=True, blank=True)),
-            ('matrix_1_2', self.gf('django.db.models.fields.FloatField')(null=True, blank=True)),
-            ('matrix_2_0', self.gf('django.db.models.fields.FloatField')(null=True, blank=True)),
-            ('matrix_2_1', self.gf('django.db.models.fields.FloatField')(null=True, blank=True)),
-            ('matrix_2_2', self.gf('django.db.models.fields.FloatField')(null=True, blank=True)),
-            ('vector_0', self.gf('django.db.models.fields.FloatField')(null=True, blank=True)),
-            ('vector_1', self.gf('django.db.models.fields.FloatField')(null=True, blank=True)),
-            ('vector_2', self.gf('django.db.models.fields.FloatField')(null=True, blank=True)),
-            ('min_diameter', self.gf('django.db.models.fields.FloatField')(null=True, blank=True)),
-            ('ave_diameter', self.gf('django.db.models.fields.FloatField')(null=True, blank=True)),
-            ('max_diameter', self.gf('django.db.models.fields.FloatField')(null=True, blank=True)),
-            ('prepared', self.gf('django.db.models.fields.BooleanField')(default=False)),
-            ('times_viewed', self.gf('django.db.models.fields.IntegerField')(default=0, blank=True)),
-            ('private', self.gf('django.db.models.fields.BooleanField')(default=False)),
-        ))
-        db.send_create_signal('viperdb', ['Virus'])
 
-        # Adding model 'Layer'
-        db.create_table('viperdb_layer', (
-            ('layer_key', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('layer_id', self.gf('django.db.models.fields.CharField')(max_length=32)),
-            ('entry_key', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['viperdb.MmsEntry'], db_column='entry_key')),
-            ('entry_id', self.gf('django.db.models.fields.related.ForeignKey')(related_name='layers', db_column='entry_id', to=orm['viperdb.Virus'])),
-            ('layer_name', self.gf('django.db.models.fields.CharField')(max_length=255)),
-            ('tnumber', self.gf('django.db.models.fields.CharField')(max_length=5)),
-            ('subunit_name', self.gf('django.db.models.fields.CharField')(max_length=5)),
-            ('min_diameter', self.gf('django.db.models.fields.FloatField')(null=True, blank=True)),
-            ('ave_diameter', self.gf('django.db.models.fields.FloatField')(null=True, blank=True)),
-            ('max_diameter', self.gf('django.db.models.fields.FloatField')(null=True, blank=True)),
-        ))
-        db.send_create_signal('viperdb', ['Layer'])
-
-        # Adding model 'LayerEntity'
-        db.create_table('viperdb_layerentity', (
-            ('layer_key', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['viperdb.Layer'], primary_key=True, db_column='layer_key')),
-            ('entity_key', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['viperdb.Entity'])),
-            ('entry_key', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['viperdb.Virus'])),
-        ))
-        db.send_create_signal('viperdb', ['LayerEntity'])
+        # Changing field 'Layer.entry_key'
+        db.alter_column('viperdb_layer', 'entry_key', self.gf('django.db.models.fields.IntegerField')())
+        # Removing index on 'Layer', fields ['entry_key']
+        db.delete_index('viperdb_layer', ['entry_key'])
 
 
     def backwards(self, orm):
-        # Deleting model 'Virus'
-        db.delete_table('viperdb_virus')
+        # Adding index on 'Layer', fields ['entry_key']
+        db.create_index('viperdb_layer', ['entry_key'])
 
-        # Deleting model 'Layer'
-        db.delete_table('viperdb_layer')
 
-        # Deleting model 'LayerEntity'
-        db.delete_table('viperdb_layerentity')
-
+        # Changing field 'Layer.entry_key'
+        db.alter_column('viperdb_layer', 'entry_key', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['viperdb.MmsEntry'], db_column='entry_key'))
 
     models = {
         'viperdb.atomsite': {
@@ -135,7 +78,7 @@ class Migration(SchemaMigration):
             'Meta': {'object_name': 'Layer'},
             'ave_diameter': ('django.db.models.fields.FloatField', [], {'null': 'True', 'blank': 'True'}),
             'entry_id': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'layers'", 'db_column': "'entry_id'", 'to': "orm['viperdb.Virus']"}),
-            'entry_key': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['viperdb.MmsEntry']", 'db_column': "'entry_key'"}),
+            'entry_key': ('django.db.models.fields.IntegerField', [], {}),
             'layer_id': ('django.db.models.fields.CharField', [], {'max_length': '32'}),
             'layer_key': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'layer_name': ('django.db.models.fields.CharField', [], {'max_length': '255'}),

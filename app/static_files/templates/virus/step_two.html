@@ -10,9 +10,7 @@
 <p class='message'>Please be patient while we run PDBase</p>
 <form method="post" enctype="multipart/form-data" id='virus_form' hidden='true'>
     {% csrf_token %}
-    <span id="entry_id">
-        {{entry_id}}
-    </span>
+    <span id="entry_id" value="{{entry_id}}"></span>
     {{ form }}
     {% for layer_form in layer_formset %}
         <div class="formset">

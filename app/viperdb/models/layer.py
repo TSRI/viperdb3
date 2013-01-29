@@ -8,7 +8,7 @@ class Layer(models.Model):
 
     layer_key = models.AutoField(primary_key=True)
     layer_id = models.CharField(max_length=32, verbose_name="Layer ID")
-    entry_key = models.ForeignKey(MmsEntry, db_column='entry_key')
+    entry_key = models.IntegerField()
     entry_id = models.ForeignKey(Virus, to_field='entry_id', 
                                  db_column='entry_id', related_name='layers')
     layer_name = models.CharField(max_length=255)
@@ -29,5 +29,5 @@ class LayerEntity(models.Model):
         
     layer_key = models.ForeignKey(Layer, primary_key=True, db_column='layer_key')
     entity_key = models.ForeignKey(Entity)
-    entry_key = models.ForeignKey(Virus)
+    entry_id = models.ForeignKey(Virus)
 

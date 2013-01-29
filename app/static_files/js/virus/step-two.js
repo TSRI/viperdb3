@@ -22,7 +22,8 @@
               name: 'entity_accession_id',
               value: polymer.pdbx_db_accession
             });
-            return $(".js-polymers").append(input).append(hidden_input);
+            $(".js-polymers").append(input).append(hidden_input);
+            return input.after($("<p></p>").html(polymer.pdbx_description));
           });
         },
         error: function(err) {
@@ -55,7 +56,7 @@
     return $.ajax({
       url: "http://localhost:8000/viruses/add_entry/start_pdbase",
       data: {
-        entry_id: $('#entry_id').val(),
+        entry_id: $('#entry_id').attr("value"),
         format: 'json'
       },
       success: function(data) {

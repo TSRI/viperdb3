@@ -10,13 +10,13 @@ $ ->
                     input = $("<input></input>").attr 
                         type: 'checkbox'
                         name: 'entity_accession_id_'+index
-                       # input.append($("<p></p>").html(polymer.pdbx_description))
                     hidden_input = $("<input></input>").attr
                         type: 'hidden'
                         name: 'entity_accession_id'
                         value: polymer.pdbx_db_accession
                     $(".js-polymers").append(input)
                                      .append(hidden_input)
+                    input.after($("<p></p>").html(polymer.pdbx_description))
             error: (err) ->
                 console.log err
                 # TODO: Log error
@@ -44,7 +44,7 @@ $ ->
     $.ajax
         url: "http://localhost:8000/viruses/add_entry/start_pdbase" 
         data:
-            entry_id: $('#entry_id').val()
+            entry_id: $('#entry_id').attr "value"
             format: 'json'
         success: (data) ->
             prefill_info data.entry_key

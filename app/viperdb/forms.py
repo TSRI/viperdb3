@@ -49,8 +49,13 @@ class ImageAnalysisForm(forms.Form):
     IMAGE_ONLY = 1
     ANALYSIS_ONLY = 2
     BOTH_IMAGE_AND_ANALYSIS = 3
-    analysis_choices = ((IMAGE_ONLY, "Generate images only."),
-                         (ANALYSIS_ONLY, "Perform analysis only."),
-                         (BOTH_IMAGE_AND_ANALYSIS, "Perform analysis and generate images."))
-    analysis_selection = forms.ChoiceField(widget=forms.RadioSelect, choices=analysis_choices)
+    NO_ACTION = 4
+    analysis_choices = (
+        (IMAGE_ONLY, "Generate images only."),
+        (ANALYSIS_ONLY, "Perform analysis only."),
+        (BOTH_IMAGE_AND_ANALYSIS, "Perform analysis and generate images."),
+        (NO_ACTION, "Do nothing.")
+    )
+    analysis_selection = forms.ChoiceField(widget=forms.RadioSelect, 
+                                           choices=analysis_choices)
 

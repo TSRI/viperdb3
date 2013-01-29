@@ -19,3 +19,6 @@ werkzeug
 gunicorn
 redis
 urllib3
+MySQL-python
+nose
+requests
