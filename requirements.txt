@@ -15,6 +15,7 @@ django-tastypie
 django-pipeline
 django-extensions
 git+git://github.com/jsocol/django-adminplus#egg=django-adminplus
+git+git://github.com/TSRI/django-pipeline-compass
 werkzeug
 gunicorn
 redis

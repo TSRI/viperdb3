@@ -1,11 +1,25 @@
 {% extends "base.html" %}
 
 {% block content %}
-Welcome to ViperDB3!
+  <h1>Welcome to ViperDB3!<h2>
+  <p>Lorem ipsum dolore ut anim dolor enim consequat adipisicing cupidatat ex irure id enim irure eu ullamco magna fugiat exercitation veniam sit sed voluptate deserunt do in deserunt in pariatur. </p> 
 
-<ul>
-{% for virus in viruses %}
-    <li><a href="{% url viruses:info virus.entry_id %}">{{ virus }}</a></li>
-{% endfor %}
-</ul>
+  <div id="latest-viruses">
+    <p id="virus-count">
+      <span class="count">{{viruses|length}}</span>
+      <span class="text">viruses</span>
+    </p>
+
+    <ul class="virus-list">
+    {% for virus in viruses %}
+      <li>
+        <img src="" alt="" class="virus-image">
+        <a href="{% url viruses:info virus.entry_id %}" class="virus-name">
+          <span>{{ virus.name }}<span>
+        </a>
+      </li>
+    {% endfor %}
+    </ul>
+
+  </div>
 {% endblock content %}

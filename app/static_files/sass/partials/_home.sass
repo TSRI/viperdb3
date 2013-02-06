@@ -1,0 +1,46 @@
+#content, div.inner
+  width: $blueprint-container-size
+  margin: 0 auto
+
+header
+  nav
+    +column(24, true)
+    display: inline-block
+    float: none
+
+  span
+    +column(8)
+    +box-sizing(border-box)
+    text-align: center
+    border: 1px solid black
+  span:last-child
+    +column(8, true)
+
+#latest-viruses
+  +column(24, true)
+
+p#virus-count
+  +column(8)
+  span.count
+    font-size: 4em
+    margin-top: 0px
+
+
+ul.virus-list
+  +column(16, true)
+  +box-sizing(border-box)
+  border: 1px solid black
+  padding-left: 10px
+
+  li
+    list-style: none
+    display: inline-block
+    margin: 10px 0 10px 0
+
+    img.virus-image
+      +column(2)
+      height: 50px
+    a.virus-name
+      +column(13)
+      line-height: 50px
+      font-size: .6em

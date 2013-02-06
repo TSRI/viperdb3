@@ -1,0 +1,18 @@
+/* line 3, graph.sass */
+g.interface > rect {
+  padding: 3px;
+  margin: 1px;
+  color: white;
+}
+
+/* line 8, graph.sass */
+.leftSidebar {
+  width: 200px;
+  float: left;
+}
+
+/* line 12, graph.sass */
+.mainContent {
+  width: 760px;
+  float: right;
+}

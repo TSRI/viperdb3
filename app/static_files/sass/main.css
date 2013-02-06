@@ -1,0 +1,216 @@
+/* line 1, partials/_home.sass */
+#content, div.inner {
+  width: 960px;
+  margin: 0 auto;
+}
+
+/* line 6, partials/_home.sass */
+header nav {
+  display: inline;
+  float: left;
+  margin-right: 0;
+  width: 960px;
+  display: inline-block;
+  float: none;
+}
+/* line 147, ../../../../../../var/lib/gems/1.8/gems/compass-0.12.2/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
+* html header nav {
+  overflow-x: hidden;
+}
+/* line 11, partials/_home.sass */
+header span {
+  display: inline;
+  float: left;
+  margin-right: 10px;
+  width: 313.33333px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  text-align: center;
+  border: 1px solid black;
+}
+/* line 147, ../../../../../../var/lib/gems/1.8/gems/compass-0.12.2/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
+* html header span {
+  overflow-x: hidden;
+}
+/* line 16, partials/_home.sass */
+header span:last-child {
+  display: inline;
+  float: left;
+  margin-right: 0;
+  width: 313.33333px;
+}
+/* line 147, ../../../../../../var/lib/gems/1.8/gems/compass-0.12.2/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
+* html header span:last-child {
+  overflow-x: hidden;
+}
+
+/* line 19, partials/_home.sass */
+#latest-viruses {
+  display: inline;
+  float: left;
+  margin-right: 0;
+  width: 960px;
+}
+/* line 147, ../../../../../../var/lib/gems/1.8/gems/compass-0.12.2/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
+* html #latest-viruses {
+  overflow-x: hidden;
+}
+
+/* line 22, partials/_home.sass */
+p#virus-count {
+  display: inline;
+  float: left;
+  margin-right: 10px;
+  width: 313.33333px;
+}
+/* line 147, ../../../../../../var/lib/gems/1.8/gems/compass-0.12.2/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
+* html p#virus-count {
+  overflow-x: hidden;
+}
+/* line 24, partials/_home.sass */
+p#virus-count span.count {
+  font-size: 4em;
+  margin-top: 0px;
+}
+
+/* line 29, partials/_home.sass */
+ul.virus-list {
+  display: inline;
+  float: left;
+  margin-right: 0;
+  width: 636.66667px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  border: 1px solid black;
+  padding-left: 10px;
+}
+/* line 147, ../../../../../../var/lib/gems/1.8/gems/compass-0.12.2/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
+* html ul.virus-list {
+  overflow-x: hidden;
+}
+/* line 35, partials/_home.sass */
+ul.virus-list li {
+  list-style: none;
+  display: inline-block;
+  margin: 10px 0 10px 0;
+}
+/* line 40, partials/_home.sass */
+ul.virus-list li img.virus-image {
+  display: inline;
+  float: left;
+  margin-right: 10px;
+  width: 70.83333px;
+  height: 50px;
+}
+/* line 147, ../../../../../../var/lib/gems/1.8/gems/compass-0.12.2/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
+* html ul.virus-list li img.virus-image {
+  overflow-x: hidden;
+}
+/* line 43, partials/_home.sass */
+ul.virus-list li a.virus-name {
+  display: inline;
+  float: left;
+  margin-right: 10px;
+  width: 515.41667px;
+  line-height: 50px;
+  font-size: 0.6em;
+}
+/* line 147, ../../../../../../var/lib/gems/1.8/gems/compass-0.12.2/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
+* html ul.virus-list li a.virus-name {
+  overflow-x: hidden;
+}
+
+/* line 2, partials/_virus-info.sass */
+section#virus-info {
+  display: inline;
+  float: left;
+  margin-right: 0;
+  width: 838.75px;
+  padding-left: 121.25px;
+  margin-top: 15px;
+}
+/* line 147, ../../../../../../var/lib/gems/1.8/gems/compass-0.12.2/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
+* html section#virus-info {
+  overflow-x: hidden;
+}
+/* line 7, partials/_virus-info.sass */
+section#virus-info div#virus-images {
+  display: inline;
+  float: left;
+  margin-right: 10px;
+  width: 192.08333px;
+}
+/* line 147, ../../../../../../var/lib/gems/1.8/gems/compass-0.12.2/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
+* html section#virus-info div#virus-images {
+  overflow-x: hidden;
+}
+/* line 10, partials/_virus-info.sass */
+section#virus-info div#virus-images .small-images {
+  display: inline-block;
+}
+/* line 13, partials/_virus-info.sass */
+section#virus-info img.virus-image {
+  display: inline;
+  float: left;
+  margin-right: 0;
+  width: 70.83333px;
+  margin-top: 10px;
+  margin: 5px 5px 0px 0px;
+}
+/* line 147, ../../../../../../var/lib/gems/1.8/gems/compass-0.12.2/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
+* html section#virus-info img.virus-image {
+  overflow-x: hidden;
+}
+/* line 18, partials/_virus-info.sass */
+section#virus-info img.main {
+  display: inline;
+  float: left;
+  margin-right: 10px;
+  width: 192.08333px;
+}
+/* line 147, ../../../../../../var/lib/gems/1.8/gems/compass-0.12.2/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
+* html section#virus-info img.main {
+  overflow-x: hidden;
+}
+/* line 21, partials/_virus-info.sass */
+section#virus-info div#virus-biodata {
+  display: inline;
+  float: left;
+  margin-right: 0;
+  width: 636.66667px;
+}
+/* line 147, ../../../../../../var/lib/gems/1.8/gems/compass-0.12.2/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
+* html section#virus-info div#virus-biodata {
+  overflow-x: hidden;
+}
+/* line 24, partials/_virus-info.sass */
+section#virus-info div#virus-biodata p.biodata-row {
+  margin: 5px 0 5px 0;
+}
+/* line 27, partials/_virus-info.sass */
+section#virus-info div#virus-biodata p.biodata-row.name {
+  font-size: 1.75em;
+}
+
+/* line 31, partials/_virus-info.sass */
+section#accessible-surface-profiles {
+  display: inline;
+  float: left;
+  margin-right: 0;
+  width: 838.75px;
+  display: inline;
+  float: left;
+  position: relative;
+  margin: 0 -121.25px 1.5em 121.25px;
+}
+/* line 147, ../../../../../../var/lib/gems/1.8/gems/compass-0.12.2/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
+* html section#accessible-surface-profiles {
+  overflow-x: hidden;
+}
+/* line 35, partials/_virus-info.sass */
+section#accessible-surface-profiles .js-asa-chart {
+  border: 1px solid black;
+  margin-bottom: 15px;
+}
