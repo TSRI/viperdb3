@@ -1,10 +1,12 @@
+@import url(http://fonts.googleapis.com/css?family=Source+Sans+Pro:400);
 /* line 1, partials/_home.sass */
 #content, div.inner {
   width: 960px;
   margin: 0 auto;
+  font-family: Source Sans Pro;
 }
 
-/* line 6, partials/_home.sass */
+/* line 7, partials/_home.sass */
 header nav {
   display: inline;
   float: left;
@@ -17,7 +19,7 @@ header nav {
 * html header nav {
   overflow-x: hidden;
 }
-/* line 11, partials/_home.sass */
+/* line 12, partials/_home.sass */
 header span {
   display: inline;
   float: left;
@@ -33,7 +35,7 @@ header span {
 * html header span {
   overflow-x: hidden;
 }
-/* line 16, partials/_home.sass */
+/* line 17, partials/_home.sass */
 header span:last-child {
   display: inline;
   float: left;
@@ -45,7 +47,7 @@ header span:last-child {
   overflow-x: hidden;
 }
 
-/* line 19, partials/_home.sass */
+/* line 20, partials/_home.sass */
 #latest-viruses {
   display: inline;
   float: left;
@@ -57,7 +59,7 @@ header span:last-child {
   overflow-x: hidden;
 }
 
-/* line 22, partials/_home.sass */
+/* line 23, partials/_home.sass */
 p#virus-count {
   display: inline;
   float: left;
@@ -68,13 +70,13 @@ p#virus-count {
 * html p#virus-count {
   overflow-x: hidden;
 }
-/* line 24, partials/_home.sass */
+/* line 25, partials/_home.sass */
 p#virus-count span.count {
   font-size: 4em;
   margin-top: 0px;
 }
 
-/* line 29, partials/_home.sass */
+/* line 30, partials/_home.sass */
 ul.virus-list {
   display: inline;
   float: left;
@@ -90,13 +92,13 @@ ul.virus-list {
 * html ul.virus-list {
   overflow-x: hidden;
 }
-/* line 35, partials/_home.sass */
+/* line 36, partials/_home.sass */
 ul.virus-list li {
   list-style: none;
   display: inline-block;
   margin: 10px 0 10px 0;
 }
-/* line 40, partials/_home.sass */
+/* line 41, partials/_home.sass */
 ul.virus-list li img.virus-image {
   display: inline;
   float: left;
@@ -108,7 +110,7 @@ ul.virus-list li img.virus-image {
 * html ul.virus-list li img.virus-image {
   overflow-x: hidden;
 }
-/* line 43, partials/_home.sass */
+/* line 44, partials/_home.sass */
 ul.virus-list li a.virus-name {
   display: inline;
   float: left;
