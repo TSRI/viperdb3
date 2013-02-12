@@ -1,14 +1,45 @@
 
+.name
+  font-size: 1.75em
+  margin-bottom: 0px
+
+section.info-section
+  +column(24, true)
+
 section#virus-info
-  +column(21, true)
-  +prepend(3)
-  margin-top: 15px
+  +column(19)
+  #virus-nav
+    margin: 5px 0 5px 0
+    padding-left: 0px
+    li
+      display: inline
+      list-style-type: none
+      padding-right: 20px
 
-  div#virus-images
-    +column(5)
+  .biodata-row
+    margin: 5px 0 5px 0
 
-    .small-images
-      display: inline-block
+    .title
+      font-weight: bold
+
+section#sidebar
+  +column(5, true)
+  float: none
+  display: inline-block
+  
+  h4
+    margin: 5px 0
+  ul 
+    padding-left: 0px
+    margin-top: 5px
+    li
+      list-style-type: none
+
+
+section#illustrations
+  +column(19)
+  .small-images
+    display: inline-block
 
   img.virus-image
     +column(2, true)
@@ -18,21 +49,13 @@ section#virus-info
   img.main
     +column(5)
 
-  div#virus-biodata
-    +column(16, true)
-
-    p.biodata-row
-      margin: 5px 0 5px 0
-
-      &.name
-        font-size: 1.75em
-
-
 section#accessible-surface-profiles
-  +column(21, true)
-  +push(3)
-
   .js-asa-chart
+    float: left
     border: 1px solid black
     margin-bottom: 15px
+
+  p.title
+    text-indent: 15px
+    margin: 10px 0 5px 0
 

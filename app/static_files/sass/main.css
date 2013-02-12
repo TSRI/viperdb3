@@ -6,12 +6,28 @@
   font-family: Source Sans Pro;
 }
 
-/* line 7, partials/_home.sass */
+/* line 6, partials/_home.sass */
+#content {
+  margin-top: 10px;
+}
+
+/* line 9, partials/_home.sass */
+header {
+  font-family: Source Sans Pro;
+  border-bottom: 1px solid black;
+}
+/* line 13, partials/_home.sass */
+header h2 {
+  margin: 5px 0 5px 0;
+  display: inline-block;
+}
+/* line 16, partials/_home.sass */
 header nav {
   display: inline;
   float: left;
   margin-right: 0;
-  width: 960px;
+  width: 717.5px;
+  padding-left: 40.41667px;
   display: inline-block;
   float: none;
 }
@@ -19,12 +35,12 @@ header nav {
 * html header nav {
   overflow-x: hidden;
 }
-/* line 12, partials/_home.sass */
+/* line 21, partials/_home.sass */
 header span {
   display: inline;
   float: left;
   margin-right: 10px;
-  width: 313.33333px;
+  width: 232.5px;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
@@ -35,7 +51,7 @@ header span {
 * html header span {
   overflow-x: hidden;
 }
-/* line 17, partials/_home.sass */
+/* line 26, partials/_home.sass */
 header span:last-child {
   display: inline;
   float: left;
@@ -47,7 +63,7 @@ header span:last-child {
   overflow-x: hidden;
 }
 
-/* line 20, partials/_home.sass */
+/* line 29, partials/_home.sass */
 #latest-viruses {
   display: inline;
   float: left;
@@ -59,7 +75,7 @@ header span:last-child {
   overflow-x: hidden;
 }
 
-/* line 23, partials/_home.sass */
+/* line 32, partials/_home.sass */
 p#virus-count {
   display: inline;
   float: left;
@@ -70,13 +86,13 @@ p#virus-count {
 * html p#virus-count {
   overflow-x: hidden;
 }
-/* line 25, partials/_home.sass */
+/* line 34, partials/_home.sass */
 p#virus-count span.count {
   font-size: 4em;
   margin-top: 0px;
 }
 
-/* line 30, partials/_home.sass */
+/* line 39, partials/_home.sass */
 ul.virus-list {
   display: inline;
   float: left;
@@ -92,13 +108,13 @@ ul.virus-list {
 * html ul.virus-list {
   overflow-x: hidden;
 }
-/* line 36, partials/_home.sass */
+/* line 45, partials/_home.sass */
 ul.virus-list li {
   list-style: none;
   display: inline-block;
   margin: 10px 0 10px 0;
 }
-/* line 41, partials/_home.sass */
+/* line 50, partials/_home.sass */
 ul.virus-list li img.virus-image {
   display: inline;
   float: left;
@@ -110,7 +126,7 @@ ul.virus-list li img.virus-image {
 * html ul.virus-list li img.virus-image {
   overflow-x: hidden;
 }
-/* line 44, partials/_home.sass */
+/* line 53, partials/_home.sass */
 ul.virus-list li a.virus-name {
   display: inline;
   float: left;
@@ -125,35 +141,98 @@ ul.virus-list li a.virus-name {
 }
 
 /* line 2, partials/_virus-info.sass */
-section#virus-info {
+.name {
+  font-size: 1.75em;
+  margin-bottom: 0px;
+}
+
+/* line 6, partials/_virus-info.sass */
+section.info-section {
   display: inline;
   float: left;
   margin-right: 0;
-  width: 838.75px;
-  padding-left: 121.25px;
-  margin-top: 15px;
+  width: 960px;
+}
+/* line 147, ../../../../../../var/lib/gems/1.8/gems/compass-0.12.2/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
+* html section.info-section {
+  overflow-x: hidden;
+}
+
+/* line 9, partials/_virus-info.sass */
+section#virus-info {
+  display: inline;
+  float: left;
+  margin-right: 10px;
+  width: 757.91667px;
 }
 /* line 147, ../../../../../../var/lib/gems/1.8/gems/compass-0.12.2/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
 * html section#virus-info {
   overflow-x: hidden;
 }
-/* line 7, partials/_virus-info.sass */
-section#virus-info div#virus-images {
+/* line 11, partials/_virus-info.sass */
+section#virus-info #virus-nav {
+  margin: 5px 0 5px 0;
+  padding-left: 0px;
+}
+/* line 14, partials/_virus-info.sass */
+section#virus-info #virus-nav li {
+  display: inline;
+  list-style-type: none;
+  padding-right: 20px;
+}
+/* line 19, partials/_virus-info.sass */
+section#virus-info .biodata-row {
+  margin: 5px 0 5px 0;
+}
+/* line 22, partials/_virus-info.sass */
+section#virus-info .biodata-row .title {
+  font-weight: bold;
+}
+
+/* line 25, partials/_virus-info.sass */
+section#sidebar {
+  display: inline;
+  float: left;
+  margin-right: 0;
+  width: 192.08333px;
+  float: none;
+  display: inline-block;
+}
+/* line 147, ../../../../../../var/lib/gems/1.8/gems/compass-0.12.2/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
+* html section#sidebar {
+  overflow-x: hidden;
+}
+/* line 30, partials/_virus-info.sass */
+section#sidebar h4 {
+  margin: 5px 0;
+}
+/* line 32, partials/_virus-info.sass */
+section#sidebar ul {
+  padding-left: 0px;
+  margin-top: 5px;
+}
+/* line 35, partials/_virus-info.sass */
+section#sidebar ul li {
+  list-style-type: none;
+}
+
+/* line 39, partials/_virus-info.sass */
+section#illustrations {
   display: inline;
   float: left;
   margin-right: 10px;
-  width: 192.08333px;
+  width: 757.91667px;
 }
 /* line 147, ../../../../../../var/lib/gems/1.8/gems/compass-0.12.2/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
-* html section#virus-info div#virus-images {
+* html section#illustrations {
   overflow-x: hidden;
 }
-/* line 10, partials/_virus-info.sass */
-section#virus-info div#virus-images .small-images {
+/* line 41, partials/_virus-info.sass */
+section#illustrations .small-images {
   display: inline-block;
 }
-/* line 13, partials/_virus-info.sass */
-section#virus-info img.virus-image {
+/* line 44, partials/_virus-info.sass */
+section#illustrations img.virus-image {
   display: inline;
   float: left;
   margin-right: 0;
@@ -162,57 +241,29 @@ section#virus-info img.virus-image {
   margin: 5px 5px 0px 0px;
 }
 /* line 147, ../../../../../../var/lib/gems/1.8/gems/compass-0.12.2/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
-* html section#virus-info img.virus-image {
+* html section#illustrations img.virus-image {
   overflow-x: hidden;
 }
-/* line 18, partials/_virus-info.sass */
-section#virus-info img.main {
+/* line 49, partials/_virus-info.sass */
+section#illustrations img.main {
   display: inline;
   float: left;
   margin-right: 10px;
   width: 192.08333px;
 }
 /* line 147, ../../../../../../var/lib/gems/1.8/gems/compass-0.12.2/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
-* html section#virus-info img.main {
+* html section#illustrations img.main {
   overflow-x: hidden;
-}
-/* line 21, partials/_virus-info.sass */
-section#virus-info div#virus-biodata {
-  display: inline;
-  float: left;
-  margin-right: 0;
-  width: 636.66667px;
-}
-/* line 147, ../../../../../../var/lib/gems/1.8/gems/compass-0.12.2/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
-* html section#virus-info div#virus-biodata {
-  overflow-x: hidden;
-}
-/* line 24, partials/_virus-info.sass */
-section#virus-info div#virus-biodata p.biodata-row {
-  margin: 5px 0 5px 0;
-}
-/* line 27, partials/_virus-info.sass */
-section#virus-info div#virus-biodata p.biodata-row.name {
-  font-size: 1.75em;
 }
 
-/* line 31, partials/_virus-info.sass */
-section#accessible-surface-profiles {
-  display: inline;
-  float: left;
-  margin-right: 0;
-  width: 838.75px;
-  display: inline;
-  float: left;
-  position: relative;
-  margin: 0 -121.25px 1.5em 121.25px;
-}
-/* line 147, ../../../../../../var/lib/gems/1.8/gems/compass-0.12.2/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
-* html section#accessible-surface-profiles {
-  overflow-x: hidden;
-}
-/* line 35, partials/_virus-info.sass */
+/* line 53, partials/_virus-info.sass */
 section#accessible-surface-profiles .js-asa-chart {
+  float: left;
   border: 1px solid black;
   margin-bottom: 15px;
+}
+/* line 58, partials/_virus-info.sass */
+section#accessible-surface-profiles p.title {
+  text-indent: 15px;
+  margin: 10px 0 5px 0;
 }

@@ -3,14 +3,23 @@
   margin: 0 auto
   font-family: Source Sans Pro
 
+#content
+  margin-top: 10px
+
 header
+  font-family: Source Sans Pro
+  border-bottom: 1px solid black
+  
+  h2
+    margin: 5px 0 5px 0
+    display: inline-block
   nav
-    +column(24, true)
+    +column(18, true)
+    +prepend(1)
     display: inline-block
     float: none
-
   span
-    +column(8)
+    +column(6)
     +box-sizing(border-box)
     text-align: center
     border: 1px solid black

@@ -11,52 +11,19 @@
 {% endblock styles %}
 
 {% block content %}
+  <input id="js-entry_key" type='hidden' value="{{ virus.entry_key }}"></input>
+  <h1 class="name">{{ virus.name }}</h1>
+  {% include "virus/_info_biodata.html" %}
+  {% include "virus/_info_illustrations.html" %}
+  {% include "virus/_info_sidebar.html" %}
+  {% include "virus/_info_graphs.html" %}
 
-<section id="virus-info">
-  <div id="virus-images">
-    <img src="http://placekitten.com/g/150/150" alt="" class="main">
-    <div class="small-images">
-      {# for image in virus.images #}
-      <img src="http://placekitten.com/g/92/92" alt=""
-           class="virus-image"
-           data-fresco-group="virus-images">
-      <img src="http://placekitten.com/g/92/92" alt=""
-           class="virus-image"
-           data-fresco-group="virus-images">
-      <img src="http://placekitten.com/g/92/92" alt=""
-           class="virus-image"
-           data-fresco-group="virus-images">
-      {# endfor #}
-    </div>
-  </div>
-  <div id="virus-biodata">
-    <p class="biodata-row name">{{ virus.name }}</p>
-    <p class="biodata-row">PDB ID: {{ virus }}</p>
-    <p class="biodata-row">Entry Key: {{ virus.entry_key }}</p>
-    <p class="biodata-row">Family: <span class="text">
-      <a href="{% url families:info virus.family %}">{{ virus.family }}</a>
-    </span></p>
-    <p class="biodata-row">Genus: <span class="text">{{ virus.genus }}</span></p>
-    <p class="biodata-row">T-Number: <span class="text">{{ virus.get_tnumber }}</span></p>
-  </div>
-</section>
-
-<!-- <a href="{% url viruses:phi_psi virus.entry_id %}">Phi-Psi Explorer</a> -->
-
-<input id="js-entry_key" type='hidden' value="{{ virus.entry_key }}"></input>
-
-
-<section id="accessible-surface-profiles">
-<h2>Accessible Surface Profiles</h2>
-{% for chain in chains %}
-<div id="graph-{{chain.label_asym_id}}" class="js-asa-chart">
-    <input class="js-chain-id" type='hidden' value="{{ chain.label_asym_id }}">
-    </input>
-    Subunit {{ chain.label_asym_id }}
 </div>
-{% endfor %}
-</section>
+
 
 
 
 {% endblock content %}
+
+<!-- <a href="{% url viruses:phi_psi virus.entry_id %}">Phi-Psi Explorer</a> -->
+

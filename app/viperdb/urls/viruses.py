@@ -1,6 +1,8 @@
 from django.conf.urls.defaults import patterns, url
+
 from viperdb.views.add_entry import (StepOneView, StepTwoView, StepThreeView,
-                                     StepFourView, StepFiveView)
+                                     StepFourView, StepFiveView,)
+from viperdb.views.viruses import VirusInfoView, VirusListView
 
 urlpatterns = patterns("viperdb.views.add_entry",
     url(r"^add_entry$", StepOneView.as_view(), name="step_one"),
@@ -12,8 +14,8 @@ urlpatterns = patterns("viperdb.views.add_entry",
 )
 
 urlpatterns += patterns("viperdb.views.viruses",
-    url(r"^$", "index", name="index"),
-    url(r"^(?P<entry_id>[a-zA-Z0-9]{4})$",                   "info", name="info"),
+    url(r"^$", VirusListView.as_view(), name="index"),
+    url(r"^(?P<entry_id>[a-zA-Z0-9]{4})$", VirusInfoView.as_view(), name="info"),
     url(r"^(?P<entry_id>[a-zA-Z0-9]{4})/phi_psi$",           "phi_psi", name="phi_psi"),
 )
 

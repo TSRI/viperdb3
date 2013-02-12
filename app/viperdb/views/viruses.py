@@ -4,6 +4,7 @@ from datetime import datetime
 from django.core.urlresolvers import reverse
 from django.forms.formsets import formset_factory
 from django.shortcuts import redirect, get_object_or_404
+from django.views.generic import DetailView, ListView
 
 from annoying.decorators import render_to, ajax_request
 from annoying.functions import get_object_or_None
@@ -19,16 +20,22 @@ from viperdb.forms import (VirusForm, InitialVirusForm, LayerForm,
                            MatrixChoiceForm, ChainForm, MoveChainForm, 
                            ImageAnalysisForm)
 
-@render_to("virus/index.html")
-def index(request):
-    viruses = Virus.objects.all()
-    return {"viruses": viruses}
+class VirusListView(ListView):
+    model = Virus
+    template_name = 'virus/index.html'
+    context_object_name = 'viruses'
 
-@render_to("virus/info.html")
-def info(request, entry_id):
-    virus = get_object_or_404(Virus, entry_id=entry_id)
-    chains = virus.get_chains()
-    return {"virus": virus, "chains": chains}
+class VirusInfoView(DetailView):
+    pk_url_kwarg = 'entry_id'
+    context_object_name = 'virus'
+    model = Virus
+    template_name = 'virus/info.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(VirusInfoView, self).get_context_data(**kwargs)
+        chains = self.get_object().get_chains()
+        context.update({'chains': chains})
+        return context
 
 @render_to("virus/phi_psi.html")
 def phi_psi(request, entry_id):

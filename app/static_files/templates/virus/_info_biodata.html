@@ -1,0 +1,33 @@
+<section id="virus-info" class="info-section">
+  <div id="main-info">
+    <ul id="virus-nav">
+      <li>biodata</li>
+      <li>annotations</li>
+      <li>related viruses</li>
+      <li>references</li>
+    </ul>
+
+    <p class="biodata-row">
+      <span class="title">PDB ID: </span>
+      <span class="text">{{ virus }}</span>
+    </p>
+    <p class="biodata-row">
+      <span class="title">Entry Key: </span> 
+      <span class="text">{{ virus.entry_key }}</span>
+    </p>
+    <p class="biodata-row">
+      <span class="title">Family: </span>
+      <span class="text"> 
+        <a href="{% url families:info virus.family %}">{{ virus.family }}</a>
+      </span>
+    </p>
+    <p class="biodata-row">
+      <span class="title">Genus: </span>
+      <span class="text">{{ virus.genus }}</span>
+    </p>
+    <p class="biodata-row">
+      <span class="title">T-Number: </span>
+      <span class="text">{{ virus.get_tnumber }}</span>
+    </p>
+  </div>
+</section>

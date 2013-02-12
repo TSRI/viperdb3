@@ -20,7 +20,7 @@ $ ->
 
     get_chain_info(chain) for chain in chains
 
-    WIDTH = 840
+    WIDTH = 960
     HEIGHT = 300
     MARGINS =  {top: 30, right: 30, bottom: 30, left: 50}
 
