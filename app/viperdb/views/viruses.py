@@ -33,8 +33,11 @@ class VirusInfoView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(VirusInfoView, self).get_context_data(**kwargs)
-        chains = self.get_object().get_chains()
-        context.update({'chains': chains})
+        virus = self.get_object()
+
+        chains = virus.get_chains()
+        interfaces = virus.get_interfaces()
+        context.update({'chains': chains, 'interfaces': interfaces})
         return context
 
 @render_to("virus/phi_psi.html")

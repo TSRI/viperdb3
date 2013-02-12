@@ -117,6 +117,16 @@ class VirusEnergy(models.Model):
     viper_matrix_2 = models.IntegerField(db_column='viper_matrix_2')
     assocn_nrg_total = models.FloatField(db_column='assocn_nrg_total')
     bsa_total = models.FloatField(db_column='bsa_total')
+    solvn_nrg_total = models.FloatField(db_column='solvn_nrg_total')
+    interface_type = models.CharField(max_length=255, db_column='interface_type')
+    symmetry = models.IntegerField(db_column='symmetry')
+
+    def __unicode__(self):
+        return ("%(auth_1_asym_id)s%(viper_matrix_1)s" +
+               "-%(auth_2_asym_id)s%(viper_matrix_2)s") % self.__dict__
+
+    def get_symmetry(self):
+        return "%(interface_type)s-%(symmetry)s" % self.__dict__
 
 
 class Struct(models.Model):

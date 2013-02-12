@@ -257,12 +257,36 @@ section#illustrations img.main {
 }
 
 /* line 53, partials/_virus-info.sass */
+section#association-energies table, section#association-energies tbody, section#association-energies tr {
+  display: inline;
+  float: left;
+  margin-right: 0;
+  width: 960px;
+}
+/* line 147, ../../../../../../var/lib/gems/1.8/gems/compass-0.12.2/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
+* html section#association-energies table, * html section#association-energies tbody, * html section#association-energies tr {
+  overflow-x: hidden;
+}
+/* line 55, partials/_virus-info.sass */
+section#association-energies th, section#association-energies td {
+  display: inline;
+  float: left;
+  margin-right: 0;
+  width: 151.66667px;
+  text-align: center;
+}
+/* line 147, ../../../../../../var/lib/gems/1.8/gems/compass-0.12.2/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
+* html section#association-energies th, * html section#association-energies td {
+  overflow-x: hidden;
+}
+
+/* line 60, partials/_virus-info.sass */
 section#accessible-surface-profiles .js-asa-chart {
   float: left;
   border: 1px solid black;
   margin-bottom: 15px;
 }
-/* line 58, partials/_virus-info.sass */
+/* line 65, partials/_virus-info.sass */
 section#accessible-surface-profiles p.title {
   text-indent: 15px;
   margin: 10px 0 5px 0;

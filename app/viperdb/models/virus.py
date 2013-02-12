@@ -5,7 +5,7 @@ from django.db.models.deletion import CASCADE
 
 from celery.execute import send_task
 
-from viperdb.models import VirusResidueAsa
+from viperdb.models import VirusResidueAsa, VirusEnergy
 
 class VirusAdmin(admin.ModelAdmin):
     actions = ['start_analysis', 'generate_images']
@@ -91,6 +91,18 @@ class Virus (models.Model):
         queryset = VirusResidueAsa.objects.filter(entry_key=self.entry_key)
         queryset.query.group_by = ['label_asym_id']
         return queryset
+
+    def get_interfaces(self):
+        interfaces = (VirusEnergy.objects.filter(entry_key=self.entry_key)
+                .order_by('assocn_nrg_total'))
+
+        interface = max(interfaces, key=lambda x: 'assocn_nrg_total')
+        max_association_energy = interface.assocn_nrg_total
+        for interface in interfaces:
+            percent = (interface.assocn_nrg_total / max_association_energy) * 100
+            interface.relative_strength = "%.0f%%" % percent
+
+        return interfaces
 
     def analyze(self):
         send_task('virus.start_analysis', args=[self.entry_id])
