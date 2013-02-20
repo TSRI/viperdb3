@@ -176,3 +176,50 @@ class VirusResidueAsa(models.Model):
     radius_aa = models.FloatField(db_column="radius_aa")
     radius_min = models.FloatField(db_column="radius_min")
     sasa_bound = models.FloatField(db_column="sasa_bound")
+
+class Qscore(models.Model):
+    """ Unmanaged model for qscore. Some fields are not completed """
+    class Meta:
+        app_label = "viperdb"
+        db_table = "qscore"
+        managed = False
+
+    qscore_key = models.AutoField(primary_key=True)
+    entry_id = models.ForeignKey("Virus", db_column="entry_id", related_name='qscore')
+    face_1_asym_id_1 = models.CharField(max_length=255, db_column='face_1_asym_id_1')
+    face_1_asym_id_2 = models.CharField(max_length=255, db_column='face_1_asym_id_2')
+    face_1_matrix_1  = models.IntegerField(db_column='face_1_matrix_1')
+    face_1_matrix_2  = models.IntegerField(db_column='face_1_matrix_2')
+    face_1_type = models.CharField(max_length=10, db_column='face_1_type')
+    face_1_symm = models.IntegerField(db_column='face_1_symm')
+    face_2_asym_id_1 = models.CharField(max_length=255, db_column='face_2_asym_id_1')
+    face_2_asym_id_2 = models.CharField(max_length=255, db_column='face_2_asym_id_2')
+    face_2_matrix_1  = models.IntegerField(db_column='face_2_matrix_1')
+    face_2_matrix_2  = models.IntegerField(db_column='face_2_matrix_2')
+    face_2_type = models.CharField(max_length=10, db_column='face_2_type')
+    face_2_symm = models.IntegerField(db_column='face_2_symm')
+    shared = models.IntegerField(db_column='shared')
+    numcon_1 = models.IntegerField(db_column='numcon_1')
+    numcon_2 = models.IntegerField(db_column='numcon_2')
+    qscore = models.IntegerField(db_column='qscore')
+
+    def get_interface_repr(self):
+        inter_str = "%(asym)s%(matrix)s"
+
+        inter_1 = inter_str % {'asym': self.face_1_asym_id_1, "matrix": self.face_1_matrix_1}
+        inter_2 = inter_str % {'asym': self.face_1_asym_id_2, "matrix": self.face_1_matrix_2}
+        repr_str = "%s-%s" % (inter_1, inter_2)
+
+        inter_1 = inter_str % {'asym': self.face_2_asym_id_1, "matrix": self.face_2_matrix_1}
+        inter_2 = inter_str % {'asym': self.face_2_asym_id_2, "matrix": self.face_2_matrix_2}
+        repr_str += ":%s-%s" % (inter_1, inter_2)
+        return repr_str
+
+    def get_type_repr(self):
+        return "%(face_1_type)s-%(face_1_symm)s:%(face_2_type)s-%(face_2_symm)s" % self.__dict__
+
+
+
+
+
+

@@ -8,7 +8,7 @@ def virtualenv(command):
     return "%s %s" % (env.activate, command)
 
 def manage(cmd):
-    local('python app/manage.py %s' % (cmd))
+    local('export DJANGO_SETTINGS_MODULE=settings.production && python app/manage.py %s' % (cmd))
 
 def bootstrap():
     bootstrap_server()

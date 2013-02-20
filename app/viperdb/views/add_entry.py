@@ -29,7 +29,7 @@ class StepOneView(FormView):
         return super(StepOneView, self).dispatch(request, *args, **kwargs)
 
     def get_success_url(self):
-        return reverse('virus:step_two')
+        return reverse('viruses:step_two')
 
     def form_valid(self, form):
         entry_id = form.cleaned_data['entry_id']
@@ -50,7 +50,7 @@ class StepOneView(FormView):
             task = send_task('virus.check_file_count', args=[entry_id], 
                              kwargs={})
             if task.get() is not 2:
-                return redirect(reverse('virus:add_entry'))
+                return redirect(reverse('viruses:add_entry'))
             # else:
             #     send_task('virus.run_pdbase', args=[entry_id], kwargs={})
         elif pdb_file_source == InitialVirusForm.FILE_UPLOAD:
@@ -86,7 +86,7 @@ class StepTwoView(FormView):
         return kwargs
 
     def get_success_url(self):
-        return reverse('virus:step_three')
+        return reverse('viruses:step_three')
 
     def post(self, request, *args, **kwargs):
         virus_form = self.get_form(self.form_class)
@@ -258,7 +258,7 @@ class StepThreeView(FormView):
                 pass
 
         send_task('virus.make_vdb', args=[request.session['entry_id']], kwargs={})
-        return redirect(reverse('virus:step_four'))
+        return redirect(reverse('viruses:step_four'))
 
     def form_invalid(self, request, virus, matrix_form, chain_formset):
         pass
@@ -322,7 +322,7 @@ class StepFourView(FormView):
                                        int(form.cleaned_data['matrix_selection']))
                 au_matrix.save()
             send_task('virus.make_vdb', args=[entry_id], kwargs={})
-            return redirect(reverse("virus:step_four"))
+            return redirect(reverse("viruses:step_four"))
         else:
             save_diameters(self.virus, self.diameters)
 
@@ -337,7 +337,7 @@ class StepFourView(FormView):
             elif ia_choice == ImageAnalysisForm.NO_ACTION:
                 pass
 
-            return redirect(reverse("virus:step_five"))
+            return redirect(reverse("viruses:step_five"))
 
     def form_invalid(self, form, ia_form):
         pass
