@@ -160,14 +160,14 @@ DEBUG_TOOLBAR_CONFIG = {
 PIPELINE_JS = {
     'main': {
         'source_filenames': (
-            'js/jquery.min.js',
-            'js/underscore-min.js',
+            'vendor/js/jquery.min.js',
+            'vendor/js/underscore-min.js',
         ),
         'output_filename': 'js/main.js',
     },
     'add_entry': {
         'source_filenames': (
-            'js/jquery.formset.min.js',
+            'vendor/js/jquery.formset.min.js',
         ),
         'output_filename': 'js/add_entry.js',
         'variant': 'datauri',
@@ -182,12 +182,21 @@ PIPELINE_JS = {
     },
     'graph': {
         'source_filenames': (
-            'js/d3.v2.min.js',
-            'js/d3.tip.min.js',
+            'vendor/js/d3.v2.min.js',
+            'vendor/js/d3.tip.min.js',
             'js/virus/graph.coffee',
             'js/virus/scatter-graph.coffee',
         ),
         'output_filename': 'js/graph.js',
+        'variant': 'datauri',
+    },
+    'images': {
+        'source_filenames': (
+            'vendor/js/fresco.js',
+            'vendor/js/carouFredSel-6.2.0/jquery.carouFredSel-6.2.0.js',
+            'js/virus/info.coffee',
+        ),
+        'output_filename': 'js/images.js',
         'variant': 'datauri',
     },
 }
@@ -201,7 +210,10 @@ PIPELINE_CSS = {
         ),
         'output_filename': 'stylesheets/graph.css',
         'variant': 'datauri',
-    }
+    },
+    'images': {
+        'source_filenames': ('vendor/css/fresco/fresco.css',)
+    },
 }
 PIPELINE_COMPILERS = (
     'pipeline.compilers.coffee.CoffeeScriptCompiler',    
