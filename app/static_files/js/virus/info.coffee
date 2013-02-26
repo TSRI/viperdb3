@@ -1,4 +1,17 @@
-$ ->
+$(document).ready ->
+    $(".fancybox-thumb").fancybox
+        prevEffect: 'none'
+        nextEffect: 'none'
+
+        closeBtn: false
+        arrows: false
+        nextClick: true
+
+        helpers:
+            thumbs:
+                width: 50
+                height: 50
+    
     $("#virus-images").carouFredSel
         items: 
             start: 0

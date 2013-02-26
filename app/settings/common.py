@@ -192,7 +192,8 @@ PIPELINE_JS = {
     },
     'images': {
         'source_filenames': (
-            'vendor/js/fresco.js',
+            'vendor/js/fancyBox/jquery.fancybox.js',
+            'vendor/js/fancyBox/helpers/jquery.fancybox-thumbs.js',
             'vendor/js/carouFredSel-6.2.0/jquery.carouFredSel-6.2.0.js',
             'js/virus/info.coffee',
         ),
@@ -212,7 +213,13 @@ PIPELINE_CSS = {
         'variant': 'datauri',
     },
     'images': {
-        'source_filenames': ('vendor/css/fresco/fresco.css',)
+        'source_filenames': (
+            'vendor/css/fancyBox/jquery.fancybox.css',
+            'vendor/css/fancyBox/jquery.fancybox-buttons.css',
+            'vendor/css/fancyBox/jquery.fancybox-thumbs.css',
+        ),
+        'output_filename': 'stylesheets/fancybox.css',
+        'variant': 'datauri',
     },
 }
 PIPELINE_COMPILERS = (
@@ -224,6 +231,7 @@ PIPELINE_COMPASS_BINARY = '/usr/local/bin/compass'
 PIPELINE_CSS_COMPRESSOR = None
 PIPELINE_JS_COMPRESSOR = None
 STATICFILES_STORAGE = "pipeline.storage.PipelineCachedStorage"
+PIPELINE_DISABLE_WRAPPER = True
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
