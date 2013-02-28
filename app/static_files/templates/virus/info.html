@@ -5,6 +5,7 @@
 {% block scripts %}
     {% compressed_js 'graph' %}
     {% compressed_js 'images' %}
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.0/jquery-ui.min.js"></script>
 {% endblock scripts %}
 
 {% block styles %}
@@ -18,6 +19,13 @@
   {% include "virus/_info_biodata.html" %}
   {% include "virus/_info_illustrations.html" %}
   {% include "virus/_info_sidebar.html" %}
+
+  <nav id="tabs">
+    <li><a href="#association-energies">Association Energies</a></li>
+    <li><a href="#qscore">Qscores</a></li>
+    <li><a href="#accessible-surface-profiles">Accessible Surface Profiles</a></li>
+  </nav>
+
   {% include "virus/_info_association_energies.html" %}
   {% include "virus/_info_qscore.html" %}
   {% include "virus/_info_graphs.html" %}

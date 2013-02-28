@@ -1,4 +1,7 @@
 $(document).ready ->
+
+    $("#tabs").tabs()
+
     $(".fancybox-thumb").fancybox
         prevEffect: 'none'
         nextEffect: 'none'
