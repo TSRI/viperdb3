@@ -54,7 +54,7 @@
       return $("label[for=id_unique_relative_id], #id_unique_relative_id")[this.checked ? "hide" : "show"]();
     });
     return $.ajax({
-      url: "http://localhost:8000/viruses/add_entry/start_pdbase",
+      url: "http://localhost:8000/admin/add_entry/start_pdbase",
       data: {
         entry_id: $('#entry_id').attr("value"),
         format: 'json'

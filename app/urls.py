@@ -8,6 +8,9 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     url(r'^$',          'viperdb.views.misc.home', name='home'),
+    url(r'^admin/add_entry/', include('viperdb.urls.add_entry', 
+                                      namespace='add_entry', 
+                                      app_name='viperdb')),
     url(r'^admin/',     include(admin.site.urls)),
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     url(r'^viruses/',     include('viperdb.urls.viruses', namespace='viruses', 

@@ -21,7 +21,7 @@ from viperdb.models import (MmsEntry, Virus, Entity, StructRef, LayerEntity,
 from viperdb.helpers import get_mismatched_chains
 
 class StepOneView(FormView):
-    template_name = "virus/step_one.html"
+    template_name = "add_entry/step_one.html"
     form_class = InitialVirusForm
 
     @method_decorator(login_required)
@@ -29,7 +29,7 @@ class StepOneView(FormView):
         return super(StepOneView, self).dispatch(request, *args, **kwargs)
 
     def get_success_url(self):
-        return reverse('viruses:step_two')
+        return reverse('add_entry:step_two')
 
     def form_valid(self, form):
         entry_id = form.cleaned_data['entry_id']
@@ -50,7 +50,7 @@ class StepOneView(FormView):
             task = send_task('virus.check_file_count', args=[entry_id], 
                              kwargs={})
             if task.get() is not 2:
-                return redirect(reverse('viruses:add_entry'))
+                return redirect(reverse('add_entry:step_one'))
             # else:
             #     send_task('virus.run_pdbase', args=[entry_id], kwargs={})
         elif pdb_file_source == InitialVirusForm.FILE_UPLOAD:
@@ -75,7 +75,7 @@ class StepOneView(FormView):
 
 
 class StepTwoView(FormView):
-    template_name = "virus/step_two.html"
+    template_name = "add_entry/step_two.html"
     form_class = VirusForm
 
     def get_context_data(self, **kwargs):
@@ -86,7 +86,7 @@ class StepTwoView(FormView):
         return kwargs
 
     def get_success_url(self):
-        return reverse('viruses:step_three')
+        return reverse('add_entry:step_three')
 
     def post(self, request, *args, **kwargs):
         virus_form = self.get_form(self.form_class)
@@ -184,7 +184,7 @@ def prepare_layer_entities(virus, virus_polymers, layer, entity_choices, entity_
             yield layer_entity
 
 class StepThreeView(FormView):
-    template_name = "virus/step_three.html"
+    template_name = "add_entry/step_three.html"
     form_class = MatrixChoiceForm
     unit_matrix = [1,0,0,0,
                    0,1,0,0,
@@ -258,7 +258,7 @@ class StepThreeView(FormView):
                 pass
 
         send_task('virus.make_vdb', args=[request.session['entry_id']], kwargs={})
-        return redirect(reverse('viruses:step_four'))
+        return redirect(reverse('add_entry:step_four'))
 
     def form_invalid(self, request, virus, matrix_form, chain_formset):
         pass
@@ -283,7 +283,7 @@ def rename_chain(entry_key, chain_to_rename, rename_to):
 
 
 class StepFourView(FormView):
-    template_name = "virus/step_four.html"
+    template_name = "add_entry/step_four.html"
     form_class = MoveChainForm
 
     def get_context_data(self, **kwargs):
@@ -322,7 +322,7 @@ class StepFourView(FormView):
                                        int(form.cleaned_data['matrix_selection']))
                 au_matrix.save()
             send_task('virus.make_vdb', args=[entry_id], kwargs={})
-            return redirect(reverse("viruses:step_four"))
+            return redirect(reverse("add_entry:step_four"))
         else:
             save_diameters(self.virus, self.diameters)
 
@@ -337,7 +337,7 @@ class StepFourView(FormView):
             elif ia_choice == ImageAnalysisForm.NO_ACTION:
                 pass
 
-            return redirect(reverse("viruses:step_five"))
+            return redirect(reverse("add_entry:step_five"))
 
     def form_invalid(self, form, ia_form):
         pass
@@ -378,7 +378,7 @@ def save_diameters(virus, diameters):
         layer.save()
 
 class StepFiveView(TemplateView):
-    template_name = "virus/step_five.html"
+    template_name = "add_entry/step_five.html"
 
     def get_context_data(self, **kwargs):
         context = super(StepFiveView, self).get_context_data(**kwargs)

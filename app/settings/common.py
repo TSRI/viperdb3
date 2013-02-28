@@ -1,3 +1,5 @@
+from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS as TCP
+
 # Django settings for viperdb project.
 from utils import project
 import os
@@ -114,6 +116,10 @@ ROOT_URLCONF = 'urls'
 
 TEMPLATE_DIRS = (project('static_files/templates/'),)
 
+TEMPLATE_CONTEXT_PROCESSORS = TCP + (
+    'django.core.context_processors.request',
+)
+
 INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -121,6 +127,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'suit',
     'django.contrib.admin',
     'django_extensions',
     'south',
@@ -154,6 +161,11 @@ DEBUG_TOOLBAR_CONFIG = {
     'EXTRA_SIGNALS': [],
     'HIDE_DJANGO_SQL': False,
     'TAG': 'body',
+}
+
+SUIT_CONFIG = {
+    'SHOW_REQUIRED_ASTERISK': True,
+    'ADMIN_NAME': 'VIPERdb'
 }
 
 # django-pipeline settings

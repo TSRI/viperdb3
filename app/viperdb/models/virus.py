@@ -1,5 +1,3 @@
-
-from django.contrib import admin
 from django.db import models
 from django.db.models.deletion import CASCADE
 
@@ -7,22 +5,8 @@ from celery.execute import send_task
 
 from viperdb.models import VirusResidueAsa, VirusEnergy
 
-class VirusAdmin(admin.ModelAdmin):
-    actions = ['start_analysis', 'generate_images']
-    readonly_fields = ('entry_key', 'layer_count',)
-
-
-    def start_analysis(self, request, queryset):
-        [virus.analyze() for virus in queryset.all()]
-    start_analysis.short_description = "Start analysis with selected viruses"
-
-    def generate_images(self, request, queryset):
-        [virus.generate_images() for virus in queryset.all()]
-    generate_images.short_description = "Generate images for selected viruses"
-
 
 class Virus (models.Model):
-
     class Meta:
         app_label = "viperdb"
         verbose_name_plural = 'Viruses'

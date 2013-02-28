@@ -42,7 +42,7 @@ $ ->
         $("label[for=id_unique_relative_id], #id_unique_relative_id")[if this.checked then "hide" else "show"]()
 
     $.ajax
-        url: "http://localhost:8000/viruses/add_entry/start_pdbase" 
+        url: "http://localhost:8000/admin/add_entry/start_pdbase" 
         data:
             entry_id: $('#entry_id').attr "value"
             format: 'json'
