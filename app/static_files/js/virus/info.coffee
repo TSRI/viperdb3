@@ -9,8 +9,8 @@ $(document).ready ->
 
         helpers:
             thumbs:
-                width: 50
-                height: 50
+                width: 100
+                height: 100
     
     $("#virus-images").carouFredSel
         items: 

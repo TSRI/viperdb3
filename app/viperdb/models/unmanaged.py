@@ -208,12 +208,13 @@ class Qscore(models.Model):
 
         inter_1 = inter_str % {'asym': self.face_1_asym_id_1, "matrix": self.face_1_matrix_1}
         inter_2 = inter_str % {'asym': self.face_1_asym_id_2, "matrix": self.face_1_matrix_2}
-        repr_str = "%s-%s" % (inter_1, inter_2)
+        repr1 = "%s-%s" % (inter_1, inter_2)
 
         inter_1 = inter_str % {'asym': self.face_2_asym_id_1, "matrix": self.face_2_matrix_1}
         inter_2 = inter_str % {'asym': self.face_2_asym_id_2, "matrix": self.face_2_matrix_2}
-        repr_str += ":%s-%s" % (inter_1, inter_2)
-        return repr_str
+        repr2 = "%s-%s" % (inter_1, inter_2)
+
+        return "%s:%s" % (repr1, repr2)
 
     def get_type_repr(self):
         return "%(face_1_type)s-%(face_1_symm)s:%(face_2_type)s-%(face_2_symm)s" % self.__dict__
