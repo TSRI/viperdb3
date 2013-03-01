@@ -18,6 +18,8 @@ urlpatterns = patterns('',
     url(r'^families/',    include('viperdb.urls.families', namespace='families', 
                                 app_name='viperdb')),
     url(r'^api/',       include('api.urls', namespace='api')),
+    url(r'^utilities/', include('viperdb.urls.utilities', namespace='utilities',
+                                app_name='viperdb')),
 )
 
 urlpatterns += staticfiles_urlpatterns()

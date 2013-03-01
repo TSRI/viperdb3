@@ -208,9 +208,19 @@ PIPELINE_JS = {
             'vendor/js/fancyBox/helpers/jquery.fancybox-thumbs.js',
             'vendor/js/carouFredSel-6.2.0/jquery.carouFredSel-6.2.0.js',
             'js/virus/info.coffee',
+
         ),
         'output_filename': 'js/images.js',
         'variant': 'datauri',
+    },
+    'gallery_maker': {
+        'source_filenames': (
+            'vendor/js/isotope/jquery.isotope.min.js',
+            'vendor/js/fresco/fresco.js',
+            'js/gallery_maker/gallery-maker.js',
+        ),
+        'output_filename': 'js/gallery-maker.js',
+        'variant': 'daturi',
     },
 }
 
@@ -229,6 +239,8 @@ PIPELINE_CSS = {
             'vendor/css/fancyBox/jquery.fancybox.css',
             'vendor/css/fancyBox/jquery.fancybox-buttons.css',
             'vendor/css/fancyBox/jquery.fancybox-thumbs.css',
+            'vendor/css/isotope.css',
+            'vendor/css/fresco/fresco.css'
         ),
         'output_filename': 'stylesheets/fancybox.css',
         'variant': 'datauri',

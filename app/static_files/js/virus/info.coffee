@@ -1,6 +1,6 @@
 $(document).ready ->
 
-    $("#tabs").tabs()
+    #$("#tabs").tabs()
 
     $(".fancybox-thumb").fancybox
         prevEffect: 'none'

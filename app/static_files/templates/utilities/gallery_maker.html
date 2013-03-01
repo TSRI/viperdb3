@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% load compressed %}
+
+{% block scripts %}
+    {% compressed_js 'gallery_maker' %}
+
+{% endblock scripts %}
+
+{% block styles %}
+  {% compressed_css 'images' %}
+{% endblock styles %}
+
+{% block content %}
+  <div id='page'>
+
+    <ul id="filters">
+        <li><a href="#" data-filter="*">Show All</a></li>
+        <h3>Sort by Family</h3>
+        {% for family in families %}
+        <li><a href="#" data-filter=".{{family.family}}">{{family.family}}</a></li>
+        {% endfor %}
+    </ul>
+
+    <div id="container" class="isotope clearfix" style="position: relative; overflow; hidden; height: 240px;">
+      {% for virus in viruses %}
+      <div class="virus {{virus.family}}">
+        <a href='http://placekitten.com/200/300' 
+            class='fresco' 
+            data-fresco-group='{{virus.family}}' 
+            data-fresco-caption="{{virus.name}}">
+            <img src='http://placekitten.com/200/300' alt=''/>
+          </a>
+      </div>
+      {% endfor %}
+    </div>
+
+
+
+  <!--  <form action="" method="">
+      <select name="virus1">
+        <option value="1">1</option>
+        <option value="1">1</option>
+        <option value="1">1</option>
+      </select>
+      <select name="virus2">
+        <option value="2">2</option>
+        <option value="2">2</option>
+        <option value="2">2</option>
+      </select>
+      <button onclick="myFunction()">Compare Images</button>
+    </form>!-->
+
+  </div>
+{% endblock content %}
