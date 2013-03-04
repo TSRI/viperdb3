@@ -1,5 +1,4 @@
-<section id="qscore" class="info-section">
-  <h2>Q-Scores</h2>
+<div id="qscores" class="info-section tab-pane">
   <table>
     <tr>
       <th>Interface1-Interface2</th>
@@ -9,4 +8,15 @@
       <th>Contacts2</th>
       <th>Q-Score</th>
     </tr>
-</section>
+    {% for score in qscores %}
+    <tr>
+      <td>{{ score.get_interface_repr }}</td>
+      <td>{{ score.get_type_repr }}</td>
+      <td>{{ score.shared }}</td>
+      <td>{{ score.face_1_type }}</td>
+      <td>{{ score.face_2_type }}</td>
+      <td>{{ score.qscore|floatformat:2 }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+</div>

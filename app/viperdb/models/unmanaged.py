@@ -185,7 +185,7 @@ class Qscore(models.Model):
         managed = False
 
     qscore_key = models.AutoField(primary_key=True)
-    entry_id = models.ForeignKey("Virus", db_column="entry_id", related_name='qscore')
+    entry_id = models.ForeignKey("Virus", db_column="entry_id", related_name='qscores')
     face_1_asym_id_1 = models.CharField(max_length=255, db_column='face_1_asym_id_1')
     face_1_asym_id_2 = models.CharField(max_length=255, db_column='face_1_asym_id_2')
     face_1_matrix_1  = models.IntegerField(db_column='face_1_matrix_1')

@@ -1,7 +1,5 @@
 $(document).ready ->
 
-    #$("#tabs").tabs()
-
     $(".fancybox-thumb").fancybox
         prevEffect: 'none'
         nextEffect: 'none'
@@ -19,14 +17,14 @@ $(document).ready ->
         items: 
             start: 0
             visible: 3
-            width: 200
-            height: 200
+            width: 150
+            height: 150
             filter: "img"
         circular: false
         infinite: false
         auto: false
-        width: 760
-        height: 200
+        width: 640 
+        height: 150
         prev:
             button: "section#illustrations #prev-image"
         next:

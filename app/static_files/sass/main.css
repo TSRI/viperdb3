@@ -222,53 +222,71 @@ section#illustrations {
   float: left;
   margin-right: 10px;
   width: 757.91667px;
+  display: inline-block;
 }
 /* line 147, ../../../../../../var/lib/gems/1.8/gems/compass-0.12.2/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
 * html section#illustrations {
   overflow-x: hidden;
 }
-/* line 41, partials/_virus-info.sass */
-section#illustrations .small-images {
-  display: inline-block;
-}
-/* line 44, partials/_virus-info.sass */
-section#illustrations img.virus-image {
-  display: inline;
-  float: left;
-  margin-right: 0;
-  width: 70.83333px;
-  margin-top: 10px;
-  margin: 5px 5px 0px 0px;
-}
-/* line 147, ../../../../../../var/lib/gems/1.8/gems/compass-0.12.2/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
-* html section#illustrations img.virus-image {
-  overflow-x: hidden;
-}
-/* line 49, partials/_virus-info.sass */
-section#illustrations img.main {
+/* line 43, partials/_virus-info.sass */
+section#illustrations #virus-images {
   display: inline;
   float: left;
   margin-right: 10px;
-  width: 192.08333px;
+  width: 677.08333px;
+  margin-left: 10px;
 }
 /* line 147, ../../../../../../var/lib/gems/1.8/gems/compass-0.12.2/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
-* html section#illustrations img.main {
+* html section#illustrations #virus-images {
   overflow-x: hidden;
 }
+/* line 47, partials/_virus-info.sass */
+section#illustrations .movement {
+  display: inline;
+  float: left;
+  margin-right: 10px;
+  width: 30.41667px;
+}
+/* line 147, ../../../../../../var/lib/gems/1.8/gems/compass-0.12.2/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
+* html section#illustrations .movement {
+  overflow-x: hidden;
+}
+/* line 49, partials/_virus-info.sass */
+section#illustrations .movement input {
+  height: 150px;
+}
+/* line 52, partials/_virus-info.sass */
+section#illustrations .small-images {
+  display: inline-block;
+}
 
-/* line 53, partials/_virus-info.sass */
-section#association-energies table, section#association-energies tbody, section#association-energies tr {
+/* line 57, partials/_virus-info.sass */
+div#tabs {
+  width: 960px;
+  display: inline-block;
+  margin: 5px 0 5px 0;
+  padding-left: 0px;
+}
+/* line 62, partials/_virus-info.sass */
+div#tabs li {
+  display: inline;
+  list-style-type: none;
+  padding-right: 20px;
+}
+
+/* line 68, partials/_virus-info.sass */
+div#association-energies table, div#association-energies tbody, div#association-energies tr, div#qscores table, div#qscores tbody, div#qscores tr {
   display: inline;
   float: left;
   margin-right: 0;
   width: 960px;
 }
 /* line 147, ../../../../../../var/lib/gems/1.8/gems/compass-0.12.2/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
-* html section#association-energies table, * html section#association-energies tbody, * html section#association-energies tr {
+* html div#association-energies table, * html div#association-energies tbody, * html div#association-energies tr, * html div#qscores table, * html div#qscores tbody, * html div#qscores tr {
   overflow-x: hidden;
 }
-/* line 55, partials/_virus-info.sass */
-section#association-energies th, section#association-energies td {
+/* line 70, partials/_virus-info.sass */
+div#association-energies th, div#association-energies td, div#qscores th, div#qscores td {
   display: inline;
   float: left;
   margin-right: 0;
@@ -276,18 +294,17 @@ section#association-energies th, section#association-energies td {
   text-align: center;
 }
 /* line 147, ../../../../../../var/lib/gems/1.8/gems/compass-0.12.2/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
-* html section#association-energies th, * html section#association-energies td {
+* html div#association-energies th, * html div#association-energies td, * html div#qscores th, * html div#qscores td {
   overflow-x: hidden;
 }
 
-/* line 60, partials/_virus-info.sass */
-section#accessible-surface-profiles .js-asa-chart {
+/* line 75, partials/_virus-info.sass */
+div#accessible-surface-profiles .js-asa-chart {
   float: left;
-  border: 1px solid black;
   margin-bottom: 15px;
 }
-/* line 65, partials/_virus-info.sass */
-section#accessible-surface-profiles p.title {
+/* line 79, partials/_virus-info.sass */
+div#accessible-surface-profiles p.title {
   text-indent: 15px;
   margin: 10px 0 5px 0;
 }

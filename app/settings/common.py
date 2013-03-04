@@ -110,6 +110,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 )
 
 ROOT_URLCONF = 'urls'
@@ -163,6 +164,8 @@ DEBUG_TOOLBAR_CONFIG = {
     'TAG': 'body',
 }
 
+INTERNAL_IPS = ('127.0.0.1',)
+
 SUIT_CONFIG = {
     'SHOW_REQUIRED_ASTERISK': True,
     'ADMIN_NAME': 'VIPERdb'
@@ -207,8 +210,8 @@ PIPELINE_JS = {
             'vendor/js/fancyBox/jquery.fancybox.js',
             'vendor/js/fancyBox/helpers/jquery.fancybox-thumbs.js',
             'vendor/js/carouFredSel-6.2.0/jquery.carouFredSel-6.2.0.js',
+            'vendor/js/bootstrap/bootstrap.js',
             'js/virus/info.coffee',
-
         ),
         'output_filename': 'js/images.js',
         'variant': 'datauri',
@@ -240,7 +243,8 @@ PIPELINE_CSS = {
             'vendor/css/fancyBox/jquery.fancybox-buttons.css',
             'vendor/css/fancyBox/jquery.fancybox-thumbs.css',
             'vendor/css/isotope.css',
-            'vendor/css/fresco/fresco.css'
+            'vendor/css/fresco/fresco.css',
+            'vendor/css/bootstrap/bootstrap.css',
         ),
         'output_filename': 'stylesheets/fancybox.css',
         'variant': 'datauri',

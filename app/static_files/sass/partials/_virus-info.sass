@@ -38,28 +38,42 @@ section#sidebar
 
 section#illustrations
   +column(19)
+  display: inline-block
+
+  #virus-images
+    +column(17)
+    margin-left: 10px
+
+  .movement
+    +column(1)
+    input 
+      height: 150px
+
   .small-images
     display: inline-block
 
-  img.virus-image
-    +column(2, true)
-    margin-top: 10px
-    margin: 5px 5px 0px 0px
+// Tabbed Sections
 
-  img.main
-    +column(5)
+div#tabs
+  width: 960px
+  display: inline-block
+  margin: 5px 0 5px 0
+  padding-left: 0px
+  li
+    display: inline
+    list-style-type: none
+    padding-right: 20px
 
-section#association-energies
+div#association-energies, div#qscores
   table, tbody, tr
     +column(24, true)
   th, td
     +column(4, true)
     text-align: center
 
-section#accessible-surface-profiles
+div#accessible-surface-profiles
   .js-asa-chart
     float: left
-    border: 1px solid black
     margin-bottom: 15px
 
   p.title

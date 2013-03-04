@@ -37,7 +37,13 @@ class VirusInfoView(DetailView):
 
         chains = virus.get_chains()
         interfaces = virus.get_interfaces()
-        context.update({'chains': chains, 'interfaces': interfaces})
+        qscores = virus.get_qscores()
+
+        context.update({
+            'chains': chains, 
+            'interfaces': interfaces, 
+            'qscores': qscores
+        })
         return context
 
 @render_to("virus/phi_psi.html")

@@ -88,6 +88,12 @@ class Virus (models.Model):
 
         return interfaces
 
+    def get_qscores(self):
+        qscores = (self.qscores.filter(qscore__gt=0.09, qscore__lt=1.0)
+                                .exclude(face_1_symm=0, face_2_symm=0)
+                                .order_by('-shared'))
+        return qscores
+
     def analyze(self):
         send_task('virus.start_analysis', args=[self.entry_id])
 
