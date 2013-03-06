@@ -1,3 +1,4 @@
+{% load get_image_path %}
 <section id="illustrations" class="info-section">
   
   <div class="movement">
@@ -8,32 +9,8 @@
           <a class="fancybox-thumb" 
              data-fancybox-group="virus"
              data-fancybox-type='image'
-             href="http://placekitten.com/g/150/150">
-                  <img src="http://placekitten.com/g/150/150" class="main"/>
-          </a>
-          <a class="fancybox-thumb" 
-             data-fancybox-group="virus"
-             data-fancybox-type='image'
-             href="http://placekitten.com/g/150/150">
-                  <img src="http://placekitten.com/g/150/150" class="main"/>
-          </a>
-          <a class="fancybox-thumb" 
-             data-fancybox-group="virus"
-             data-fancybox-type='image'
-             href="http://placekitten.com/g/150/150">
-                  <img src="http://placekitten.com/g/150/150" class="main"/>
-          </a>
-          <a class="fancybox-thumb" 
-             data-fancybox-group="virus"
-             data-fancybox-type='image'
-             href="http://placekitten.com/g/150/150">
-                  <img src="http://placekitten.com/g/150/150" class="main"/>
-          </a>
-          <a class="fancybox-thumb" 
-             data-fancybox-group="virus"
-             data-fancybox-type='image'
-             href="http://placekitten.com/g/150/150">
-                  <img src="http://placekitten.com/g/150/150" class="main"/>
+             href="{{virus|image_path:'chimera,5A'}}">
+                  <img src="{{virus|image_path:'chimera,5A'}}" class="main"/>
           </a>
   </div>
 
