@@ -5,13 +5,20 @@
     <input type='button' id='prev-image' value='prev'/>
   </div>
 
+  
   <div id="virus-images">
+    {% for image_type, image_subtypes in virus.image_types.items %}
+      {% for image_subtype in image_subtypes %}
           <a class="fancybox-thumb" 
              data-fancybox-group="virus"
              data-fancybox-type='image'
-             href="{{virus|image_path:'chimera,5A'}}">
-                  <img src="{{virus|image_path:'chimera,5A'}}" class="main"/>
+             href="{% image_path virus.entry_id image_type image_subtype %}">
+               <img src="{% image_path virus.entry_id image_type image_subtype %}"
+                  class="main"/>
           </a>
+      {% endfor %}
+    {% endfor %}
+
   </div>
 
   <div class="movement">

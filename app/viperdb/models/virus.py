@@ -58,6 +58,14 @@ class Virus (models.Model):
     times_viewed = models.IntegerField(editable=False, default=0, blank=True)
     private = models.BooleanField(editable=False)
 
+    image_types = {
+        #'cages':[],
+        #'capsids':[],
+        #'capsomers':[],
+        'chimera': ['3A.jpg','5A.jpg','8A.jpg','inside.jpg','ribbon.jpg'],
+        #'unit': [],
+    }
+
     def clean(self):
         self.entry_id = self.entry_id.lower()
 
