@@ -1,40 +1,24 @@
+{% load get_image_path %}
 <section id="illustrations" class="info-section">
   
   <div class="movement">
     <input type='button' id='prev-image' value='prev'/>
   </div>
 
+  
   <div id="virus-images">
+    {% for image_type, image_subtypes in virus.image_types.items %}
+      {% for image_subtype in image_subtypes %}
           <a class="fancybox-thumb" 
              data-fancybox-group="virus"
              data-fancybox-type='image'
-             href="http://placekitten.com/g/150/150">
-                  <img src="http://placekitten.com/g/150/150" class="main"/>
+             href="{% image_path virus.entry_id image_type image_subtype %}">
+               <img src="{% image_path virus.entry_id image_type image_subtype %}"
+                  class="main"/>
           </a>
-          <a class="fancybox-thumb" 
-             data-fancybox-group="virus"
-             data-fancybox-type='image'
-             href="http://placekitten.com/g/150/150">
-                  <img src="http://placekitten.com/g/150/150" class="main"/>
-          </a>
-          <a class="fancybox-thumb" 
-             data-fancybox-group="virus"
-             data-fancybox-type='image'
-             href="http://placekitten.com/g/150/150">
-                  <img src="http://placekitten.com/g/150/150" class="main"/>
-          </a>
-          <a class="fancybox-thumb" 
-             data-fancybox-group="virus"
-             data-fancybox-type='image'
-             href="http://placekitten.com/g/150/150">
-                  <img src="http://placekitten.com/g/150/150" class="main"/>
-          </a>
-          <a class="fancybox-thumb" 
-             data-fancybox-group="virus"
-             data-fancybox-type='image'
-             href="http://placekitten.com/g/150/150">
-                  <img src="http://placekitten.com/g/150/150" class="main"/>
-          </a>
+      {% endfor %}
+    {% endfor %}
+
   </div>
 
   <div class="movement">
