@@ -45,7 +45,7 @@ class StepOneView(FormView):
 
         pdb_file_source = int(form.cleaned_data["file_source"])
         if pdb_file_source == InitialVirusForm.FILE_REMOTE:
-            send_task("virus.get_pdb_files", args=[entry_id], kwargs={}) 
+            send_task("virus.get_pdb_files", args=[entry_id]).get()
                       # kwargs={'callback': subtask('virus.run_pdbase')})
         elif pdb_file_source == InitialVirusForm.FILE_LOCAL:
             task = send_task('virus.check_file_count', args=[entry_id], 
