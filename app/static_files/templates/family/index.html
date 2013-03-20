@@ -3,10 +3,31 @@
 {% block content %}
 
 
-{% for family in families %}
-{{ family.family }}
-<a href="{% url families:graph family.family %}">Graph</a>
-{% endfor %}
+<div id="search">
+  <div id="sidebar">
+    <p>Families</p>
+    <select>
+      {% for family in families %}
+        <option value="{{family}}">{{family}}</option>
+      {% endfor %}
+    </select>
+    <p>T-Number</p>
+    <select> 
+      <option value="1">1</option>
+    </select>
+    <p>Cryo</p>
+    <input type="checkbox">
 
+    </input>
+  </div>
 
+  <div id="results">
+    <ul>
+
+      <li>
+      </li>
+
+    </ul>
+  </div>
+</div>
 {% endblock content %}

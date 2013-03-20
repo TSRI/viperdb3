@@ -1,6 +1,6 @@
-from django.views.generic import ListView
+from django.views.generic import ListView, FormView
 from django.db.models import Count
-
+from viperdb.forms.search import SearchForm
 from viperdb.models import Virus
 
 class GalleryMakerView(ListView):
@@ -15,3 +15,9 @@ class GalleryMakerView(ListView):
         kwargs.update({'families': families})
 
         return kwargs
+
+
+
+class SearchView(FormView):
+    form_class = SearchForm
+    template_name = "utilities/search.html"

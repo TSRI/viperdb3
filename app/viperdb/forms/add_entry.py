@@ -1,18 +1,18 @@
 from django import forms
-from models import Virus, Layer
+from viperdb.models import Virus, Layer
 
 class InitialVirusForm(forms.Form):
     FILE_REMOTE = 1
     FILE_LOCAL = 2
-    FILE_UPLOAD = 3
+    # FILE_UPLOAD = 3
     FILE_SOURCE_CHOICES = ((FILE_REMOTE, 'Use up-to-date PDB and CIF files from RCSB'),
-                           (FILE_LOCAL, 'Use existing PDB and CIF files on VIPERdb'),
-                           (FILE_UPLOAD, 'Upload your own PDB and CIF files to VIPERdb'))
+                           (FILE_LOCAL, 'Use existing PDB and CIF files on VIPERdb'),)
+                           # (FILE_UPLOAD, 'Upload your own PDB and CIF files to VIPERdb'))
     
     entry_id = forms.CharField(max_length=8)
     file_source = forms.ChoiceField(widget=forms.RadioSelect, choices=FILE_SOURCE_CHOICES)
-    pdb_file_upload = forms.FileField(required=False)
-    cif_file_upload = forms.FileField(required=False)
+    # pdb_file_upload = forms.FileField(required=False)
+    # cif_file_upload = forms.FileField(required=False)
 
     def clean(self):
         return self.cleaned_data
@@ -58,4 +58,5 @@ class ImageAnalysisForm(forms.Form):
     )
     analysis_selection = forms.ChoiceField(widget=forms.RadioSelect, 
                                            choices=analysis_choices)
+
 

@@ -1,11 +1,14 @@
 from django.contrib import admin
+from django.http import HttpResponseRedirect
+
+from viperdb.views.add_entry import StepOneView
 
 class VirusAdmin(admin.ModelAdmin):
     actions = ['start_analysis', 'generate_images']
     readonly_fields = ('entry_key', 'layer_count',)
 
-    def has_add_permission(self, request):
-        return False
+    def add_view(self, request, **kwargs):
+        return HttpResponseRedirect('/admin/add_entry')
 
     def start_analysis(self, request, queryset):
         [virus.analyze() for virus in queryset.all()]

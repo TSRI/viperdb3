@@ -308,3 +308,36 @@ div#accessible-surface-profiles p.title {
   text-indent: 15px;
   margin: 10px 0 5px 0;
 }
+
+/* line 2, partials/_search.sass */
+#search #sidebar {
+  display: inline;
+  float: left;
+  margin-right: 10px;
+  width: 192.08333px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  height: 500px;
+  border: 1px solid black;
+}
+/* line 147, ../../../../../../var/lib/gems/1.8/gems/compass-0.12.2/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
+* html #search #sidebar {
+  overflow-x: hidden;
+}
+/* line 8, partials/_search.sass */
+#search #results {
+  display: inline;
+  float: left;
+  margin-right: 0;
+  width: 757.91667px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  height: 500px;
+  border: 1px solid black;
+}
+/* line 147, ../../../../../../var/lib/gems/1.8/gems/compass-0.12.2/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
+* html #search #results {
+  overflow-x: hidden;
+}

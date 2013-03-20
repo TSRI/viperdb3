@@ -1,11 +1,12 @@
-
 from annoying.decorators import render_to
 from viperdb.models import Virus
+
 
 @render_to("family/index.html")
 def index(request):
     """ Homepage for all families, displays all the families in a list """
     families = Virus.objects.values('family').distinct()
+    families = [obj['family'] for obj in families]
     return {"families": families}
 
 @render_to("family/info.html")

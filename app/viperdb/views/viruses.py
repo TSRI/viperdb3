@@ -16,7 +16,7 @@ from viperdb.helpers import get_pdb_info
 from viperdb.helpers import get_mismatched_chains 
 from viperdb.models import Virus, MmsEntry, LayerEntity, StructRef
 from viperdb.models import VirusResidueAsa, Layer, AtomSite, Entity
-from viperdb.forms import (VirusForm, InitialVirusForm, LayerForm,
+from viperdb.forms.add_entry import (VirusForm, InitialVirusForm, LayerForm,
                            MatrixChoiceForm, ChainForm, MoveChainForm, 
                            ImageAnalysisForm)
 

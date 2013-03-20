@@ -249,6 +249,7 @@ PIPELINE_CSS = {
         'output_filename': 'stylesheets/fancybox.css',
         'variant': 'datauri',
     },
+
 }
 PIPELINE_COMPILERS = (
     'pipeline.compilers.coffee.CoffeeScriptCompiler',    

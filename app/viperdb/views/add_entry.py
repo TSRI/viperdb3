@@ -13,12 +13,13 @@ from annoying.functions import get_object_or_None
 from celery.execute import send_task
 from celery.task.sets import subtask
 
-from viperdb.forms import (InitialVirusForm, LayerForm, VirusForm, 
+from viperdb.forms.add_entry import (InitialVirusForm, LayerForm, VirusForm, 
                            MatrixChoiceForm, ChainForm, MoveChainForm,
                            ImageAnalysisForm)
 from viperdb.models import (MmsEntry, Virus, Entity, StructRef, LayerEntity, 
                             AtomSite, Layer)
 from viperdb.helpers import get_mismatched_chains
+
 
 class StepOneView(FormView):
     template_name = "add_entry/step_one.html"
@@ -44,8 +45,8 @@ class StepOneView(FormView):
 
         pdb_file_source = int(form.cleaned_data["file_source"])
         if pdb_file_source == InitialVirusForm.FILE_REMOTE:
-            send_task("virus.get_pdb_files", args=[entry_id], 
-                      kwargs={'callback': subtask('virus.run_pdbase')})
+            send_task("virus.get_pdb_files", args=[entry_id], kwargs={}) 
+                      # kwargs={'callback': subtask('virus.run_pdbase')})
         elif pdb_file_source == InitialVirusForm.FILE_LOCAL:
             task = send_task('virus.check_file_count', args=[entry_id], 
                              kwargs={})
@@ -78,6 +79,11 @@ class StepTwoView(FormView):
     template_name = "add_entry/step_two.html"
     form_class = VirusForm
 
+    def get_initial(self):
+        initial = super(StepTwoView, self).get_initial()
+        initial.update({'entry_id': self.request.session['entry_id']})
+        return initial
+
     def get_context_data(self, **kwargs):
         kwargs = super(StepTwoView, self).get_context_data(**kwargs)
         kwargs.update({'layer_formset': formset_factory(LayerForm),
@@ -90,7 +96,8 @@ class StepTwoView(FormView):
 
     def post(self, request, *args, **kwargs):
         virus_form = self.get_form(self.form_class)
-        layer_formset = self.get_form(formset_factory(LayerForm))
+        layer_formset = formset_factory(LayerForm)
+        layer_formset = layer_formset(request.POST)
 
         if virus_form.is_valid() and layer_formset.is_valid():
             return self.form_valid(virus_form, layer_formset)
