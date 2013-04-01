@@ -6,18 +6,40 @@
     {% compressed_js 'step_two' %}
 {% endblock extrahead %}
 
+{% block extrastyle %}
+    {{ block.super }}
+    <style>
+        label.control-label {
+            line-height: 28px;
+        }
+    </style>
+{% endblock extrastyle %}
+
 {% block content %}
 <p class='message'>Please be patient while we run PDBase</p>
-<form method="post" enctype="multipart/form-data" id='virus_form' hidden='true'>
+<form method="post" enctype="multipart/form-data" id='virus_form' hidden='true'
+      class="form-horizontal">
     {% csrf_token %}
     <span id="entry_id" value="{{entry_id}}"></span>
-    {{ form }}
+    {% for field in form %}
+        <div class="control-group">
+            <label class="control-label" for="id_{{ field.html_name }}">{{ field.label }}:</label>
+            <div class="controls">{{ field }}</div>
+        </div>
+    {% endfor %}
+    <br/>
+    <h3>Layers</h3>
     {% for layer_form in layer_formset %}
         <div class="formset">
-        {{ layer_form }}
+        {% for field in layer_form %}
+        <div class="control-group">
+            <label for="id_{{ field.html_name }}" class="control-label">{{ field.label }}</label>
+            <div class="controls">{{ field }}</div>
+        </div>
+        {% endfor %}
         <span class="js-polymers"></span>
         {% for polymer in polymers %}
-            <input type='checkbox' name='entity_accession_id_{{ forloop.parentloop.counter0 }}'>{{ polymer.description }}<br>
+            <input type='checkbox' name='entity_accession_id_{{ forloop.parentloop.counter0 }}'>{{ polymer.description }}
             <input type='hidden' name='entity_accession_id' value='{{ polymer.pdbx_db_accession }}' />
         {% endfor %}
         </div>

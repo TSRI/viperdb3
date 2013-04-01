@@ -1,7 +1,7 @@
 $ ->
     prefill_info = (entry_key) ->
         $.ajax 
-            url: "http://localhost:8000/api/v1/polymer"
+            url: "/api/v1/polymer"
             data:
                 entry_key: entry_key
                 format: 'json'
@@ -23,7 +23,7 @@ $ ->
             dataType: 'json'
 
         $.ajax
-            url: "http://localhost:8000/api/v1/struct"
+            url: "/api/v1/struct"
             data:
                 entry_key: entry_key
                 format: 'json'
@@ -39,10 +39,10 @@ $ ->
         prefix: '{{ layer_formset.prefix }}'
 
     $("#id_unique").on 'click', () ->
-        $("label[for=id_unique_relative_id], #id_unique_relative_id")[if this.checked then "hide" else "show"]()
+        $("label[for=unique_relative], #id_unique_relative")[if this.checked then "hide" else "show"]()
 
     $.ajax
-        url: "http://localhost:8000/admin/add_entry/start_pdbase" 
+        url: "/admin/add_entry/start_pdbase" 
         data:
             entry_id: $('#entry_id').attr "value"
             format: 'json'

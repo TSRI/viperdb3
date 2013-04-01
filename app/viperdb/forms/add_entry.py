@@ -18,6 +18,10 @@ class InitialVirusForm(forms.Form):
         return self.cleaned_data
 
 class VirusForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(VirusForm, self).__init__(*args, **kwargs)
+        self.fields['entry_id'].required = True
+
     class Meta:
         model = Virus
         widgets = {}
@@ -27,6 +31,10 @@ class VirusForm(forms.ModelForm):
         return self.cleaned_data
 
 class LayerForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(LayerForm, self).__init__(*args, **kwargs)
+        self.fields['tnumber'].required = True
+        
     class Meta:
         model = Layer
         exclude = ['entry_key', 'layer_id', 'entry_id', "min_diameter", "ave_diameter", "max_diameter"]

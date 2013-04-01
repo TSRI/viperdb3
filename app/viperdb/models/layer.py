@@ -12,7 +12,7 @@ class Layer(models.Model):
     entry_id = models.ForeignKey(Virus, to_field='entry_id', 
                                  db_column='entry_id', related_name='layers')
     layer_name = models.CharField(max_length=255)
-    tnumber = models.CharField(max_length=5, verbose_name="T-Number")
+    tnumber = models.CharField(max_length=5, verbose_name="T-Number", blank=False)
     subunit_name = models.CharField(max_length=5)
     min_diameter = models.FloatField(editable=False, null=True, blank=True, 
                                      verbose_name="Minimum Diameter")

@@ -25,7 +25,7 @@ class Virus (models.Model):
                      (CHAIN_INPUT, 'Provide your own label: '),
                      (CHAIN_MAINTAIN, 'Leave it as is.'))
 
-    entry_id = models.CharField(max_length=8, primary_key=True, db_column='entry_id')
+    entry_id = models.CharField(max_length=8, primary_key=True, db_column='entry_id', blank=False)
     entry_key = models.IntegerField(unique=True, editable=False)
     pubmed_id = models.CharField(max_length=8, blank=True, null=True, verbose_name='Pubmed ID')
     name = models.CharField(max_length=255, null=True, blank=True)
