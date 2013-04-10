@@ -4,9 +4,10 @@ from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.forms.formsets import formset_factory
 from django.http import HttpResponseRedirect
-from django.shortcuts import redirect
+from django.shortcuts import redirect, get_object_or_404
 from django.utils.decorators import method_decorator
 from django.views.generic import FormView, TemplateView
+from django.utils.functional import curry
 
 from annoying.decorators import render_to, ajax_request
 from annoying.functions import get_object_or_None
@@ -32,16 +33,16 @@ class StepOneView(FormView):
     def get_success_url(self):
         return reverse('add_entry:step_two')
 
+    def get_context_data(self, **kwargs):
+        context = super(StepOneView, self).get_context_data(**kwargs)
+        return context
+
     def form_valid(self, form):
         entry_id = form.cleaned_data['entry_id']
 
         virus = get_object_or_None(MmsEntry, id=entry_id)
         if virus:
-            path = os.getenv('VIPERDB_ANALYSIS_PATH')
-            subprocess.check_output([os.path.join(path, 'scripts/delete_entry.pl'),'-e %s' % virus.entry_key])
-            Layer.objects.filter(entry_id=entry_id).delete()
-            Virus.objects.filter(entry_id=entry_id).delete()
-            LayerEntity.objects.filter(entry_id=entry_id).delete()
+            delete_existing_entry(virus)
 
         pdb_file_source = int(form.cleaned_data["file_source"])
         if pdb_file_source == InitialVirusForm.FILE_REMOTE:
@@ -75,6 +76,18 @@ class StepOneView(FormView):
         return super(StepOneView, self).form_valid(form)
 
 
+@login_required
+@ajax_request
+def delete_existing_entry(entry_id):
+    """Takes care of deleting all existing references to this virus"""
+    virus = get_object_or_404(Virus, entry_id=entry_id)
+    path = os.getenv('VIPERDB_ANALYSIS_PATH')
+    subprocess.check_output([os.path.join(path, 'scripts/delete_entry.pl'),'-e %s' % virus.entry_key])
+    Layer.objects.filter(entry_id=virus.entry_id).delete()
+    Virus.objects.filter(entry_id=virus.entry_id).delete()
+    LayerEntity.objects.filter(entry_id=virus.entry_id).delete()
+
+
 class StepTwoView(FormView):
     template_name = "add_entry/step_two.html"
     form_class = VirusForm
@@ -84,11 +97,17 @@ class StepTwoView(FormView):
         initial.update({'entry_id': self.request.session['entry_id']})
         return initial
 
+    def get_layer_formset(self):
+        entry_key = get_entry_key(self.request.session['entry_id'])
+        layer_formset = formset_factory(LayerForm)
+        layer_formset.form = staticmethod(curry(LayerForm, entry_key=entry_key))
+        return layer_formset
+
     def get_context_data(self, **kwargs):
         kwargs = super(StepTwoView, self).get_context_data(**kwargs)
-        kwargs.update({'layer_formset': formset_factory(LayerForm),
-                       'entry_id' : self.request.session['entry_id']})
 
+        kwargs.update({'layer_formset': self.get_layer_formset(),
+                       'entry_id': self.request.session['entry_id']})
         return kwargs
 
     def get_success_url(self):
@@ -96,7 +115,7 @@ class StepTwoView(FormView):
 
     def post(self, request, *args, **kwargs):
         virus_form = self.get_form(self.form_class)
-        layer_formset = formset_factory(LayerForm)
+        layer_formset = self.get_layer_formset()
         layer_formset = layer_formset(request.POST)
 
         if virus_form.is_valid() and layer_formset.is_valid():
@@ -114,31 +133,17 @@ class StepTwoView(FormView):
         prepare_mms_entry(mms_entry, virus)
         mms_entry.save()
 
-        virus_polymers = Entity.objects.filter(type='polymer', entry_key=virus.entry_key)
-        entity_choices = self.request.POST.getlist('entity_accession_id')
         for index, layer_form in enumerate(layer_formset):
             layer = layer_form.save(commit=False)
             prepare_layer(virus, layer)
             layer.save()
 
-            entity_selections = self.request.POST.getlist('entity_accession_id_' + str(index))
-
-            layer_entity_dict = {
-                'virus': virus,
-                'virus_polymers': virus_polymers,
-                'layer': layer,
-                'entity_choices': entity_choices, 
-                'entity_selections': entity_selections,
-            }
-            for layer_entity in prepare_layer_entities(**layer_entity_dict):
-                layer_entity.save()
+            save_layer_entities(virus, layer, layer_form.cleaned_data['entities'])
 
         return HttpResponseRedirect(self.get_success_url())
 
     def form_invalid(self, virus_form, layer_formset):
         return super(StepTwoView, self).form_invalid(virus_form)
-        pass
-
 
 
 @ajax_request
@@ -152,15 +157,13 @@ def start_pdbase(request):
     else:
         return {"message": "No entry_id specified!"}
 
-@ajax_request
-def get_polymers(request, entry_id):
-    r = StructRef.objects.filter(entry_id=entry_id)
-    return {"polymers": r}
+def get_entry_key(entry_id):
+    """Take an entry_id and get it's corresponding entry_key"""
+    return MmsEntry.objects.filter(id=entry_id).latest('entry_key').entry_key
 
 def prepare_virus(virus, entry_id, virus_layers): 
     """Prepare virus for entry into database"""
-    virus.entry_key = (MmsEntry.objects.filter(id=virus.entry_id)
-                                       .latest('entry_key').entry_key)
+    virus.entry_key = get_entry_key(entry_id)
     virus.layer_count = len(virus_layers)
     virus.prepared = False
 
@@ -173,22 +176,14 @@ def prepare_layer(virus, layer):
     layer.entry_key = virus.entry_key
     layer.entry_id = virus
 
-def prepare_layer_entities(virus, virus_polymers, layer, entity_choices, entity_selections):
-    """Prepares and yields layer entities"""
-
-    for index, entity_selection in enumerate(virus_polymers):
-        if entity_selections[index] == 'on':
-            struct_ref = get_object_or_None(StructRef, 
-                                            entry_key=virus.entry_key, 
-                                            pdbx_db_accession=entity_choices[index])
-            if not struct_ref:
-                struct_ref = (StructRef.objects
-                              .filter(entry_key=virus.entry_key)
-                              .order_by('entity_key')[index])
-            layer_entity = LayerEntity(entity_key=struct_ref.entity_key, 
-                                       layer_key=layer, 
-                                       entry_id=virus)
-            yield layer_entity
+def save_layer_entities(virus, layer, entities):
+    """Saves LayerEntity association table entries"""
+    LayerEntity.objects.bulk_create([
+        LayerEntity(entry_id=virus.entry_id,
+                    layer_key=layer.layer_key,
+                    entity_key=entity.entity_key)
+        for entity in entities
+    ])
 
 class StepThreeView(FormView):
     template_name = "add_entry/step_three.html"

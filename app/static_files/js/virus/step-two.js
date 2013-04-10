@@ -68,7 +68,13 @@
         return console.log(err);
       },
       dataType: 'json'
-    });
+    }, $("virus_form").submit(function() {
+      var boxes;
+      boxes = $("span.js-polymers input[type='checkbox']");
+      return _.some(boxes, function(checkbox) {
+        return checkbox.attr("checked");
+      });
+    }));
   });
 
 }).call(this);

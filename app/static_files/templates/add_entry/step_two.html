@@ -24,25 +24,17 @@
     {% for field in form %}
         <div class="control-group">
             <label class="control-label" for="id_{{ field.html_name }}">{{ field.label }}:</label>
-            <div class="controls">{{ field }}</div>
+            <div class="controls">
+                {{ field }}
+                {{ field.errors }}
+            </div>
+
         </div>
     {% endfor %}
     <br/>
     <h3>Layers</h3>
     {% for layer_form in layer_formset %}
-        <div class="formset">
-        {% for field in layer_form %}
-        <div class="control-group">
-            <label for="id_{{ field.html_name }}" class="control-label">{{ field.label }}</label>
-            <div class="controls">{{ field }}</div>
-        </div>
-        {% endfor %}
-        <span class="js-polymers"></span>
-        {% for polymer in polymers %}
-            <input type='checkbox' name='entity_accession_id_{{ forloop.parentloop.counter0 }}'>{{ polymer.description }}
-            <input type='hidden' name='entity_accession_id' value='{{ polymer.pdbx_db_accession }}' />
-        {% endfor %}
-        </div>
+        {{ layer_form }}
     {% endfor %}
     {{ layer_formset.management_form }}
 

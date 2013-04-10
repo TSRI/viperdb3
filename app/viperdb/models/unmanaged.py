@@ -38,7 +38,10 @@ class Entity(models.Model):
     entity_key = models.AutoField(primary_key=True, db_column='entity_key')
     entry_key = models.ForeignKey(MmsEntry, db_column='entry_key')
     pdbx_description = models.TextField()
-    type = models.CharField(max_length=255)
+    type = models.CharField(max_length=255, db_column='type')
+
+    def __unicode__(self):
+        return self.pdbx_description
 
 class StructRef(models.Model):
     class Meta:

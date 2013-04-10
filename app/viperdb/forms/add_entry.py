@@ -1,5 +1,5 @@
 from django import forms
-from viperdb.models import Virus, Layer
+from viperdb.models import Virus, Layer, Entity
 
 class InitialVirusForm(forms.Form):
     FILE_REMOTE = 1
@@ -20,6 +20,7 @@ class InitialVirusForm(forms.Form):
 class VirusForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(VirusForm, self).__init__(*args, **kwargs)
+        self.fields['entry_id'].widget.attrs.update({'class' : 'required'}) 
         self.fields['entry_id'].required = True
 
     class Meta:
@@ -31,13 +32,27 @@ class VirusForm(forms.ModelForm):
         return self.cleaned_data
 
 class LayerForm(forms.ModelForm):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, entry_key, *args, **kwargs):
         super(LayerForm, self).__init__(*args, **kwargs)
+        self.fields['tnumber'].widget.attrs.update({'class' : 'required'}) 
+        self.fields['layer_name'].widget.attrs.update({'class' : 'required'}) 
+        self.fields['subunit_name'].widget.attrs.update({'class' : 'required'}) 
         self.fields['tnumber'].required = True
+        self.fields['layer_name'].required = True
+        self.fields['subunit_name'].required = True
+
+        self.fields['entities'] = forms.ModelMultipleChoiceField(
+            queryset=Entity.objects.filter(entry_key=entry_key, 
+                                           type='polymer'),
+            widget=forms.CheckboxSelectMultiple,
+        )
         
     class Meta:
         model = Layer
         exclude = ['entry_key', 'layer_id', 'entry_id', "min_diameter", "ave_diameter", "max_diameter"]
+
+    def clean(self):
+        return self.cleaned_data
 
 class MatrixChoiceForm(forms.Form):
     matrix_selection = forms.ChoiceField(widget=forms.RadioSelect, choices=Virus.MATRIX_CHOICES)
