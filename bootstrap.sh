@@ -7,7 +7,20 @@ if [[ $(ruby -e 'print RUBY_VERSION') != '1.9.3' ]]; then
   rvm install 1.9.3 --default
 fi
 
-if [[ $(gem -v) != '1.8.11' ]]; then
+if [[ $(gem -v) != '1.8.25' ]]; then
   rvm rubygems current
   sudo update-alternatives --set gem /usr/bin/gem1.9.1
+  gem install bundler
+  bundle install
 fi
+
+if [[ $(which berks) ]]; then
+  berks install
+fi
+
+if which chef-solo >/dev/null; then
+  sudo /usr/local/bin/chef-solo -c solo.rb -j node.json
+else
+  sudo true && curl -L https://www.opscode.com/chef/install.sh | sudo bash
+fi
+

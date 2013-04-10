@@ -1,13 +1,15 @@
 cookbook 'database'
 cookbook 'mysql'
 cookbook 'python'
-cookbook 'redis'
+cookbook 'redis', github: "miah/chef-redis"
+cookbook 'discovery', github: "jkl1337/discovery", branch: 'support-1.8'
 cookbook 'java'
 cookbook 'nodejs'
 
 cookbook 'supervisor'
+
 cookbook 'nginx'
+cookbook 'openmms', path: "../viperdb/cookbook-openmms"
 cookbook 'runit'
 
-cookbook 'openmms', git: 'https://github.com/VIPERdb/cookbook-openmms.git'
-cookbook 'viperdb', git: 'https://github.com/VIPERdb/cookbook-viperdb.git'
+cookbook 'viperdb', path: '../viperdb/cookbook-viperdb'
