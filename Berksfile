@@ -7,9 +7,12 @@ cookbook 'java'
 cookbook 'nodejs'
 
 cookbook 'supervisor'
+cookbook 'git', github: "wehaveweneed/cookbook-git"
 
 cookbook 'nginx'
 cookbook 'openmms', path: "../viperdb/cookbook-openmms"
 cookbook 'runit'
 
 cookbook 'viperdb', path: '../viperdb/cookbook-viperdb'
+
+cookbook 'application_nginx', path: '../viperdb/application_nginx'
