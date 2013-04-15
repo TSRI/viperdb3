@@ -12,3 +12,4 @@ app/static_files/.sass-cache/
 app/static_files/sass/.sass-cache/
 app/static_files/js/virus/*.js
 app/static_files/css/*.css
+data_bags/
