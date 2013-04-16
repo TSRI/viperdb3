@@ -67,17 +67,6 @@ $ ->
             if (!field.value?) or field.value is ""
                 $(field).parent().parent().addClass "error"
                 error = true
+        unless error
+            e.currentTarget.submit()        
         not error
-
-    # $("#virus_form").submit ->
-    #     $(".required").each (index, field) ->
-    #         field.className.parent().parent().addClass "error"  if not field.value? or field.value is ""
-
-
-    #     var x = document.forms.["virus_form"]['entry_id'].value;
-    #     if (x==null || x=="" && x.hasAttribute("required"))
-
-    # $("virus_form").submit ->
-    #     boxes = $("span.js-polymers input[type='checkbox']")
-    #     _.some boxes, (checkbox) ->
-    #         checkbox.attr "checked"

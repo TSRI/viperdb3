@@ -79,6 +79,9 @@
           return error = true;
         }
       });
+      if (!error) {
+        e.currentTarget.submit();
+      }
       return !error;
     });
   });
