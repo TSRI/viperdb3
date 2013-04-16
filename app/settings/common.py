@@ -228,7 +228,13 @@ PIPELINE_JS = {
 }
 
 PIPELINE_CSS = {
-    'main': {'source_filenames': ('sass/main.sass',)},
+    'main': {
+        'source_filenames': (
+            'sass/main.sass',
+        ),
+        'output_filename': 'stylesheets/main.css',
+        'variant': 'datauri',
+    },
     'graph': {
         'source_filenames': (
             'sass/graph.sass',
