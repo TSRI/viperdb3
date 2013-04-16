@@ -54,12 +54,6 @@ $ ->
             console.log err
         dataType: 'json'
 
-        # $(".required").each(function(index,field) {
-        #     if(field.value == null || field.value == "")
-        #     {
-        #         field.className.parent().parent().addClass("error");
-        #     }
-        # })
     $("#virus_form").submit (e) ->
         e.preventDefault()
         error = false
