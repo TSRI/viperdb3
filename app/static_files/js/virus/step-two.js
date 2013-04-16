@@ -53,7 +53,7 @@
     $("#id_unique").on('click', function() {
       return $("label[for=unique_relative], #id_unique_relative")[this.checked ? "hide" : "show"]();
     });
-    return $.ajax({
+    $.ajax({
       url: "/admin/add_entry/start_pdbase",
       data: {
         entry_id: $('#entry_id').attr("value"),
@@ -68,6 +68,21 @@
         return console.log(err);
       },
       dataType: 'json'
+    });
+    return $("#virus_form").submit(function(e) {
+      var error;
+      e.preventDefault();
+      error = false;
+      $(".required").each(function(index, field) {
+        if ((field.value == null) || field.value === "") {
+          $(field).parent().parent().addClass("error");
+          return error = true;
+        }
+      });
+      if (!error) {
+        e.currentTarget.submit();
+      }
+      return !error;
     });
   });
 

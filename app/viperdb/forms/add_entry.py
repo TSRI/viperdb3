@@ -20,7 +20,9 @@ class InitialVirusForm(forms.Form):
 class VirusForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(VirusForm, self).__init__(*args, **kwargs)
-        self.fields['entry_id'].required = True
+        for key, field in self.fields.iteritems():
+            if field.required:
+                field.widget = forms.TextInput(attrs={'class':'required'})
 
     class Meta:
         model = Virus
@@ -33,7 +35,6 @@ class VirusForm(forms.ModelForm):
 class LayerForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(LayerForm, self).__init__(*args, **kwargs)
-        self.fields['tnumber'].required = True
         
     class Meta:
         model = Layer
