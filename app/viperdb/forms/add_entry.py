@@ -21,7 +21,6 @@ class VirusForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(VirusForm, self).__init__(*args, **kwargs)
         for key, field in self.fields.iteritems():
-            #import pdb; pdb.set_trace()
             if field.required:
                 field.widget = forms.TextInput(attrs={'class':'required'})
 
@@ -36,9 +35,6 @@ class VirusForm(forms.ModelForm):
 class LayerForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(LayerForm, self).__init__(*args, **kwargs)
-        # self.fields['tnumber'].required = True
-        # self.fields['layer_name'].required = True
-        # self.fields['subunit_name'].required = True
         
     class Meta:
         model = Layer
