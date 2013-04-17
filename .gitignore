@@ -14,3 +14,4 @@ app/static_files/js/virus/*.js
 app/static_files/css/*.css
 .vagrant*
 data_bags/
+app/static/
