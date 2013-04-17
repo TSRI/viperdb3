@@ -15,3 +15,4 @@ app/static_files/css/*.css
 app/static/
 .vagrant*
 data_bags/
+app/static/

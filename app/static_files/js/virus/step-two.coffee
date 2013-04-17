@@ -53,3 +53,14 @@ $ ->
         error: (err) ->
             console.log err
         dataType: 'json'
+
+    $("#virus_form").submit (e) ->
+        e.preventDefault()
+        error = false
+        $(".required").each (index, field) ->
+            if (!field.value?) or field.value is ""
+                $(field).parent().parent().addClass "error"
+                error = true
+        unless error
+            e.currentTarget.submit()        
+        not error
