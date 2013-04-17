@@ -1,5 +1,5 @@
 from django import forms
-from viperdb.models import Virus, Layer
+from viperdb.models import Virus, Family, Layer
 
 class InitialVirusForm(forms.Form):
     FILE_REMOTE = 1
@@ -20,6 +20,8 @@ class InitialVirusForm(forms.Form):
 class VirusForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(VirusForm, self).__init__(*args, **kwargs)
+
+        self.fields["family"].queryset = Family.objects.order_by('name')
         for key, field in self.fields.iteritems():
             if field.required:
                 field.widget = forms.TextInput(attrs={'class':'required'})
