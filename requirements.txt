@@ -24,3 +24,4 @@ urllib3
 MySQL-python
 nose
 requests
+kombu

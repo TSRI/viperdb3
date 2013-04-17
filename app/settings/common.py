@@ -228,13 +228,19 @@ PIPELINE_JS = {
 }
 
 PIPELINE_CSS = {
-    'main': {'source_filenames': ('sass/main.sass',)},
-    'graph': {
+    'main-bundle': {
+        'source_filenames': (
+            'sass/main.sass',
+        ),
+        'output_filename': 'stylesheets/main-bundle.css',
+        'variant': 'datauri',
+    },
+    'graph-bundle': {
         'source_filenames': (
             'sass/graph.sass',
             'sass/scatter-graph.sass',
         ),
-        'output_filename': 'stylesheets/graph.css',
+        'output_filename': 'stylesheets/graph-bundle.css',
         'variant': 'datauri',
     },
     'images': {
@@ -249,13 +255,13 @@ PIPELINE_CSS = {
         'output_filename': 'stylesheets/fancybox.css',
         'variant': 'datauri',
     },
-
 }
 PIPELINE_COMPILERS = (
-    'pipeline.compilers.coffee.CoffeeScriptCompiler',    
-    'pipeline_compass.compass.CompassCompiler',
+    'pipeline.compilers.coffee.CoffeeScriptCompiler',
+    'pipeline.compilers.sass.SASSCompiler',
 )
 PIPELINE_COFFEE_SCRIPT_BINARY = '/usr/local/bin/coffee'
+PIPELINE_SASS_BINARY = '/usr/local/bin/sass'
 PIPELINE_COMPASS_BINARY = '/usr/local/bin/compass'
 PIPELINE_CSS_COMPRESSOR = None
 PIPELINE_JS_COMPRESSOR = None
