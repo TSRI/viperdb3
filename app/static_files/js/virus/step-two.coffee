@@ -8,7 +8,6 @@ $ ->
             entry_id: $('#entry_id').attr "value"
             format: 'json'
         success: (data) ->
-            prefill_info data.entry_key
             $("#virus_form").attr "hidden", not data.pdbase
             $(".message").attr "hidden", data.pdbase
         error: (err) ->

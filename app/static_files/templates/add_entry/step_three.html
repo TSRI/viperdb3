@@ -4,6 +4,14 @@
     <form method='post'>
         <div>
             <div>
+                <h3>Layers</h3>
+                {% for layer_form in layer_formset %}
+                    {{ layer_form }}
+                {% endfor %}
+                {{ layer_formset.management_form }}
+            </div>
+            <div>
+                <h3>Matrices</h3>
             {% for row in viperize_matrix %}
                 {% for element in row %}
                     {{ element }}

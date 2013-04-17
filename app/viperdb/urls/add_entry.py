@@ -10,5 +10,5 @@ urlpatterns = patterns("viperdb.views.add_entry",
     url(r"^step_four$",  StepFourView.as_view(),  name="step_four"),
     url(r"^step_five$",  StepFiveView.as_view(),  name="step_five"),
     url(r"^start_pdbase$", "start_pdbase", name="start_pdbase"),
-    url(r"^delete_entry$", "delete_entry", name="delete_entry"),
+    url(r"^delete_entry$", "delete_existing_entry", name="delete_entry"),
 )

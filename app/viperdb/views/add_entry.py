@@ -75,17 +75,18 @@ class StepOneView(FormView):
 
         return super(StepOneView, self).form_valid(form)
 
-
-@login_required
 @ajax_request
-def delete_existing_entry(entry_id):
+def delete_existing_entry(mms_entry):
     """Takes care of deleting all existing references to this virus"""
-    virus = get_object_or_404(Virus, entry_id=entry_id)
+    virus = get_object_or_None(Virus, entry_key=mms_entry.entry_key)
+
     path = os.getenv('VIPERDB_ANALYSIS_PATH')
-    subprocess.check_output([os.path.join(path, 'scripts/delete_entry.pl'),'-e %s' % virus.entry_key])
-    Layer.objects.filter(entry_id=virus.entry_id).delete()
-    Virus.objects.filter(entry_id=virus.entry_id).delete()
-    LayerEntity.objects.filter(entry_id=virus.entry_id).delete()
+    subprocess.check_output([os.path.join(path, 'scripts/delete_entry.pl'),'-e %s' % mms_entry.entry_key])
+
+    if virus:
+        Layer.objects.filter(entry_id=virus.entry_id).delete()
+        Virus.objects.filter(entry_id=virus.entry_id).delete()
+        LayerEntity.objects.filter(entry_id=virus.entry_id).delete()
 
 
 class StepTwoView(FormView):
@@ -97,52 +98,27 @@ class StepTwoView(FormView):
         initial.update({'entry_id': self.request.session['entry_id']})
         return initial
 
-    def get_layer_formset(self):
-        entry_key = get_entry_key(self.request.session['entry_id'])
-        layer_formset = formset_factory(LayerForm)
-        layer_formset.form = staticmethod(curry(LayerForm, entry_key=entry_key))
-        return layer_formset
-
     def get_context_data(self, **kwargs):
-        kwargs = super(StepTwoView, self).get_context_data(**kwargs)
-
-        kwargs.update({'layer_formset': self.get_layer_formset(),
-                       'entry_id': self.request.session['entry_id']})
-        return kwargs
+        context = super(StepTwoView, self).get_context_data(**kwargs)
+        context.update({'entry_id': self.request.session['entry_id']})
+        return context
 
     def get_success_url(self):
         return reverse('add_entry:step_three')
 
-    def post(self, request, *args, **kwargs):
-        virus_form = self.get_form(self.form_class)
-        layer_formset = self.get_layer_formset()
-        layer_formset = layer_formset(request.POST)
-
-        if virus_form.is_valid() and layer_formset.is_valid():
-            return self.form_valid(virus_form, layer_formset)
-        else:
-            return self.form_invalid(virus_form, layer_formset)
-
-    def form_valid(self, virus_form, layer_formset):
+    def form_valid(self, virus_form):
         entry_id = self.request.session['entry_id']
         virus = virus_form.save(commit=False)
-        prepare_virus(virus, entry_id, layer_formset)
+        prepare_virus(virus, entry_id)
         virus.save()
 
         mms_entry = MmsEntry.objects.get(entry_key=str(virus.entry_key))
         prepare_mms_entry(mms_entry, virus)
         mms_entry.save()
 
-        for index, layer_form in enumerate(layer_formset):
-            layer = layer_form.save(commit=False)
-            prepare_layer(virus, layer)
-            layer.save()
-
-            save_layer_entities(virus, layer, layer_form.cleaned_data['entities'])
-
         return HttpResponseRedirect(self.get_success_url())
 
-    def form_invalid(self, virus_form, layer_formset):
+    def form_invalid(self, virus_form):
         return super(StepTwoView, self).form_invalid(virus_form)
 
 
@@ -161,29 +137,15 @@ def get_entry_key(entry_id):
     """Take an entry_id and get it's corresponding entry_key"""
     return MmsEntry.objects.filter(id=entry_id).latest('entry_key').entry_key
 
-def prepare_virus(virus, entry_id, virus_layers): 
+def prepare_virus(virus, entry_id): 
     """Prepare virus for entry into database"""
     virus.entry_key = get_entry_key(entry_id)
-    virus.layer_count = len(virus_layers)
     virus.prepared = False
 
 def prepare_mms_entry(mms_entry, virus):
     """Prepare mms_entry after virus deposition"""
     mms_entry.deposition_date = virus.deposition_date
 
-def prepare_layer(virus, layer):
-    """Prepare layer for entry into database"""
-    layer.entry_key = virus.entry_key
-    layer.entry_id = virus
-
-def save_layer_entities(virus, layer, entities):
-    """Saves LayerEntity association table entries"""
-    LayerEntity.objects.bulk_create([
-        LayerEntity(entry_id=virus.entry_id,
-                    layer_key=layer.layer_key,
-                    entity_key=entity.entity_key)
-        for entity in entities
-    ])
 
 class StepThreeView(FormView):
     template_name = "add_entry/step_three.html"
@@ -196,18 +158,28 @@ class StepThreeView(FormView):
     def get_viperize_matrix(self, entry_id):
         return send_task('virus.get_matrix', args=[entry_id], kwargs={}).get().split()
 
+    def get_layer_formset(self):
+        entry_key = get_entry_key(self.request.session['entry_id'])
+        LayerFormset = formset_factory(LayerForm)
+        LayerFormset.form = staticmethod(curry(LayerForm, entry_key=entry_key))
+        return LayerFormset
+
     def get_context_data(self, **kwargs):
         virus = Virus.objects.get(entry_id=self.request.session['entry_id'])
         self.viperize_matrix = self.get_viperize_matrix(virus.pk)
         mismatched_chains = get_mismatched_chains(virus.entry_key)
+
+        LayerFormset = self.get_layer_formset()(prefix='layers')
         ChainFormset = formset_factory(ChainForm, extra=len(mismatched_chains))
 
-        chain_formset = ChainFormset()
+        chain_formset = ChainFormset(prefix="chains")
         for index, chain_form in enumerate(chain_formset):
             chain_form.chain = mismatched_chains[index]
 
         kwargs = super(StepThreeView, self).get_context_data(**kwargs)
         kwargs.update({
+            'layer_formset': self.get_layer_formset(),
+            'entry_id': self.request.session['entry_id'],
             'viperize_matrix': make_2d_matrix(self.viperize_matrix, with_vector=True),
             'unit_matrix': make_2d_matrix(self.unit_matrix, with_vector=True),
             'chain_formset': chain_formset,
@@ -216,22 +188,36 @@ class StepThreeView(FormView):
         return kwargs
 
     def post(self, request, *args, **kwargs):
-
+        layer_formset = self.get_layer_formset()(request.POST, prefix="layers")
         matrix_form = self.get_form(self.form_class)
-        chain_formset = self.get_form(formset_factory(ChainForm))
+        ChainFormset = formset_factory(ChainForm)
+        chain_formset = ChainFormset(request.POST, prefix="chains")
+
         virus = Virus.objects.get(entry_id=self.request.session['entry_id'])
 
         self.mismatched_chains = get_mismatched_chains(virus.entry_key)
         self.viperize_matrix = self.get_viperize_matrix(virus.pk)
 
-        if matrix_form.is_valid() and chain_formset.is_valid():
-            return self.form_valid(request, virus, matrix_form, chain_formset)
+        if (matrix_form.is_valid() and chain_formset.is_valid() and 
+            layer_formset.is_valid()):
+            return self.form_valid(request, virus, matrix_form, chain_formset, 
+                                   layer_formset)
         else:
-            return self.form_invalid(request, virus, matrix_form, chain_formset)
+            return self.form_invalid(request, virus, matrix_form, chain_formset, 
+                                     layer_formset)
 
-    def form_valid(self, request, virus, matrix_form, chain_formset):
+    def form_valid(self, request, virus, matrix_form, chain_formset, layer_formset):
+
+        for index, layer_form in enumerate(layer_formset):
+            layer = layer_form.save(commit=False)
+            prepare_layer(virus, layer)
+            layer.save()
+
+            save_layer_entities(virus, layer, layer_form.cleaned_data['entities'])
+        virus.layer_count = len(layer_formset)
+
+        # VIPER Matrix Selection
         matrix_choice = int(matrix_form.cleaned_data['matrix_selection'])
-
         if matrix_choice is Virus.MTX_UNIT:
             user_matrix = unit_matrix
         if matrix_choice is Virus.MTX_INPUT:
@@ -265,6 +251,17 @@ class StepThreeView(FormView):
     def form_invalid(self, request, virus, matrix_form, chain_formset):
         pass
 
+def prepare_layer(virus, layer):
+    """Prepare layer for entry into database"""
+    layer.entry_key = virus.entry_key
+    layer.entry_id = virus
+
+def save_layer_entities(virus, layer, entities):
+    """Saves LayerEntity association table entries"""
+    LayerEntity.objects.bulk_create([
+        LayerEntity(entry_id=virus, layer_key=layer, entity_key=entity)
+        for entity in entities
+    ])
 
 def make_2d_matrix(src_matrix, with_vector=False):
     """Turns a 1x12 vector into a 3x4 matrix"""
@@ -280,7 +277,9 @@ def prepare_matrix(virus, matrix, vector):
 
 def rename_chain(entry_key, chain_to_rename, rename_to):
     # TODO - Finish rename_chain
-    atom_sites = AtomSite.objects.filter(entry_key=entry_key, label_asym_id=chain_to_rename).update(label_asym_id=rename_to)
+    atom_sites = (AtomSite.objects.filter(entry_key=entry_key, 
+                                          label_asym_id=chain_to_rename)
+                                  .update(label_asym_id=rename_to))
     print atom_sites
 
 
