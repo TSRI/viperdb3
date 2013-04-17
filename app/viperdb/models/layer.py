@@ -11,9 +11,9 @@ class Layer(models.Model):
     entry_key = models.IntegerField()
     entry_id = models.ForeignKey(Virus, to_field='entry_id', 
                                  db_column='entry_id', related_name='layers')
-    layer_name = models.CharField(max_length=255)
+    layer_name = models.CharField(max_length=255, blank=False)
     tnumber = models.CharField(max_length=5, verbose_name="T-Number", blank=False)
-    subunit_name = models.CharField(max_length=5)
+    subunit_name = models.CharField(max_length=5, blank=False)
     min_diameter = models.FloatField(editable=False, null=True, blank=True, 
                                      verbose_name="Minimum Diameter")
     ave_diameter = models.FloatField(editable=False, null=True, blank=True, 

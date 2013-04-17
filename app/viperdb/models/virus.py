@@ -1,9 +1,21 @@
+from datetime import datetime
 from django.db import models
 from django.db.models.deletion import CASCADE
 
 from celery.execute import send_task
 
 from viperdb.models import VirusResidueAsa, VirusEnergy
+
+
+class Family(models.Model):
+    class Meta: 
+        app_label = "viperdb"
+        verbose_name_plural = 'Families'
+        
+    name = models.CharField(max_length=32, null=True, blank=True)
+
+    def __unicode__(self):
+        return self.name
 
 
 class Virus (models.Model):
@@ -26,19 +38,19 @@ class Virus (models.Model):
                      (CHAIN_MAINTAIN, 'Leave it as is.'))
 
     entry_id = models.CharField(max_length=8, primary_key=True, db_column='entry_id', blank=False)
-    entry_key = models.IntegerField(unique=True, editable=False)
-    pubmed_id = models.CharField(max_length=8, blank=True, null=True, verbose_name='Pubmed ID')
-    name = models.CharField(max_length=255, null=True, blank=True)
-    generic_name = models.CharField(max_length=255, null=True, blank=True)
-    deposition_date = models.DateField(null=True, blank=True)
-    genome = models.CharField(max_length=8, null=True, blank=True)
-    family = models.CharField(max_length=32, null=True, blank=True)
-    genus = models.CharField(max_length=32, null=True, blank=True)
-    host = models.CharField(max_length=32, null=True, blank=True)
+    entry_key = models.IntegerField(unique=True, editable=False, default="")
+    pubmed_id = models.CharField(max_length=8, blank=True, null=True, verbose_name='Pubmed ID', default="")
+    name = models.CharField(max_length=255, null=True, blank=True, default="")
+    generic_name = models.CharField(max_length=255, null=True, blank=True, default="")
+    deposition_date = models.DateField(null=True, blank=True, default=datetime.now)
+    genome = models.CharField(max_length=8, null=True, blank=True, default="")
+    family = models.ForeignKey(Family, null=True, blank=True)
+    genus = models.CharField(max_length=32, null=True, blank=True, default="")
+    host = models.CharField(max_length=32, null=True, blank=True, default="")
     resolution = models.FloatField(blank=True, null=True)
-    unique = models.BooleanField()
+    unique = models.BooleanField(default=True)
     unique_relative = models.ForeignKey('Virus', null=True, blank=True)
-    layer_count = models.IntegerField()
+    layer_count = models.IntegerField(default=1)
     matrix_0_0 = models.FloatField(editable=False, null=True, blank=True)
     matrix_0_1 = models.FloatField(editable=False, null=True, blank=True)
     matrix_0_2 = models.FloatField(editable=False, null=True, blank=True)
@@ -54,7 +66,7 @@ class Virus (models.Model):
     min_diameter = models.FloatField(editable=False, null=True, blank=True)
     ave_diameter = models.FloatField(editable=False, null=True, blank=True)
     max_diameter = models.FloatField(editable=False, null=True, blank=True)
-    prepared = models.BooleanField()
+    prepared = models.BooleanField(default=False)
     times_viewed = models.IntegerField(editable=False, default=0, blank=True)
     private = models.BooleanField(editable=False)
 
