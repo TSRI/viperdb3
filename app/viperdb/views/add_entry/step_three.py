@@ -58,7 +58,7 @@ class StepThreeView(FormView):
         matrix_choice = int(matrix_form.cleaned_data['matrix_selection'])
 
         if matrix_choice is Virus.MTX_UNIT:
-            user_matrix = unit_matrix
+            user_matrix = self.unit_matrix
         if matrix_choice is Virus.MTX_INPUT:
             user_matrix = request.POST.getlist('matrix')
         elif matrix_choice is Virus.MTX_VIPERIZE:
@@ -89,3 +89,58 @@ class StepThreeView(FormView):
 
     def form_invalid(self, request, virus, matrix_form, chain_formset):
         pass
+
+
+
+def make_2d_matrix(src_matrix, with_vector=False):
+    """Turns a 1x12 vector into a 3x4 matrix"""
+    return [[src_matrix[(i*4)+j] for j in range(4)] for i in range(3)]
+
+def prepare_matrix(virus, matrix, vector):
+    """Prepare virus with given matrix and vector"""
+    for i in range(3):
+        for j in range(3):
+            index = "%s_%s" % (str(i), str(j))
+            setattr(virus, 'matrix_%s' % (index), matrix[i][j])
+        setattr(virus, 'vector_%s' % (str(i)), vector[i])
+
+def rename_chain(entry_key, chain_to_rename, rename_to):
+    # TODO - Finish rename_chain
+    atom_sites = AtomSite.objects.filter(entry_key=entry_key, label_asym_id=chain_to_rename).update(label_asym_id=rename_to)
+    print atom_sites
+
+
+
+def move_chain(virus, chain, matrix_number):
+    """Moving chains from one orientation to another"""
+    seq_range = AtomSite.objects.filter(entry_key=virus.entry_key, label_asym_id=chain).aggregate(Min('auth_seq_id'), Max('auth_seq_id'))
+    icos_matrix = IcosMatrix.objects.get(pk=matrix_number)
+    entity_key = AtomSite.objects.filter(label_asym_id=chain, entry_key=virus.entry_key).distinct().order_by('label_asym_id')[0].label_entity_key
+    au_matrix = get_object_or_None(AuMatrix, entry_id=virus.entry_id)
+    if not au_matrix:
+        au_matrix = AuMatrix(au_matrix_key=AuMatrix.objects.count()+1, entry_key=MmsEntry.objects.get(pk=virus.entry_key), entry_id=virus, label_entity_key=entity_key, label_asym_id=chain, seq_range_string=str(seq_range['auth_seq_id__min']) + "-" + str(seq_range['auth_seq_id__max']))
+
+    [[setattr(au_matrix, 'matrix_' + str(i) + '_' + str(j), getattr(icos_matrix, 'matrix_' + str(i) + '_' + str(j))) for j in range(3)] for i in range(3)]
+    [[setattr(au_matrix, 'matrix_%s_%s' % (str(i), str(j)), getattr(icos_matrix, 'matrix_%s_%s' % (str(i), str(j)))) for j in range(3)] for i in range(3)]
+    [setattr(au_matrix, 'vector_%s' % (str(i)), 0) for i in range(3)]
+    return au_matrix
+
+def prepare_diameters(layer, diameters):
+    """Prepare layer with diameter information"""
+    diameter_types = ["min", "ave", "max"]
+    for index, diameter in enumerate(diameters):
+        setattr(layer, "%s_diameter" % (diameter_types[index]), diameter)
+
+def get_diameters(virus):
+    """Calls script to return diameters"""
+    # TODO - Add logic to re-use existing diameters
+    return send_task('virus.get_diameters', args=[virus.entry_id], kwargs={}).get()
+
+def save_diameters(virus, diameters):
+    """Sets diameters for given virus"""
+    # TODO - Add logic for multiple layers    
+    for layer in virus.layers.all():
+        # diameters = get_diameters(virus)
+        # if diameters:
+        prepare_diameters(layer, diameters)
+        layer.save()

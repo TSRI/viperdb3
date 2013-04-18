@@ -9,5 +9,5 @@ urlpatterns = patterns("viperdb.views.add_entry",
     url(r"^step_three$", StepThreeView.as_view(), name="step_three"),
     url(r"^step_four$",  StepFourView.as_view(),  name="step_four"),
     url(r"^step_five$",  StepFiveView.as_view(),  name="step_five"),
-    url(r"^start_pdbase$", "add_entry.utilities.start_pdbase", name="start_pdbase"),
+    url(r"^start_pdbase$", "start_pdbase", name="start_pdbase"),
 )

@@ -6,6 +6,7 @@ from django.views.generic import FormView
 from django.shortcuts import redirect
 from django.utils.decorators import method_decorator
 
+from annoying.decorators import ajax_request
 from annoying.functions import get_object_or_None
 from celery.execute import send_task
 
