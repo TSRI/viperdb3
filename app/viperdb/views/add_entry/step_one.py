@@ -21,7 +21,6 @@ class StepOneView(FormView):
         return super(StepOneView, self).dispatch(request, *args, **kwargs)
 
     def get_success_url(self):
-        import pdb; pdb.set_trace()
         return reverse('add_entry:step_two')
 
     def form_valid(self, form):

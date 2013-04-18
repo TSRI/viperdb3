@@ -8,6 +8,7 @@ from celery.execute import send_task
 
 from viperdb.forms.add_entry import MatrixChoiceForm, ChainForm
 from viperdb.helpers import get_mismatched_chains
+from viperdb.models import Virus, MmsEntry, LayerEntity
 
 class StepThreeView(FormView):
     template_name = "add_entry/step_three.html"

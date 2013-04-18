@@ -3,8 +3,8 @@ from django.forms.formsets import formset_factory
 from django.http import HttpResponseRedirect
 from django.views.generic import FormView
 
-from viperdb.forms.add_entry import (VirusForm)
-
+from viperdb.forms.add_entry import VirusForm, LayerForm
+from viperdb.models import MmsEntry, LayerEntity
 
 class StepTwoView(FormView):
     template_name = "add_entry/step_two.html"
