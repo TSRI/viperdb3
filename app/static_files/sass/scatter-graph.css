@@ -1,20 +1,30 @@
+/* line 1, scatter-graph.sass */
 .axis text {
   fill: #333333;
   font-family: sans-serif;
-  font-size: 10px; }
+  font-size: 10px;
+}
 
+/* line 6, scatter-graph.sass */
 .axis .domain {
-  opacity: 0; }
+  opacity: 0;
+}
 
+/* line 9, scatter-graph.sass */
 .tick {
-  stroke: #cccccc; }
+  stroke: #cccccc;
+}
 
+/* line 12, scatter-graph.sass */
 .tip {
   fill: #0000cc;
-  font-weight: bold; }
+  font-weight: bold;
+}
 
+/* line 16, scatter-graph.sass */
 .tip text {
   fill: white;
   font-size: 12px;
   stroke: none;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; }
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
