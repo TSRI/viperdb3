@@ -1,55 +1,343 @@
-/*
-Syntax error: File to import not found or unreadable: blueprint/grid.
-              Load path: /export/viperdb/production/releases/f3272231e670061f8372581da05299d3a5ccb962/app/static_files/sass
-        on line 12 of /export/viperdb/production/releases/f3272231e670061f8372581da05299d3a5ccb962/app/static_files/sass/partials/_base.sass
-        from line 2 of /export/viperdb/production/releases/f3272231e670061f8372581da05299d3a5ccb962/app/static_files/sass/main.sass
+@import url(http://fonts.googleapis.com/css?family=Source+Sans+Pro:400);
+/* line 1, partials/_home.sass */
+#content, div.inner {
+  width: 960px;
+  margin: 0 auto;
+  font-family: Source Sans Pro;
+}
 
-7: @import "partials/search"
+/* line 6, partials/_home.sass */
+#content {
+  margin-top: 10px;
+}
 
-Backtrace:
-/export/viperdb/production/releases/f3272231e670061f8372581da05299d3a5ccb962/app/static_files/sass/partials/_base.sass:12
-/export/viperdb/production/releases/f3272231e670061f8372581da05299d3a5ccb962/app/static_files/sass/main.sass:2
-/var/lib/gems/1.9.1/gems/sass-3.2.7/lib/sass/tree/import_node.rb:67:in `rescue in import'
-/var/lib/gems/1.9.1/gems/sass-3.2.7/lib/sass/tree/import_node.rb:45:in `import'
-/var/lib/gems/1.9.1/gems/sass-3.2.7/lib/sass/tree/import_node.rb:28:in `imported_file'
-/var/lib/gems/1.9.1/gems/sass-3.2.7/lib/sass/tree/import_node.rb:37:in `css_import?'
-/var/lib/gems/1.9.1/gems/sass-3.2.7/lib/sass/tree/visitors/perform.rb:217:in `visit_import'
-/var/lib/gems/1.9.1/gems/sass-3.2.7/lib/sass/tree/visitors/base.rb:37:in `visit'
-/var/lib/gems/1.9.1/gems/sass-3.2.7/lib/sass/tree/visitors/perform.rb:100:in `visit'
-/var/lib/gems/1.9.1/gems/sass-3.2.7/lib/sass/tree/visitors/perform.rb:227:in `block in visit_import'
-/var/lib/gems/1.9.1/gems/sass-3.2.7/lib/sass/tree/visitors/perform.rb:227:in `map'
-/var/lib/gems/1.9.1/gems/sass-3.2.7/lib/sass/tree/visitors/perform.rb:227:in `visit_import'
-/var/lib/gems/1.9.1/gems/sass-3.2.7/lib/sass/tree/visitors/base.rb:37:in `visit'
-/var/lib/gems/1.9.1/gems/sass-3.2.7/lib/sass/tree/visitors/perform.rb:100:in `visit'
-/var/lib/gems/1.9.1/gems/sass-3.2.7/lib/sass/tree/visitors/base.rb:53:in `block in visit_children'
-/var/lib/gems/1.9.1/gems/sass-3.2.7/lib/sass/tree/visitors/base.rb:53:in `map'
-/var/lib/gems/1.9.1/gems/sass-3.2.7/lib/sass/tree/visitors/base.rb:53:in `visit_children'
-/var/lib/gems/1.9.1/gems/sass-3.2.7/lib/sass/tree/visitors/perform.rb:109:in `block in visit_children'
-/var/lib/gems/1.9.1/gems/sass-3.2.7/lib/sass/tree/visitors/perform.rb:121:in `with_environment'
-/var/lib/gems/1.9.1/gems/sass-3.2.7/lib/sass/tree/visitors/perform.rb:108:in `visit_children'
-/var/lib/gems/1.9.1/gems/sass-3.2.7/lib/sass/tree/visitors/base.rb:37:in `block in visit'
-/var/lib/gems/1.9.1/gems/sass-3.2.7/lib/sass/tree/visitors/perform.rb:128:in `visit_root'
-/var/lib/gems/1.9.1/gems/sass-3.2.7/lib/sass/tree/visitors/base.rb:37:in `visit'
-/var/lib/gems/1.9.1/gems/sass-3.2.7/lib/sass/tree/visitors/perform.rb:100:in `visit'
-/var/lib/gems/1.9.1/gems/sass-3.2.7/lib/sass/tree/visitors/perform.rb:7:in `visit'
-/var/lib/gems/1.9.1/gems/sass-3.2.7/lib/sass/tree/root_node.rb:20:in `render'
-/var/lib/gems/1.9.1/gems/sass-3.2.7/lib/sass/engine.rb:315:in `_render'
-/var/lib/gems/1.9.1/gems/sass-3.2.7/lib/sass/engine.rb:262:in `render'
-/var/lib/gems/1.9.1/gems/sass-3.2.7/lib/sass/plugin/compiler.rb:341:in `update_stylesheet'
-/var/lib/gems/1.9.1/gems/sass-3.2.7/lib/sass/plugin/compiler.rb:203:in `block in update_stylesheets'
-/var/lib/gems/1.9.1/gems/sass-3.2.7/lib/sass/plugin/compiler.rb:201:in `each'
-/var/lib/gems/1.9.1/gems/sass-3.2.7/lib/sass/plugin/compiler.rb:201:in `update_stylesheets'
-/var/lib/gems/1.9.1/gems/sass-3.2.7/lib/sass/plugin/compiler.rb:235:in `watch'
-/var/lib/gems/1.9.1/gems/sass-3.2.7/lib/sass/plugin.rb:107:in `method_missing'
-/var/lib/gems/1.9.1/gems/sass-3.2.7/lib/sass/exec.rb:445:in `watch_or_update'
-/var/lib/gems/1.9.1/gems/sass-3.2.7/lib/sass/exec.rb:307:in `process_result'
-/var/lib/gems/1.9.1/gems/sass-3.2.7/lib/sass/exec.rb:41:in `parse'
-/var/lib/gems/1.9.1/gems/sass-3.2.7/lib/sass/exec.rb:21:in `parse!'
-/var/lib/gems/1.9.1/gems/sass-3.2.7/bin/sass:9:in `<top (required)>'
-/usr/local/bin/sass:19:in `load'
-/usr/local/bin/sass:19:in `<main>'
-*/
-body:before {
-  white-space: pre;
-  font-family: monospace;
-  content: "Syntax error: File to import not found or unreadable: blueprint/grid.\A               Load path: /export/viperdb/production/releases/f3272231e670061f8372581da05299d3a5ccb962/app/static_files/sass\A         on line 12 of /export/viperdb/production/releases/f3272231e670061f8372581da05299d3a5ccb962/app/static_files/sass/partials/_base.sass\A         from line 2 of /export/viperdb/production/releases/f3272231e670061f8372581da05299d3a5ccb962/app/static_files/sass/main.sass\A \A 7: @import \"partials/search\""; }
+/* line 9, partials/_home.sass */
+header {
+  font-family: Source Sans Pro;
+  border-bottom: 1px solid black;
+}
+/* line 13, partials/_home.sass */
+header h2 {
+  margin: 5px 0 5px 0;
+  display: inline-block;
+}
+/* line 16, partials/_home.sass */
+header nav {
+  display: inline;
+  float: left;
+  margin-right: 0;
+  width: 717.5px;
+  padding-left: 40.41667px;
+  display: inline-block;
+  float: none;
+}
+/* line 147, ../../../../../../var/lib/gems/1.9.1/gems/compass-0.12.2/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
+* html header nav {
+  overflow-x: hidden;
+}
+/* line 21, partials/_home.sass */
+header span {
+  display: inline;
+  float: left;
+  margin-right: 10px;
+  width: 232.5px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  text-align: center;
+  border: 1px solid black;
+}
+/* line 147, ../../../../../../var/lib/gems/1.9.1/gems/compass-0.12.2/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
+* html header span {
+  overflow-x: hidden;
+}
+/* line 26, partials/_home.sass */
+header span:last-child {
+  display: inline;
+  float: left;
+  margin-right: 0;
+  width: 313.33333px;
+}
+/* line 147, ../../../../../../var/lib/gems/1.9.1/gems/compass-0.12.2/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
+* html header span:last-child {
+  overflow-x: hidden;
+}
+
+/* line 29, partials/_home.sass */
+#latest-viruses {
+  display: inline;
+  float: left;
+  margin-right: 0;
+  width: 960px;
+}
+/* line 147, ../../../../../../var/lib/gems/1.9.1/gems/compass-0.12.2/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
+* html #latest-viruses {
+  overflow-x: hidden;
+}
+
+/* line 32, partials/_home.sass */
+p#virus-count {
+  display: inline;
+  float: left;
+  margin-right: 10px;
+  width: 313.33333px;
+}
+/* line 147, ../../../../../../var/lib/gems/1.9.1/gems/compass-0.12.2/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
+* html p#virus-count {
+  overflow-x: hidden;
+}
+/* line 34, partials/_home.sass */
+p#virus-count span.count {
+  font-size: 4em;
+  margin-top: 0px;
+}
+
+/* line 39, partials/_home.sass */
+ul.virus-list {
+  display: inline;
+  float: left;
+  margin-right: 0;
+  width: 636.66667px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  border: 1px solid black;
+  padding-left: 10px;
+}
+/* line 147, ../../../../../../var/lib/gems/1.9.1/gems/compass-0.12.2/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
+* html ul.virus-list {
+  overflow-x: hidden;
+}
+/* line 45, partials/_home.sass */
+ul.virus-list li {
+  list-style: none;
+  display: inline-block;
+  margin: 10px 0 10px 0;
+}
+/* line 50, partials/_home.sass */
+ul.virus-list li img.virus-image {
+  display: inline;
+  float: left;
+  margin-right: 10px;
+  width: 70.83333px;
+  height: 50px;
+}
+/* line 147, ../../../../../../var/lib/gems/1.9.1/gems/compass-0.12.2/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
+* html ul.virus-list li img.virus-image {
+  overflow-x: hidden;
+}
+/* line 53, partials/_home.sass */
+ul.virus-list li a.virus-name {
+  display: inline;
+  float: left;
+  margin-right: 10px;
+  width: 515.41667px;
+  line-height: 50px;
+  font-size: 0.6em;
+}
+/* line 147, ../../../../../../var/lib/gems/1.9.1/gems/compass-0.12.2/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
+* html ul.virus-list li a.virus-name {
+  overflow-x: hidden;
+}
+
+/* line 2, partials/_virus-info.sass */
+.name {
+  font-size: 1.75em;
+  margin-bottom: 0px;
+}
+
+/* line 6, partials/_virus-info.sass */
+section.info-section {
+  display: inline;
+  float: left;
+  margin-right: 0;
+  width: 960px;
+}
+/* line 147, ../../../../../../var/lib/gems/1.9.1/gems/compass-0.12.2/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
+* html section.info-section {
+  overflow-x: hidden;
+}
+
+/* line 9, partials/_virus-info.sass */
+section#virus-info {
+  display: inline;
+  float: left;
+  margin-right: 10px;
+  width: 757.91667px;
+}
+/* line 147, ../../../../../../var/lib/gems/1.9.1/gems/compass-0.12.2/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
+* html section#virus-info {
+  overflow-x: hidden;
+}
+/* line 11, partials/_virus-info.sass */
+section#virus-info #virus-nav {
+  margin: 5px 0 5px 0;
+  padding-left: 0px;
+}
+/* line 14, partials/_virus-info.sass */
+section#virus-info #virus-nav li {
+  display: inline;
+  list-style-type: none;
+  padding-right: 20px;
+}
+/* line 19, partials/_virus-info.sass */
+section#virus-info .biodata-row {
+  margin: 5px 0 5px 0;
+}
+/* line 22, partials/_virus-info.sass */
+section#virus-info .biodata-row .title {
+  font-weight: bold;
+}
+
+/* line 25, partials/_virus-info.sass */
+section#sidebar {
+  display: inline;
+  float: left;
+  margin-right: 0;
+  width: 192.08333px;
+  float: none;
+  display: inline-block;
+}
+/* line 147, ../../../../../../var/lib/gems/1.9.1/gems/compass-0.12.2/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
+* html section#sidebar {
+  overflow-x: hidden;
+}
+/* line 30, partials/_virus-info.sass */
+section#sidebar h4 {
+  margin: 5px 0;
+}
+/* line 32, partials/_virus-info.sass */
+section#sidebar ul {
+  padding-left: 0px;
+  margin-top: 5px;
+}
+/* line 35, partials/_virus-info.sass */
+section#sidebar ul li {
+  list-style-type: none;
+}
+
+/* line 39, partials/_virus-info.sass */
+section#illustrations {
+  display: inline;
+  float: left;
+  margin-right: 10px;
+  width: 757.91667px;
+  display: inline-block;
+}
+/* line 147, ../../../../../../var/lib/gems/1.9.1/gems/compass-0.12.2/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
+* html section#illustrations {
+  overflow-x: hidden;
+}
+/* line 43, partials/_virus-info.sass */
+section#illustrations #virus-images {
+  display: inline;
+  float: left;
+  margin-right: 10px;
+  width: 677.08333px;
+  margin-left: 10px;
+}
+/* line 147, ../../../../../../var/lib/gems/1.9.1/gems/compass-0.12.2/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
+* html section#illustrations #virus-images {
+  overflow-x: hidden;
+}
+/* line 47, partials/_virus-info.sass */
+section#illustrations .movement {
+  display: inline;
+  float: left;
+  margin-right: 10px;
+  width: 30.41667px;
+}
+/* line 147, ../../../../../../var/lib/gems/1.9.1/gems/compass-0.12.2/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
+* html section#illustrations .movement {
+  overflow-x: hidden;
+}
+/* line 49, partials/_virus-info.sass */
+section#illustrations .movement input {
+  height: 150px;
+}
+/* line 52, partials/_virus-info.sass */
+section#illustrations .small-images {
+  display: inline-block;
+}
+
+/* line 57, partials/_virus-info.sass */
+div#tabs {
+  width: 960px;
+  display: inline-block;
+  margin: 5px 0 5px 0;
+  padding-left: 0px;
+}
+/* line 62, partials/_virus-info.sass */
+div#tabs li {
+  display: inline;
+  list-style-type: none;
+  padding-right: 20px;
+}
+
+/* line 68, partials/_virus-info.sass */
+div#association-energies table, div#association-energies tbody, div#association-energies tr, div#qscores table, div#qscores tbody, div#qscores tr {
+  display: inline;
+  float: left;
+  margin-right: 0;
+  width: 960px;
+}
+/* line 147, ../../../../../../var/lib/gems/1.9.1/gems/compass-0.12.2/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
+* html div#association-energies table, * html div#association-energies tbody, * html div#association-energies tr, * html div#qscores table, * html div#qscores tbody, * html div#qscores tr {
+  overflow-x: hidden;
+}
+/* line 70, partials/_virus-info.sass */
+div#association-energies th, div#association-energies td, div#qscores th, div#qscores td {
+  display: inline;
+  float: left;
+  margin-right: 0;
+  width: 151.66667px;
+  text-align: center;
+}
+/* line 147, ../../../../../../var/lib/gems/1.9.1/gems/compass-0.12.2/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
+* html div#association-energies th, * html div#association-energies td, * html div#qscores th, * html div#qscores td {
+  overflow-x: hidden;
+}
+
+/* line 75, partials/_virus-info.sass */
+div#accessible-surface-profiles .js-asa-chart {
+  float: left;
+  margin-bottom: 15px;
+}
+/* line 79, partials/_virus-info.sass */
+div#accessible-surface-profiles p.title {
+  text-indent: 15px;
+  margin: 10px 0 5px 0;
+}
+
+/* line 2, partials/_search.sass */
+#search #sidebar {
+  display: inline;
+  float: left;
+  margin-right: 10px;
+  width: 192.08333px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  height: 500px;
+  border: 1px solid black;
+}
+/* line 147, ../../../../../../var/lib/gems/1.9.1/gems/compass-0.12.2/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
+* html #search #sidebar {
+  overflow-x: hidden;
+}
+/* line 8, partials/_search.sass */
+#search #results {
+  display: inline;
+  float: left;
+  margin-right: 0;
+  width: 757.91667px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  height: 500px;
+  border: 1px solid black;
+}
+/* line 147, ../../../../../../var/lib/gems/1.9.1/gems/compass-0.12.2/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
+* html #search #results {
+  overflow-x: hidden;
+}

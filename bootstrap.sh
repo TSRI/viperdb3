@@ -15,7 +15,7 @@ if [[ $(gem -v) != '1.8.25' ]]; then
 fi
 
 if [[ $(which berks) ]]; then
-  berks install
+  berks install -p /usr/local/lib/viperdb3/cookbooks/
 fi
 
 if which chef-solo >/dev/null; then

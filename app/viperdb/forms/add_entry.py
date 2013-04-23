@@ -24,7 +24,7 @@ class VirusForm(forms.ModelForm):
         self.fields["family"].queryset = Family.objects.order_by('name')
         for key, field in self.fields.iteritems():
             if field.required:
-                field.widget = forms.TextInput(attrs={'class':'required'})
+                field.widget.attrs.update({'class':'required'})
 
     class Meta:
         model = Virus
