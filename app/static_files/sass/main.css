@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 @import url(http://fonts.googleapis.com/css?family=Source+Sans+Pro:400);
 /* line 1, partials/_home.sass */
 #content, div.inner {
@@ -341,3 +342,60 @@ div#accessible-surface-profiles p.title {
 * html #search #results {
   overflow-x: hidden;
 }
+=======
+/*
+Syntax error: File to import not found or unreadable: blueprint/grid.
+              Load path: /export/viperdb/production/releases/f3272231e670061f8372581da05299d3a5ccb962/app/static_files/sass
+        on line 12 of /export/viperdb/production/releases/f3272231e670061f8372581da05299d3a5ccb962/app/static_files/sass/partials/_base.sass
+        from line 2 of /export/viperdb/production/releases/f3272231e670061f8372581da05299d3a5ccb962/app/static_files/sass/main.sass
+
+7: @import "partials/search"
+
+Backtrace:
+/export/viperdb/production/releases/f3272231e670061f8372581da05299d3a5ccb962/app/static_files/sass/partials/_base.sass:12
+/export/viperdb/production/releases/f3272231e670061f8372581da05299d3a5ccb962/app/static_files/sass/main.sass:2
+/var/lib/gems/1.9.1/gems/sass-3.2.7/lib/sass/tree/import_node.rb:67:in `rescue in import'
+/var/lib/gems/1.9.1/gems/sass-3.2.7/lib/sass/tree/import_node.rb:45:in `import'
+/var/lib/gems/1.9.1/gems/sass-3.2.7/lib/sass/tree/import_node.rb:28:in `imported_file'
+/var/lib/gems/1.9.1/gems/sass-3.2.7/lib/sass/tree/import_node.rb:37:in `css_import?'
+/var/lib/gems/1.9.1/gems/sass-3.2.7/lib/sass/tree/visitors/perform.rb:217:in `visit_import'
+/var/lib/gems/1.9.1/gems/sass-3.2.7/lib/sass/tree/visitors/base.rb:37:in `visit'
+/var/lib/gems/1.9.1/gems/sass-3.2.7/lib/sass/tree/visitors/perform.rb:100:in `visit'
+/var/lib/gems/1.9.1/gems/sass-3.2.7/lib/sass/tree/visitors/perform.rb:227:in `block in visit_import'
+/var/lib/gems/1.9.1/gems/sass-3.2.7/lib/sass/tree/visitors/perform.rb:227:in `map'
+/var/lib/gems/1.9.1/gems/sass-3.2.7/lib/sass/tree/visitors/perform.rb:227:in `visit_import'
+/var/lib/gems/1.9.1/gems/sass-3.2.7/lib/sass/tree/visitors/base.rb:37:in `visit'
+/var/lib/gems/1.9.1/gems/sass-3.2.7/lib/sass/tree/visitors/perform.rb:100:in `visit'
+/var/lib/gems/1.9.1/gems/sass-3.2.7/lib/sass/tree/visitors/base.rb:53:in `block in visit_children'
+/var/lib/gems/1.9.1/gems/sass-3.2.7/lib/sass/tree/visitors/base.rb:53:in `map'
+/var/lib/gems/1.9.1/gems/sass-3.2.7/lib/sass/tree/visitors/base.rb:53:in `visit_children'
+/var/lib/gems/1.9.1/gems/sass-3.2.7/lib/sass/tree/visitors/perform.rb:109:in `block in visit_children'
+/var/lib/gems/1.9.1/gems/sass-3.2.7/lib/sass/tree/visitors/perform.rb:121:in `with_environment'
+/var/lib/gems/1.9.1/gems/sass-3.2.7/lib/sass/tree/visitors/perform.rb:108:in `visit_children'
+/var/lib/gems/1.9.1/gems/sass-3.2.7/lib/sass/tree/visitors/base.rb:37:in `block in visit'
+/var/lib/gems/1.9.1/gems/sass-3.2.7/lib/sass/tree/visitors/perform.rb:128:in `visit_root'
+/var/lib/gems/1.9.1/gems/sass-3.2.7/lib/sass/tree/visitors/base.rb:37:in `visit'
+/var/lib/gems/1.9.1/gems/sass-3.2.7/lib/sass/tree/visitors/perform.rb:100:in `visit'
+/var/lib/gems/1.9.1/gems/sass-3.2.7/lib/sass/tree/visitors/perform.rb:7:in `visit'
+/var/lib/gems/1.9.1/gems/sass-3.2.7/lib/sass/tree/root_node.rb:20:in `render'
+/var/lib/gems/1.9.1/gems/sass-3.2.7/lib/sass/engine.rb:315:in `_render'
+/var/lib/gems/1.9.1/gems/sass-3.2.7/lib/sass/engine.rb:262:in `render'
+/var/lib/gems/1.9.1/gems/sass-3.2.7/lib/sass/plugin/compiler.rb:341:in `update_stylesheet'
+/var/lib/gems/1.9.1/gems/sass-3.2.7/lib/sass/plugin/compiler.rb:203:in `block in update_stylesheets'
+/var/lib/gems/1.9.1/gems/sass-3.2.7/lib/sass/plugin/compiler.rb:201:in `each'
+/var/lib/gems/1.9.1/gems/sass-3.2.7/lib/sass/plugin/compiler.rb:201:in `update_stylesheets'
+/var/lib/gems/1.9.1/gems/sass-3.2.7/lib/sass/plugin/compiler.rb:235:in `watch'
+/var/lib/gems/1.9.1/gems/sass-3.2.7/lib/sass/plugin.rb:107:in `method_missing'
+/var/lib/gems/1.9.1/gems/sass-3.2.7/lib/sass/exec.rb:445:in `watch_or_update'
+/var/lib/gems/1.9.1/gems/sass-3.2.7/lib/sass/exec.rb:307:in `process_result'
+/var/lib/gems/1.9.1/gems/sass-3.2.7/lib/sass/exec.rb:41:in `parse'
+/var/lib/gems/1.9.1/gems/sass-3.2.7/lib/sass/exec.rb:21:in `parse!'
+/var/lib/gems/1.9.1/gems/sass-3.2.7/bin/sass:9:in `<top (required)>'
+/usr/local/bin/sass:19:in `load'
+/usr/local/bin/sass:19:in `<main>'
+*/
+body:before {
+  white-space: pre;
+  font-family: monospace;
+  content: "Syntax error: File to import not found or unreadable: blueprint/grid.\A               Load path: /export/viperdb/production/releases/f3272231e670061f8372581da05299d3a5ccb962/app/static_files/sass\A         on line 12 of /export/viperdb/production/releases/f3272231e670061f8372581da05299d3a5ccb962/app/static_files/sass/partials/_base.sass\A         from line 2 of /export/viperdb/production/releases/f3272231e670061f8372581da05299d3a5ccb962/app/static_files/sass/main.sass\A \A 7: @import \"partials/search\""; }
+>>>>>>> 84c7324d325a6a0147fe40b6bf2ecf83af8ea619

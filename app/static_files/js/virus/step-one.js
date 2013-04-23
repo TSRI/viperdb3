@@ -2,8 +2,7 @@
 (function() {
 
   $(function() {
-    var delete_existing_entry;
-    $("#virus_form").on('submit', function(e) {
+    return $("#virus_form").on('submit', function(e) {
       e.preventDefault();
       $("#virus_form_submit").attr('disabled', true);
       $.ajax({
@@ -18,8 +17,8 @@
           confirm_delete = true;
           if (data.objects.length > 0) {
             confirm_delete = confirm("Virus exists already, continuing will delete the existing entry!");
-            if (confirm) {
-              return delete_existing_entry(data.objects[0].entry_id);
+            if (confirm_delete) {
+              return e.currentTarget.submit();
             }
           } else {
             return e.currentTarget.submit();
@@ -31,16 +30,6 @@
       });
       return false;
     });
-    return delete_existing_entry = function(entry_id) {
-      return $.ajax({
-        url: "/admin/add_entry/delete_entry",
-        data: {
-          entry_id: entry_id
-        }
-      }).done(function() {
-        return $("#virus_form").submit();
-      });
-    };
   });
 
 }).call(this);

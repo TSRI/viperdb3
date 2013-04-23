@@ -39,7 +39,7 @@ SCRIPT
   config.vm.provision :shell, :inline => $provision_script
 
   config.vm.provision :chef_solo do |chef|
-    chef.run_list = ["viperdb", "viperdb::uwsgi"]
+    chef.run_list = ["viperdb"]
     chef.log_level = :debug
     chef.data_bags_path = "./data_bags"
   end

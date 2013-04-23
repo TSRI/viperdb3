@@ -13,18 +13,10 @@ $ ->
                 confirm_delete = true
                 if data.objects.length > 0 
                     confirm_delete = confirm "Virus exists already, continuing will delete the existing entry!"
-                    delete_existing_entry data.objects[0].entry_id if confirm
+                    e.currentTarget.submit() if confirm_delete
                 else
                     e.currentTarget.submit()
             error: ->
                 alert 'omg'
 
         false
-
-    delete_existing_entry = (entry_id) ->
-        $.ajax(
-            url: "/admin/add_entry/delete_entry"
-            data:
-                entry_id: entry_id
-        ).done ->
-            $("#virus_form").submit()
