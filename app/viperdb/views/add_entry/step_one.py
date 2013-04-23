@@ -30,7 +30,7 @@ class StepOneView(FormView):
         virus = get_object_or_None(MmsEntry, id=entry_id)
         if virus:
             path = os.getenv('VIPERDB_ANALYSIS_PATH')
-            subprocess.check_output([os.path.join(path, 'scripts/delete_entry.pl'),'-e %s' % virus.entry_key])
+            temp = subprocess.check_output([os.path.join(path, 'scripts/delete_entry.pl'),'-e %s' % virus.entry_key])
             Layer.objects.filter(entry_id=entry_id).delete()
             Virus.objects.filter(entry_id=entry_id).delete()
             LayerEntity.objects.filter(entry_id=entry_id).delete()

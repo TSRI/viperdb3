@@ -9,7 +9,7 @@ from celery.execute import send_task
 
 from viperdb.forms.add_entry import MatrixChoiceForm, ChainForm, LayerForm
 from viperdb.helpers import get_mismatched_chains
-from viperdb.models import Virus, MmsEntry, LayerEntity
+from viperdb.models import Virus, MmsEntry, LayerEntity, AtomSite
 from viperdb.views.add_entry.step_two import get_entry_key
 
 class StepThreeView(FormView):
@@ -34,7 +34,7 @@ class StepThreeView(FormView):
         self.viperize_matrix = self.get_viperize_matrix(virus.pk)
         mismatched_chains = get_mismatched_chains(virus.entry_key)
 
-        LayerFormset = self.get_layer_formset()(prefix='layers')
+        layer_formset = self.get_layer_formset()(prefix='layers')
         ChainFormset = formset_factory(ChainForm, extra=len(mismatched_chains))
 
         chain_formset = ChainFormset(prefix="chains")
@@ -43,7 +43,7 @@ class StepThreeView(FormView):
 
         kwargs = super(StepThreeView, self).get_context_data(**kwargs)
         kwargs.update({
-            'layer_formset': self.get_layer_formset(),
+            'layer_formset': layer_formset,
             'entry_id': self.request.session['entry_id'],
             'viperize_matrix': make_2d_matrix(self.viperize_matrix, with_vector=True),
             'unit_matrix': make_2d_matrix(self.unit_matrix, with_vector=True),
@@ -113,7 +113,7 @@ class StepThreeView(FormView):
         send_task('virus.make_vdb', args=[request.session['entry_id']], kwargs={})
         return redirect(reverse('add_entry:step_four'))
 
-    def form_invalid(self, request, virus, matrix_form, chain_formset):
+    def form_invalid(self, request, virus, matrix_form, chain_formset, layer_formset):
         pass
 
 def prepare_layer(virus, layer):
