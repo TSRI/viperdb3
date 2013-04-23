@@ -1,14 +1,22 @@
 $ ->
-    $("#virus_form_submit").on 'click', ()->
+    $("#virus_form").on 'submit', (e)->
+        e.preventDefault()
+        $("#virus_form_submit").attr 'disabled', true
+
         $.ajax
             url: "http://localhost:8000/api/v1/virus"
             data: 
                 entry_id: $("#id_entry_id").val()
                 format: 'json' 
+            dataType: 'json'
             success: (data) ->
                 confirm_delete = true
                 if data.objects.length > 0 
                     confirm_delete = confirm "Virus exists already, continuing will delete the existing entry!"
-                $("#virus_form").submit() if confirm
-            dataType: 'json'
+                    e.currentTarget.submit() if confirm_delete
+                else
+                    e.currentTarget.submit()
+            error: ->
+                alert 'omg'
+
         false

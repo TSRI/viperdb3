@@ -1,7 +1,7 @@
 from django.conf.urls.defaults import patterns, url
 
 from viperdb.views.add_entry import (StepOneView, StepTwoView, StepThreeView,
-                                     StepFourView, StepFiveView,)
+                                     StepFourView, StepFiveView)
 
 urlpatterns = patterns("viperdb.views.add_entry",
     url(r"^$", StepOneView.as_view(), name="step_one"),

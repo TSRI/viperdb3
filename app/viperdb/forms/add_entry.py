@@ -1,5 +1,5 @@
 from django import forms
-from viperdb.models import Virus, Family, Layer
+from viperdb.models import Virus, Layer, Entity, Family
 
 class InitialVirusForm(forms.Form):
     FILE_REMOTE = 1
@@ -20,7 +20,6 @@ class InitialVirusForm(forms.Form):
 class VirusForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(VirusForm, self).__init__(*args, **kwargs)
-
         self.fields["family"].queryset = Family.objects.order_by('name')
         for key, field in self.fields.iteritems():
             if field.required:
@@ -35,12 +34,20 @@ class VirusForm(forms.ModelForm):
         return self.cleaned_data
 
 class LayerForm(forms.ModelForm):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, entry_key, *args, **kwargs):
         super(LayerForm, self).__init__(*args, **kwargs)
+        self.fields['entities'] = forms.ModelMultipleChoiceField(
+            queryset=Entity.objects.filter(entry_key=entry_key, 
+                                           type='polymer'),
+            widget=forms.CheckboxSelectMultiple,
+        )
         
     class Meta:
         model = Layer
         exclude = ['entry_key', 'layer_id', 'entry_id', "min_diameter", "ave_diameter", "max_diameter"]
+
+    def clean(self):
+        return self.cleaned_data
 
 class MatrixChoiceForm(forms.Form):
     matrix_selection = forms.ChoiceField(widget=forms.RadioSelect, choices=Virus.MATRIX_CHOICES)
