@@ -12,7 +12,7 @@ def index(request):
 @render_to("family/info.html")
 def info(request, family_name):
     """ Specific homepage for families """
-    viruses = Virus.objects.filter(family=family_name)
+    viruses = Virus.objects.filter(family__name=family_name)
     return {"viruses": viruses, "family_name": family_name}
 
 @render_to("family/graph.html")

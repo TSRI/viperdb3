@@ -57,7 +57,7 @@ class StructRef(models.Model):
 class IcosMatrix(models.Model):
     class Meta:
         app_label = "viperdb"
-        db_table = 'ICOS_MATRIX'
+        db_table = 'icos_matrix'
         managed = False
 
     icos_matrix_key = models.AutoField(primary_key=True, db_column='icos_matrix_key')

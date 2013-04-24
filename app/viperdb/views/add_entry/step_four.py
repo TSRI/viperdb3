@@ -1,11 +1,13 @@
 from django.core.urlresolvers import reverse
+from django.db.models import Min, Max
 from django.shortcuts import redirect
 from django.views.generic import FormView
 
+from annoying.functions import get_object_or_None
 from celery.execute import send_task
 
 from viperdb.forms.add_entry import MoveChainForm, ImageAnalysisForm
-from viperdb.models import Virus, AtomSite
+from viperdb.models import Virus, AtomSite, IcosMatrix, AuMatrix, MmsEntry
 
 class StepFourView(FormView):
     template_name = "add_entry/step_four.html"
@@ -70,7 +72,9 @@ class StepFourView(FormView):
 
 def move_chain(virus, chain, matrix_number):
     """Moving chains from one orientation to another"""
-    seq_range = AtomSite.objects.filter(entry_key=virus.entry_key, label_asym_id=chain).aggregate(Min('auth_seq_id'), Max('auth_seq_id'))
+    seq_range = AtomSite.objects.filter(
+        entry_key=virus.entry_key, 
+        label_asym_id=chain).aggregate(Min('auth_seq_id'), Max('auth_seq_id'))
     icos_matrix = IcosMatrix.objects.get(pk=matrix_number)
     entity_key = AtomSite.objects.filter(label_asym_id=chain, entry_key=virus.entry_key).distinct().order_by('label_asym_id')[0].label_entity_key
     au_matrix = get_object_or_None(AuMatrix, entry_id=virus.entry_id)
