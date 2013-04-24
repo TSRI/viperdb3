@@ -77,6 +77,9 @@ class IcosMatrix(models.Model):
     matrix_2_0 = models.FloatField(db_column='matrix_2_0')
     matrix_2_1 = models.FloatField(db_column='matrix_2_1')
     matrix_2_2 = models.FloatField(db_column='matrix_2_2')
+    vector_0 = models.FloatField(db_column='vector_0')
+    vector_1 = models.FloatField(db_column='vector_1')
+    vector_2 = models.FloatField(db_column='vector_2')
 
 
 class AuMatrix(models.Model):
