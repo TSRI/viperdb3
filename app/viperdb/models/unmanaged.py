@@ -16,6 +16,13 @@ class MmsEntry(models.Model):
     def __unicode__(self):
         return str(self.entry_key)
 
+    def delete(self, *args, **kwargs):
+        from viperdb.models import LayerEntity, Virus
+        if Virus.objects.filter(entry_key=self.entry_key).exists():
+            LayerEntity.objects.filter(entry_id=self.id).delete()
+            self.id.delete()
+        super(MmsEntry, self).delete(*args, **kwargs)
+
 class AtomSite(models.Model):
     class Meta:
         app_label = "viperdb"

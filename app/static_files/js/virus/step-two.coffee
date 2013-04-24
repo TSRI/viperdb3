@@ -12,7 +12,7 @@ $ ->
             $(".message").attr "hidden", data.pdbase
         error: (err) ->
             console.log err
-            location.reload()
+            # location.reload()
         dataType: 'json'
 
     $("#virus_form").submit (e) ->
