@@ -1,10 +1,12 @@
 from django.conf.urls.defaults import *
 from tastypie.api import Api
-from api.resources import VirusResource, InterfaceResource, PolymerResource
-from api.resources import MmsEntryResource, StructResource
-from api.resources import VirusResidueAsaResource, AtomSiteResource
+from api.resources import (VirusResource, InterfaceResource, PolymerResource,
+                           MmsEntryResource, StructResource, 
+                           VirusResidueAsaResource, AtomSiteResource,
+                           LayerResource)
 
 virus = VirusResource()
+layer = LayerResource()
 interface = InterfaceResource()
 polymer = PolymerResource() 
 mms_entry = MmsEntryResource() 
@@ -14,6 +16,7 @@ atom_site = AtomSiteResource()
 
 api = Api(api_name='v1')
 api.register(virus, canonical=True)
+api.register(layer, canonical=True)
 api.register(interface, canonical=True)
 api.register(polymer, canonical=True)
 api.register(mms_entry, canonical=True)
@@ -23,6 +26,7 @@ api.register(atom_site, canonical=True)
 
 urlpatterns = patterns('', 
     (r'^v1/', include(virus.urls)),
+    (r'^v1/', include(layer.urls)),
     (r'^v1/', include(interface.urls)),
     (r'^v1/', include(polymer.urls)),
     (r'^v1/', include(mms_entry.urls)),

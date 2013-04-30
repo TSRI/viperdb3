@@ -1,7 +1,8 @@
 from tastypie import fields
 from tastypie.resources import ModelResource, ALL, ALL_WITH_RELATIONS
-from viperdb.models import Virus, VirusEnergy, Entity, MmsEntry, Struct
-from viperdb.models import VirusResidueAsa, AtomSite
+
+from viperdb.models import (Virus, VirusEnergy, Entity, MmsEntry, Struct,
+                            VirusResidueAsa, AtomSite, Layer)
 
 class VirusResource(ModelResource):
     interfaces = fields.ToManyField('api.resources.InterfaceResource', 
@@ -16,6 +17,20 @@ class VirusResource(ModelResource):
         } 
         list_allowed_methods =['get']
         detail_allowed_methods =['get']
+
+
+class LayerResource(ModelResource):
+    entry_id = fields.ToOneField('api.resources.VirusResource', 'entry_id')
+    
+    class Meta:
+        queryset = Layer.objects.all()
+        resource_name = 'layer'
+        filtering = {
+            'entry_id': ALL,
+        }
+        list_allowed_methods = ['get']
+        detail_allowed_methods = ['get']
+
 
 class InterfaceResource(ModelResource):
     # virus = fields.ToOneField('api.resources.VirusResource',
