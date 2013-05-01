@@ -8,22 +8,29 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
+        # Adding model 'Family'
+        db.create_table('viperdb_family', (
+            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('name', self.gf('django.db.models.fields.CharField')(max_length=32, null=True, blank=True)),
+        ))
+        db.send_create_signal('viperdb', ['Family'])
+
         # Adding model 'Virus'
         db.create_table('viperdb_virus', (
             ('entry_id', self.gf('django.db.models.fields.CharField')(max_length=8, primary_key=True, db_column='entry_id')),
-            ('entry_key', self.gf('django.db.models.fields.IntegerField')(unique=True)),
-            ('pubmed_id', self.gf('django.db.models.fields.CharField')(max_length=8, null=True, blank=True)),
-            ('name', self.gf('django.db.models.fields.CharField')(max_length=255)),
-            ('generic_name', self.gf('django.db.models.fields.CharField')(max_length=255)),
-            ('deposition_date', self.gf('django.db.models.fields.DateField')()),
-            ('genome', self.gf('django.db.models.fields.CharField')(max_length=8)),
-            ('family', self.gf('django.db.models.fields.CharField')(max_length=32, null=True, blank=True)),
-            ('genus', self.gf('django.db.models.fields.CharField')(max_length=32)),
-            ('host', self.gf('django.db.models.fields.CharField')(max_length=32)),
+            ('entry_key', self.gf('django.db.models.fields.IntegerField')(default='', unique=True)),
+            ('pubmed_id', self.gf('django.db.models.fields.CharField')(default='', max_length=8, null=True, blank=True)),
+            ('name', self.gf('django.db.models.fields.CharField')(default='', max_length=255, null=True, blank=True)),
+            ('generic_name', self.gf('django.db.models.fields.CharField')(default='', max_length=255, null=True, blank=True)),
+            ('deposition_date', self.gf('django.db.models.fields.DateField')(default=datetime.datetime.now, null=True, blank=True)),
+            ('genome', self.gf('django.db.models.fields.CharField')(default='', max_length=8, null=True, blank=True)),
+            ('family', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['viperdb.Family'], null=True, blank=True)),
+            ('genus', self.gf('django.db.models.fields.CharField')(default='', max_length=32, null=True, blank=True)),
+            ('host', self.gf('django.db.models.fields.CharField')(default='', max_length=32, null=True, blank=True)),
             ('resolution', self.gf('django.db.models.fields.FloatField')(null=True, blank=True)),
-            ('unique', self.gf('django.db.models.fields.BooleanField')(default=False)),
+            ('unique', self.gf('django.db.models.fields.BooleanField')(default=True)),
             ('unique_relative', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['viperdb.Virus'], null=True, blank=True)),
-            ('layer_count', self.gf('django.db.models.fields.IntegerField')()),
+            ('layer_count', self.gf('django.db.models.fields.IntegerField')(default=1)),
             ('matrix_0_0', self.gf('django.db.models.fields.FloatField')(null=True, blank=True)),
             ('matrix_0_1', self.gf('django.db.models.fields.FloatField')(null=True, blank=True)),
             ('matrix_0_2', self.gf('django.db.models.fields.FloatField')(null=True, blank=True)),
@@ -49,7 +56,7 @@ class Migration(SchemaMigration):
         db.create_table('viperdb_layer', (
             ('layer_key', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('layer_id', self.gf('django.db.models.fields.CharField')(max_length=32)),
-            ('entry_key', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['viperdb.MmsEntry'], db_column='entry_key')),
+            ('entry_key', self.gf('django.db.models.fields.IntegerField')()),
             ('entry_id', self.gf('django.db.models.fields.related.ForeignKey')(related_name='layers', db_column='entry_id', to=orm['viperdb.Virus'])),
             ('layer_name', self.gf('django.db.models.fields.CharField')(max_length=255)),
             ('tnumber', self.gf('django.db.models.fields.CharField')(max_length=5)),
@@ -62,14 +69,18 @@ class Migration(SchemaMigration):
 
         # Adding model 'LayerEntity'
         db.create_table('viperdb_layerentity', (
-            ('layer_key', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['viperdb.Layer'], primary_key=True, db_column='layer_key')),
+            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('layer_key', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['viperdb.Layer'], db_column='layer_key')),
             ('entity_key', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['viperdb.Entity'])),
-            ('entry_key', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['viperdb.Virus'])),
+            ('entry_id', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['viperdb.Virus'])),
         ))
         db.send_create_signal('viperdb', ['LayerEntity'])
 
 
     def backwards(self, orm):
+        # Deleting model 'Family'
+        db.delete_table('viperdb_family')
+
         # Deleting model 'Virus'
         db.delete_table('viperdb_virus')
 
@@ -116,10 +127,15 @@ class Migration(SchemaMigration):
             'entity_key': ('django.db.models.fields.AutoField', [], {'primary_key': 'True', 'db_column': "'entity_key'"}),
             'entry_key': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['viperdb.MmsEntry']", 'db_column': "'entry_key'"}),
             'pdbx_description': ('django.db.models.fields.TextField', [], {}),
-            'type': ('django.db.models.fields.CharField', [], {'max_length': '255'})
+            'type': ('django.db.models.fields.CharField', [], {'max_length': '255', 'db_column': "'type'"})
+        },
+        'viperdb.family': {
+            'Meta': {'object_name': 'Family'},
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'name': ('django.db.models.fields.CharField', [], {'max_length': '32', 'null': 'True', 'blank': 'True'})
         },
         'viperdb.icosmatrix': {
-            'Meta': {'object_name': 'IcosMatrix', 'db_table': "'ICOS_MATRIX'", 'managed': 'False'},
+            'Meta': {'object_name': 'IcosMatrix', 'db_table': "'icos_matrix'", 'managed': 'False'},
             'icos_matrix_key': ('django.db.models.fields.AutoField', [], {'primary_key': 'True', 'db_column': "'icos_matrix_key'"}),
             'matrix_0_0': ('django.db.models.fields.FloatField', [], {'db_column': "'matrix_0_0'"}),
             'matrix_0_1': ('django.db.models.fields.FloatField', [], {'db_column': "'matrix_0_1'"}),
@@ -129,13 +145,16 @@ class Migration(SchemaMigration):
             'matrix_1_2': ('django.db.models.fields.FloatField', [], {'db_column': "'matrix_1_2'"}),
             'matrix_2_0': ('django.db.models.fields.FloatField', [], {'db_column': "'matrix_2_0'"}),
             'matrix_2_1': ('django.db.models.fields.FloatField', [], {'db_column': "'matrix_2_1'"}),
-            'matrix_2_2': ('django.db.models.fields.FloatField', [], {'db_column': "'matrix_2_2'"})
+            'matrix_2_2': ('django.db.models.fields.FloatField', [], {'db_column': "'matrix_2_2'"}),
+            'vector_0': ('django.db.models.fields.FloatField', [], {'db_column': "'vector_0'"}),
+            'vector_1': ('django.db.models.fields.FloatField', [], {'db_column': "'vector_1'"}),
+            'vector_2': ('django.db.models.fields.FloatField', [], {'db_column': "'vector_2'"})
         },
         'viperdb.layer': {
             'Meta': {'object_name': 'Layer'},
             'ave_diameter': ('django.db.models.fields.FloatField', [], {'null': 'True', 'blank': 'True'}),
             'entry_id': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'layers'", 'db_column': "'entry_id'", 'to': "orm['viperdb.Virus']"}),
-            'entry_key': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['viperdb.MmsEntry']", 'db_column': "'entry_key'"}),
+            'entry_key': ('django.db.models.fields.IntegerField', [], {}),
             'layer_id': ('django.db.models.fields.CharField', [], {'max_length': '32'}),
             'layer_key': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'layer_name': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
@@ -147,14 +166,36 @@ class Migration(SchemaMigration):
         'viperdb.layerentity': {
             'Meta': {'object_name': 'LayerEntity'},
             'entity_key': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['viperdb.Entity']"}),
-            'entry_key': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['viperdb.Virus']"}),
-            'layer_key': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['viperdb.Layer']", 'primary_key': 'True', 'db_column': "'layer_key'"})
+            'entry_id': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['viperdb.Virus']"}),
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'layer_key': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['viperdb.Layer']", 'db_column': "'layer_key'"})
         },
         'viperdb.mmsentry': {
             'Meta': {'object_name': 'MmsEntry', 'db_table': "'MMS_ENTRY'", 'managed': 'False'},
             'deposition_date': ('django.db.models.fields.DateField', [], {}),
             'entry_key': ('django.db.models.fields.IntegerField', [], {'primary_key': 'True', 'db_column': "'entry_key'"}),
             'id': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'mms_entry'", 'db_column': "'id'", 'to': "orm['viperdb.Virus']"})
+        },
+        'viperdb.qscore': {
+            'Meta': {'object_name': 'Qscore', 'db_table': "'qscore'", 'managed': 'False'},
+            'entry_id': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'qscores'", 'db_column': "'entry_id'", 'to': "orm['viperdb.Virus']"}),
+            'face_1_asym_id_1': ('django.db.models.fields.CharField', [], {'max_length': '255', 'db_column': "'face_1_asym_id_1'"}),
+            'face_1_asym_id_2': ('django.db.models.fields.CharField', [], {'max_length': '255', 'db_column': "'face_1_asym_id_2'"}),
+            'face_1_matrix_1': ('django.db.models.fields.IntegerField', [], {'db_column': "'face_1_matrix_1'"}),
+            'face_1_matrix_2': ('django.db.models.fields.IntegerField', [], {'db_column': "'face_1_matrix_2'"}),
+            'face_1_symm': ('django.db.models.fields.IntegerField', [], {'db_column': "'face_1_symm'"}),
+            'face_1_type': ('django.db.models.fields.CharField', [], {'max_length': '10', 'db_column': "'face_1_type'"}),
+            'face_2_asym_id_1': ('django.db.models.fields.CharField', [], {'max_length': '255', 'db_column': "'face_2_asym_id_1'"}),
+            'face_2_asym_id_2': ('django.db.models.fields.CharField', [], {'max_length': '255', 'db_column': "'face_2_asym_id_2'"}),
+            'face_2_matrix_1': ('django.db.models.fields.IntegerField', [], {'db_column': "'face_2_matrix_1'"}),
+            'face_2_matrix_2': ('django.db.models.fields.IntegerField', [], {'db_column': "'face_2_matrix_2'"}),
+            'face_2_symm': ('django.db.models.fields.IntegerField', [], {'db_column': "'face_2_symm'"}),
+            'face_2_type': ('django.db.models.fields.CharField', [], {'max_length': '10', 'db_column': "'face_2_type'"}),
+            'numcon_1': ('django.db.models.fields.IntegerField', [], {'db_column': "'numcon_1'"}),
+            'numcon_2': ('django.db.models.fields.IntegerField', [], {'db_column': "'numcon_2'"}),
+            'qscore': ('django.db.models.fields.IntegerField', [], {'db_column': "'qscore'"}),
+            'qscore_key': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'shared': ('django.db.models.fields.IntegerField', [], {'db_column': "'shared'"})
         },
         'viperdb.struct': {
             'Meta': {'object_name': 'Struct', 'db_table': "'STRUCT'", 'managed': 'False'},
@@ -174,15 +215,15 @@ class Migration(SchemaMigration):
         'viperdb.virus': {
             'Meta': {'object_name': 'Virus'},
             'ave_diameter': ('django.db.models.fields.FloatField', [], {'null': 'True', 'blank': 'True'}),
-            'deposition_date': ('django.db.models.fields.DateField', [], {}),
+            'deposition_date': ('django.db.models.fields.DateField', [], {'default': 'datetime.datetime.now', 'null': 'True', 'blank': 'True'}),
             'entry_id': ('django.db.models.fields.CharField', [], {'max_length': '8', 'primary_key': 'True', 'db_column': "'entry_id'"}),
-            'entry_key': ('django.db.models.fields.IntegerField', [], {'unique': 'True'}),
-            'family': ('django.db.models.fields.CharField', [], {'max_length': '32', 'null': 'True', 'blank': 'True'}),
-            'generic_name': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
-            'genome': ('django.db.models.fields.CharField', [], {'max_length': '8'}),
-            'genus': ('django.db.models.fields.CharField', [], {'max_length': '32'}),
-            'host': ('django.db.models.fields.CharField', [], {'max_length': '32'}),
-            'layer_count': ('django.db.models.fields.IntegerField', [], {}),
+            'entry_key': ('django.db.models.fields.IntegerField', [], {'default': "''", 'unique': 'True'}),
+            'family': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['viperdb.Family']", 'null': 'True', 'blank': 'True'}),
+            'generic_name': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '255', 'null': 'True', 'blank': 'True'}),
+            'genome': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '8', 'null': 'True', 'blank': 'True'}),
+            'genus': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '32', 'null': 'True', 'blank': 'True'}),
+            'host': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '32', 'null': 'True', 'blank': 'True'}),
+            'layer_count': ('django.db.models.fields.IntegerField', [], {'default': '1'}),
             'matrix_0_0': ('django.db.models.fields.FloatField', [], {'null': 'True', 'blank': 'True'}),
             'matrix_0_1': ('django.db.models.fields.FloatField', [], {'null': 'True', 'blank': 'True'}),
             'matrix_0_2': ('django.db.models.fields.FloatField', [], {'null': 'True', 'blank': 'True'}),
@@ -194,13 +235,13 @@ class Migration(SchemaMigration):
             'matrix_2_2': ('django.db.models.fields.FloatField', [], {'null': 'True', 'blank': 'True'}),
             'max_diameter': ('django.db.models.fields.FloatField', [], {'null': 'True', 'blank': 'True'}),
             'min_diameter': ('django.db.models.fields.FloatField', [], {'null': 'True', 'blank': 'True'}),
-            'name': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
+            'name': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '255', 'null': 'True', 'blank': 'True'}),
             'prepared': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'private': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            'pubmed_id': ('django.db.models.fields.CharField', [], {'max_length': '8', 'null': 'True', 'blank': 'True'}),
+            'pubmed_id': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '8', 'null': 'True', 'blank': 'True'}),
             'resolution': ('django.db.models.fields.FloatField', [], {'null': 'True', 'blank': 'True'}),
             'times_viewed': ('django.db.models.fields.IntegerField', [], {'default': '0', 'blank': 'True'}),
-            'unique': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'unique': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
             'unique_relative': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['viperdb.Virus']", 'null': 'True', 'blank': 'True'}),
             'vector_0': ('django.db.models.fields.FloatField', [], {'null': 'True', 'blank': 'True'}),
             'vector_1': ('django.db.models.fields.FloatField', [], {'null': 'True', 'blank': 'True'}),
@@ -214,7 +255,10 @@ class Migration(SchemaMigration):
             'bsa_total': ('django.db.models.fields.FloatField', [], {'db_column': "'bsa_total'"}),
             'entry_id': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'interfaces'", 'db_column': "'entry_id'", 'to': "orm['viperdb.Virus']"}),
             'entry_key': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['viperdb.MmsEntry']", 'db_column': "'entry_key'"}),
+            'interface_type': ('django.db.models.fields.CharField', [], {'max_length': '255', 'db_column': "'interface_type'"}),
             'layer_key': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['viperdb.Layer']", 'db_column': "'layer_key'"}),
+            'solvn_nrg_total': ('django.db.models.fields.FloatField', [], {'db_column': "'solvn_nrg_total'"}),
+            'symmetry': ('django.db.models.fields.IntegerField', [], {'db_column': "'symmetry'"}),
             'viper_matrix_1': ('django.db.models.fields.IntegerField', [], {'db_column': "'viper_matrix_1'"}),
             'viper_matrix_2': ('django.db.models.fields.IntegerField', [], {'db_column': "'viper_matrix_2'"}),
             'virus_energy_key': ('django.db.models.fields.IntegerField', [], {'primary_key': 'True'})

@@ -27,7 +27,6 @@ class LayerEntity(models.Model):
     class Meta:
         app_label = "viperdb"
         
-    layer_key = models.ForeignKey(Layer, primary_key=True, db_column='layer_key')
+    layer_key = models.ForeignKey(Layer, db_column='layer_key')
     entity_key = models.ForeignKey(Entity)
     entry_id = models.ForeignKey(Virus)
-
