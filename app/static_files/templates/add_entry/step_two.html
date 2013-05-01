@@ -12,6 +12,9 @@
         label.control-label {
             line-height: 28px;
         }
+        div.control-group {
+            height: 38px;
+        }
     </style>
 {% endblock extrastyle %}
 
@@ -21,14 +24,14 @@
       class="form-horizontal">
     {% csrf_token %}
     <p>* = required</p>
-    <span id="entry_id" value="{{entry_id}}"></span>
-    {% for field in form %}
-        <div class="control-group">
-            <label class="control-label" for="id_{{ field.html_name }}">{{ field.label }}{% if field.field.required %}*{% endif %}:</label>
-            <div class="controls">{{ field }}</div>
-        </div>
-    {% endfor %}
-    <br/>
+        <span id="entry_id" value="{{entry_id}}"></span>
+        {% for field in form %}
+            <div class="control-group">
+                <label class="control-label" for="id_{{ field.html_name }}">{{ field.label }}{% if field.field.required %}*{% endif %}:</label>
+                <div class="controls">{{ field }}</div>
+            </div>
+        {% endfor %}
+        <br/>
 
     <input id="virus_form_submit" type="submit" value="Submit"/>
 
