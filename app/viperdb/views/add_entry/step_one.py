@@ -29,11 +29,7 @@ class StepOneView(FormView):
 
         virus = get_object_or_None(MmsEntry, id=entry_id)
         if virus:
-            path = os.getenv('VIPERDB_ANALYSIS_PATH')
-            temp = subprocess.check_output([os.path.join(path, 'scripts/delete_entry.pl'),'-e %s' % virus.entry_key])
-            Layer.objects.filter(entry_id=entry_id).delete()
-            Virus.objects.filter(entry_id=entry_id).delete()
-            LayerEntity.objects.filter(entry_id=entry_id).delete()
+            virus.delete()
 
         pdb_file_source = int(form.cleaned_data["file_source"])
         if pdb_file_source == InitialVirusForm.FILE_REMOTE:
@@ -66,16 +62,3 @@ class StepOneView(FormView):
         self.request.session['entry_id'] = entry_id
 
         return super(StepOneView, self).form_valid(form)
-
-@ajax_request
-def delete_existing_entry(mms_entry):
-    """Takes care of deleting all existing references to this virus"""
-    virus = get_object_or_None(Virus, entry_key=mms_entry.entry_key)
-
-    path = os.getenv('VIPERDB_ANALYSIS_PATH')
-    subprocess.check_output([os.path.join(path, 'scripts/delete_entry.pl'),'-e %s' % mms_entry.entry_key])
-
-    if virus:
-        Layer.objects.filter(entry_id=virus.entry_id).delete()
-        Virus.objects.filter(entry_id=virus.entry_id).delete()
-        LayerEntity.objects.filter(entry_id=virus.entry_id).delete()

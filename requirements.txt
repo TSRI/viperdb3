@@ -25,3 +25,4 @@ MySQL-python
 nose
 requests
 kombu
+envoy
