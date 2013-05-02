@@ -11,7 +11,6 @@ from annoying.functions import get_object_or_None
 from celery.execute import send_task
 from celery.task.sets import subtask
 from celery.task.control import revoke, inspect
-from viperdb.helpers import get_pdb_info
 
 from viperdb.helpers import get_mismatched_chains 
 from viperdb.models import Virus, MmsEntry, LayerEntity, StructRef

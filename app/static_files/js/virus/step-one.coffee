@@ -1,8 +1,6 @@
 $ ->
     $("#virus_form").on 'submit', (e)->
         e.preventDefault()
-        $("#virus_form_submit").attr 'disabled', true
-
         $.ajax
             url: "http://localhost:8000/api/v1/virus"
             data: 

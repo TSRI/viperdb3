@@ -32,16 +32,14 @@ class StepOneView(FormView):
             virus.delete()
 
         pdb_file_source = int(form.cleaned_data["file_source"])
+
         if pdb_file_source == InitialVirusForm.FILE_REMOTE:
             send_task("virus.get_pdb_files", args=[entry_id]).get()
                       # kwargs={'callback': subtask('virus.run_pdbase')})
+
         elif pdb_file_source == InitialVirusForm.FILE_LOCAL:
-            task = send_task('virus.check_file_count', args=[entry_id], 
-                             kwargs={})
-            if task.get() is not 2:
-                return redirect(reverse('add_entry:step_one'))
-            else:
-                send_task('virus.run_pdbase', args=[entry_id], kwargs={})
+            pass
+
         elif pdb_file_source == InitialVirusForm.FILE_UPLOAD:
             # TODO: allow for file upload
             # pass
@@ -62,3 +60,6 @@ class StepOneView(FormView):
         self.request.session['entry_id'] = entry_id
 
         return super(StepOneView, self).form_valid(form)
+
+    # def form_invalid(self, form):
+    #     return redirect(reverse('add_entry:step_one'))

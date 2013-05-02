@@ -1,10 +1,18 @@
 from django import forms
+
+from celery.execute import send_task
+
 from viperdb.models import Virus, Layer, Entity, Family
+from viperdb.helpers import pdb_exists
+
+
+
+
 
 class InitialVirusForm(forms.Form):
     FILE_REMOTE = 1
     FILE_LOCAL = 2
-    # FILE_UPLOAD = 3
+    FILE_UPLOAD = 3
     FILE_SOURCE_CHOICES = ((FILE_REMOTE, 'Use up-to-date PDB and CIF files from RCSB'),
                            (FILE_LOCAL, 'Use existing PDB and CIF files on VIPERdb'),)
                            # (FILE_UPLOAD, 'Upload your own PDB and CIF files to VIPERdb'))
@@ -15,7 +23,22 @@ class InitialVirusForm(forms.Form):
     # cif_file_upload = forms.FileField(required=False)
 
     def clean(self):
+        file_source = int(self.cleaned_data["file_source"])
+        entry_id= self.cleaned_data["entry_id"]
+
+        if file_source == self.FILE_REMOTE:
+            if not pdb_exists(entry_id):
+                raise forms.ValidationError("PDB id does not exist in RCSB.")
+        elif file_source == self.FILE_LOCAL:
+            task = send_task('virus.check_file_count', args=[entry_id])
+
+            if task.get() is not 2:                
+                raise forms.ValidationError("PDB and/or CIF file not found locally.")
+        elif file_source == self.FILE_UPLOAD:
+            pass
+
         return self.cleaned_data
+
 
 class VirusForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
