@@ -34,9 +34,9 @@
 
                 <label class="control-label" for="id_viper_matrix">
                     Use viperize matrix
-                    <input type="radio" value="use_viper_matrix" name="matrix_selection">
+                    <input type="radio" id="id_viper_matrix" value="use_viper_matrix" name="matrix_selection">
                 </label>
-                <div class="controls" id="id_viper_matrix">      
+                <div class="controls">      
                     {% for row in viperize_matrix %}
                         {% for element in row %}
                             {{ element }}
@@ -45,11 +45,11 @@
                     {% endfor %}
                 </div>
                 
-                <label class="control-label" for="id_unit_matrix">
+                <label class="control-label" for="id_user_matrix">
                     Input your own matrix
-                    <input type="radio" value="use_user_matrix" name="matrix_selection">
+                    <input type="radio" id="id_user_matrix" value="use_user_matrix" name="matrix_selection">
                 </label>
-                <div class="controls" id="id_user_matrix">
+                <div class="controls">
                     {% for row in 123|make_list %}
                     [
                         {% for element in 123|make_list %}
@@ -61,11 +61,11 @@
                     {% endfor %}
                 </div>            
 
-                <label class="control-label" for="id_user_matrix">
+                <label class="control-label" for="id_unit_matrix">
                     Use Unit Matrix
-                    <input type="radio" value="use_unit_matrix" name="matrix_selection">
+                    <input type="radio" id="id_unit_matrix" value="use_unit_matrix" name="matrix_selection">
                 </label>
-                <div class="controls" for="id_unit_matrix">
+                <div class="controls">
                     {% for row in unit_matrix %}
                         {% for element in row %}
                             {{ element }}
