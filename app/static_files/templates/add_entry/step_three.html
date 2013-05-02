@@ -10,56 +10,82 @@
 {% block content %}
     <p>* = required</p>
 
-    <h3>Layers</h3>
-    <form method='post' class="form-horizontal">
-        {% for layer_form in layer_formset %}
-            {% for field in layer_form %}
-            <div class="control-group">
-                <label class="control-label" for="id_{{ field.html_name }}">{{ field.label }}</label>
-                <div class="controls">{{ field }}</div>
-            </div>
-            {% endfor %}
-        {% endfor %}
-        {{ layer_formset.management_form }}
-    </form>
 
-    <h3>Matrices</h3>
-       <div>
-        {% for row in viperize_matrix %}
-            {% for element in row %}
-                {{ element }}
-            {% endfor %}
-            <br/>
-        {% endfor %}
-        </div>
-        <div>
-        {% for row in 123|make_list %}
-            [
-            {% for element in 123|make_list %}
-                <input name='matrix' class="span1" type='input' value='0' />
-            {% endfor %}
-            ]
-            [<input name='matrix' class="span1" type='input' value='0' />]
-            <br/>
-        {% endfor %}
-        </div>
-        <div>
-            {% for row in unit_matrix %}
-                {% for element in row %}
-                    {{ element }}
+    <form method='post' class="form-horizontal">
+    {% csrf_token %}
+
+    <h3>Layers</h3>
+        <div class="row-fluid">
+            {% for layer_form in layer_formset %}
+                {% for field in layer_form %}
+                <div class="control-group">
+                    <label class="control-label" for="id_{{ field.html_name }}">{{ field.label }}</label>
+                    <div class="controls">{{ field }}</div>
+                </div>
                 {% endfor %}
-                <br/>
             {% endfor %}
+            {{ layer_formset.management_form }}
         </div>
-        {% csrf_token %}
-        {% for field in matrix_form %}
-            <div class="control-group"
-                <label class="control-label" for="id_{{ field.html_name }}">{{ field.label }}</label>
-                <div class="controls">{{ field }}</div>
+
+    <h3>Matrix Selection</h3>
+        <div class="row-fluid">
+            {% csrf_token %}
+            <div class="control-group">
+
+                <label class="control-label" for="id_viper_matrix">
+                    Use viperize matrix
+                    <input type="radio" value="use_viper_matrix" name="matrix_selection">
+                </label>
+                <div class="controls" id="id_viper_matrix">      
+                    {% for row in viperize_matrix %}
+                        {% for element in row %}
+                            {{ element }}
+                        {% endfor %}
+                        <br/>
+                    {% endfor %}
+                </div>
+                
+                <label class="control-label" for="id_unit_matrix">
+                    Input your own matrix
+                    <input type="radio" value="use_user_matrix" name="matrix_selection">
+                </label>
+                <div class="controls" id="id_user_matrix">
+                    {% for row in 123|make_list %}
+                    [
+                        {% for element in 123|make_list %}
+                            <input name='matrix' class="span1" type='input' value='0' />
+                        {% endfor %}
+                    ]
+                        [<input name='matrix' class="span1" type='input' value='0' />]
+                        <br/>
+                    {% endfor %}
+                </div>            
+
+                <label class="control-label" for="id_user_matrix">
+                    Use Unit Matrix
+                    <input type="radio" value="use_unit_matrix" name="matrix_selection">
+                </label>
+                <div class="controls" for="id_unit_matrix">
+                    {% for row in unit_matrix %}
+                        {% for element in row %}
+                            {{ element }}
+                        {% endfor %}
+                        <br/>
+                    {% endfor %}    
+                </div>
+
             </div>
-        {% endfor %}
+
+<!--             {% for field in matrix_form %}
+                <div class="control-group"
+                    <label class="control-label" for="id_{{ field.html_name }}">{{ field.label }}</label>
+                    <div class="controls">{{ field }}</div>
+                </div>
+            {% endfor %} -->
+        </div>
 
     <h3>Chains</h3>
+        <div class="row-fluid">
         {% for chain_form in chain_formset %}
             Original chain {{ chain_form.chain.auth_asym_id }} found in PDB has been changed
             in CIF to: {{ chain_form.chain.label_asym_id }}
@@ -73,6 +99,9 @@
             {% endfor %}
         {% endfor %}
         {{ chain_formset.management_form }}
+        </div>
+
+        <input type='submit' value='Submit'/>
     </form>
-    <input type='submit' value='Submit'/>
+
 {% endblock %}
