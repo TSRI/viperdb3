@@ -34,17 +34,18 @@
 
                 <label class="control-label" for="id_viper_matrix">
                     Use viperize matrix
-                    <input type="radio" id="id_viper_matrix" value="use_viper_matrix" name="matrix_selection">
+                    <input type="radio" id="id_viper_matrix" value="use_viper_matrix" name="matrix_selection" checked="checked">
                 </label>
                 <div class="controls">      
                     {% for row in viperize_matrix %}
                         {% for element in row %}
                             {{ element }}
                         {% endfor %}
-                        <br/>
+                        <br>
                     {% endfor %}
                 </div>
-                
+            </div>
+            <div class="control-group">
                 <label class="control-label" for="id_user_matrix">
                     Input your own matrix
                     <input type="radio" id="id_user_matrix" value="use_user_matrix" name="matrix_selection">
@@ -60,7 +61,8 @@
                         <br/>
                     {% endfor %}
                 </div>            
-
+            </div>
+            <div class="control-group">
                 <label class="control-label" for="id_unit_matrix">
                     Use Unit Matrix
                     <input type="radio" id="id_unit_matrix" value="use_unit_matrix" name="matrix_selection">
@@ -73,34 +75,39 @@
                         <br/>
                     {% endfor %}    
                 </div>
-
             </div>
-
-<!--             {% for field in matrix_form %}
-                <div class="control-group"
-                    <label class="control-label" for="id_{{ field.html_name }}">{{ field.label }}</label>
-                    <div class="controls">{{ field }}</div>
-                </div>
-            {% endfor %} -->
         </div>
 
     <h3>Chains</h3>
         <div class="row-fluid">
         {% for chain_form in chain_formset %}
-            Original chain {{ chain_form.chain.auth_asym_id }} found in PDB has been changed
-            in CIF to: {{ chain_form.chain.label_asym_id }}
-            Description: {{ chain_form.chain.label_entity_key__pdbx_description }}
-
-            {% for field in chain_form %}
             <div class="control-group">
-                <label class="control-label" for="id_{{ field.html_name }}">{{ field.label }}</label>
-                <div class="controls">{{ field }}</div>
+                
+                <label class="control-label" for="id_{{ field.html_name }}">
+                        
+                    <b>{{ chain_form.chain.auth_asym_id }}</b> <font size="4">→</font> <b>{{ chain_form.chain.label_asym_id }}</b><br>
+
+                    Chain <b>{{ chain_form.chain.auth_asym_id }}</b> found in the PDB<br>has been changed to <br>
+                    Chain <b>{{ chain_form.chain.label_asym_id }}</b> found in the CIF<br>
+                    Description: <b>{{ chain_form.chain.label_entity_key__pdbx_description }}</b>
+                </label>
+                
+
+                    <div class="controls">
+                    {% for field in chain_form %}
+                        {{ field }}
+                    {% endfor %}
+                    </div>
+                
+
+
             </div>
-            {% endfor %}
+            <br>
+            
         {% endfor %}
         {{ chain_formset.management_form }}
-        </div>
 
+        </div>
         <input type='submit' value='Submit'/>
     </form>
 
