@@ -115,7 +115,7 @@ class Virus (models.Model):
         return qscores
 
     def analyze(self):
-        send_task('virus.start_analysis', args=[self.entry_id])
+        send_task('analysis.start', args=[self.entry_id])
 
     def generate_images(self):
-        send_task('virus.prepare_images', args=[self.entry_id], kwargs={})
+        send_task('images.prepare', args=[self.entry_id], kwargs={})
