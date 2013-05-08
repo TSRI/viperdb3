@@ -114,7 +114,7 @@ class StepThreeView(FormView):
         return redirect(reverse('add_entry:step_four'))
 
     def form_invalid(self, request, virus, matrix_form, chain_formset, layer_formset):
-        pass
+        return redirect(reverse("add_entry:step_three"))
 
 def prepare_layer(virus, layer):
     """Prepare layer for entry into database"""

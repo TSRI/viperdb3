@@ -195,6 +195,10 @@ PIPELINE_JS = {
         'source_filenames': ('js/virus/step-two.coffee',),
         'output_filename': 'js/step-two.js',
     },
+    'step_three': {
+        'source_filenames': ('js/virus/step-three.coffee',),
+        'output_filename': 'js/step-three.js',
+    },
     'graph': {
         'source_filenames': (
             'vendor/js/d3.v2.min.js',

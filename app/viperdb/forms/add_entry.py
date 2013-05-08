@@ -64,7 +64,11 @@ class LayerForm(forms.ModelForm):
                                            type='polymer'),
             widget=forms.CheckboxSelectMultiple,
         )
-        
+        for key, field in self.fields.iteritems():
+            if field.required:
+                field.widget.attrs.update({'class':'required'})
+
+
     class Meta:
         model = Layer
         exclude = ['entry_key', 'layer_id', 'entry_id', "min_diameter", "ave_diameter", "max_diameter"]
