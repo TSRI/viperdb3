@@ -83,11 +83,11 @@ class StepThreeView(FormView):
 
         # VIPER Matrix Selection
         matrix_choice = int(matrix_form.cleaned_data['matrix_selection'])
-        if matrix_choice is Virus.MTX_UNIT:
+        if matrix_choice is matrix_form.MTX_UNIT:
             user_matrix = unit_matrix
-        if matrix_choice is Virus.MTX_INPUT:
+        if matrix_choice is matrix_form.MTX_INPUT:
             user_matrix = request.POST.getlist('matrix')
-        elif matrix_choice is Virus.MTX_VIPERIZE:
+        elif matrix_choice is matrix_form.MTX_VIPERIZE:
             user_matrix = self.viperize_matrix
 
         matrix = make_2d_matrix(user_matrix)
@@ -114,7 +114,6 @@ class StepThreeView(FormView):
         return redirect(reverse('add_entry:step_four'))
 
     def form_invalid(self, request, virus, matrix_form, chain_formset, layer_formset):
-        import pdb; pdb.set_trace()
         return redirect(reverse("add_entry:step_three"))
 
 def prepare_layer(virus, layer):
@@ -142,7 +141,6 @@ def prepare_matrix(virus, matrix, vector):
         setattr(virus, 'vector_%s' % (str(i)), vector[i])
 
 def rename_chain(entry_key, chain_to_rename, rename_to):
-    # TODO - Finish rename_chain
     atom_sites = (AtomSite.objects.filter(entry_key=entry_key, 
                                           label_asym_id=chain_to_rename)
                                   .update(label_asym_id=rename_to))

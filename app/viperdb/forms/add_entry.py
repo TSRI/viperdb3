@@ -77,13 +77,20 @@ class LayerForm(forms.ModelForm):
         return self.cleaned_data
 
 class MatrixChoiceForm(forms.Form):
-    matrix_selection = forms.ChoiceField(widget=forms.RadioSelect, choices=Virus.MATRIX_CHOICES)
+    MTX_VIPERIZE = 1
+    MTX_INPUT = 2
+    MTX_UNIT = 3
+    MATRIX_CHOICES = ((MTX_VIPERIZE,'Use viperize to generate PDB to VIPER matrix'),
+                      (MTX_INPUT, 'Input your own matrix'),
+                      (MTX_UNIT, 'Use Unix Matrix'))
+    
+    matrix_selection = forms.ChoiceField(widget=forms.RadioSelect, choices=MATRIX_CHOICES)
 
 class ChainForm(forms.Form):
     def __init__(self, *args, **kwargs):
-        kwargs.update({"initial":{"chain_selection": 1}})
+        # kwargs.update({"initial":{"chain_selection": 1}})
         super(ChainForm, self).__init__(*args,**kwargs)
-        
+
     chain_selection = forms.ChoiceField(widget=forms.RadioSelect, choices=Virus.CHAIN_CHOICES)
     chain_input = forms.CharField(max_length=2, required=False)
 

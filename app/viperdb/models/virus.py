@@ -23,12 +23,7 @@ class Virus (models.Model):
         app_label = "viperdb"
         verbose_name_plural = 'Viruses'
 
-    MTX_VIPERIZE = 1
-    MTX_INPUT = 2
-    MTX_UNIT = 3
-    MATRIX_CHOICES = ((MTX_VIPERIZE,'Use viperize to generate PDB to VIPER matrix'),
-                      (MTX_INPUT, 'Input your own matrix'),
-                      (MTX_UNIT, 'Use Unix Matrix'))
+
 
     CHAIN_REVERT = 1
     CHAIN_MAINTAIN = 2

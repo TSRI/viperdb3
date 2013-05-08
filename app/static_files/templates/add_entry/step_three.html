@@ -41,7 +41,7 @@
 
                 <label class="control-label" for="id_viper_matrix">
                     Use viperize matrix
-                    <input type="radio" id="id_viper_matrix" value="use_viper_matrix" name="matrix_selection" checked="checked">
+                    <input type="radio" id="id_viper_matrix" value={{ matrix_form.MTX_VIPERIZE }} name="matrix_selection" checked="checked">
                 </label>
                 <div class="controls">      
                     {% for row in viperize_matrix %}
@@ -55,7 +55,7 @@
             <div class="control-group">
                 <label class="control-label" for="id_user_matrix">
                     Input your own matrix
-                    <input type="radio" id="id_user_matrix" value="use_user_matrix" name="matrix_selection">
+                    <input type="radio" id="id_user_matrix" value={{ matrix_form.MTX_INPUT }} name="matrix_selection">
                 </label>
                 <div class="controls">
                     {% for row in 123|make_list %}
@@ -72,7 +72,7 @@
             <div class="control-group">
                 <label class="control-label" for="id_unit_matrix">
                     Use Unit Matrix
-                    <input type="radio" id="id_unit_matrix" value="use_unit_matrix" name="matrix_selection">
+                    <input type="radio" id="id_unit_matrix" value={{ matrix_form.MTX_UNIT }} name="matrix_selection">
                 </label>
                 <div class="controls">
                     {% for row in unit_matrix %}
@@ -98,14 +98,11 @@
                 </label>
                 
 
-                    <div class="controls">
-                    {% for field in chain_form %}
-                        {{ field }}
-                    {% endfor %}
-                    </div>
-                
-
-
+                <div class="controls">
+                {% for field in chain_form %}
+                    {{ field }}
+                {% endfor %}
+                </div>
             </div>
             <br>
             
