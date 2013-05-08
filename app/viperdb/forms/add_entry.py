@@ -80,6 +80,10 @@ class MatrixChoiceForm(forms.Form):
     matrix_selection = forms.ChoiceField(widget=forms.RadioSelect, choices=Virus.MATRIX_CHOICES)
 
 class ChainForm(forms.Form):
+    def __init__(self, *args, **kwargs):
+        kwargs.update({"initial":{"chain_selection": 1}})
+        super(ChainForm, self).__init__(*args,**kwargs)
+        
     chain_selection = forms.ChoiceField(widget=forms.RadioSelect, choices=Virus.CHAIN_CHOICES)
     chain_input = forms.CharField(max_length=2, required=False)
 

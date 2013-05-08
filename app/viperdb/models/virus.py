@@ -31,11 +31,12 @@ class Virus (models.Model):
                       (MTX_UNIT, 'Use Unix Matrix'))
 
     CHAIN_REVERT = 1
-    CHAIN_INPUT = 2
-    CHAIN_MAINTAIN = 3
+    CHAIN_MAINTAIN = 2
+    CHAIN_INPUT = 3
+
     CHAIN_CHOICES = ((CHAIN_REVERT, 'Change it back.'),
-                     (CHAIN_INPUT, 'Provide your own label: '),
-                     (CHAIN_MAINTAIN, 'Leave it as is.'))
+                     (CHAIN_MAINTAIN, 'Leave it as is.'),
+                     (CHAIN_INPUT, 'Provide your own label:'))
 
     entry_id = models.CharField(max_length=8, primary_key=True, db_column='entry_id', blank=False)
     entry_key = models.IntegerField(unique=True, editable=False, default="")

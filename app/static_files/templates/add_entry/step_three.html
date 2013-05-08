@@ -92,10 +92,8 @@
                 
                 <label class="control-label" for="id_{{ field.html_name }}">
                         
-                    <b>{{ chain_form.chain.auth_asym_id }}</b> <font size="4">→</font> <b>{{ chain_form.chain.label_asym_id }}</b><br>
+                    PDB: <b>{{ chain_form.chain.auth_asym_id }}</b> <font size="4">→</font> CIF: <b>{{ chain_form.chain.label_asym_id }}</b><br>
 
-                    Chain <b>{{ chain_form.chain.auth_asym_id }}</b> found in the PDB<br>has been changed to <br>
-                    Chain <b>{{ chain_form.chain.label_asym_id }}</b> found in the CIF<br>
                     Description: <b>{{ chain_form.chain.label_entity_key__pdbx_description }}</b>
                 </label>
                 
