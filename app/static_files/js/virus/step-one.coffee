@@ -1,6 +1,16 @@
 $ ->
-    $("#initial_virus_form").on 'submit', (e)->
+    $("#initial_virus_form").submit (e)->
         e.preventDefault()
+
+        error = false
+        $(".control-group.error").removeClass "error"
+        $(".required").each (index, field) ->
+            if (!field.value?) or field.value is ""
+                $(field).parents('.control-group').addClass "error"
+                error = true
+        if (error)
+            return not error
+
         $.ajax
             url: "http://localhost:8000/api/v1/virus"
             data: 
