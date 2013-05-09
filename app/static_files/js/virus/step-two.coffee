@@ -19,6 +19,7 @@ $ ->
         e.preventDefault()
         error = false
         $(".required").each (index, field) ->
+            error = false
             if (!field.value?) or field.value is ""
                 $(field).parent().parent().addClass "error"
                 error = true
