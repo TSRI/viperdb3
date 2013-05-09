@@ -1,6 +1,7 @@
 $ -> 
     $("#step_three_form").submit (e) ->
         e.preventDefault()
+        error = false
         $(".required").each (index, field) ->
             error = false
             if ($(field).attr("type") is "checkbox")
