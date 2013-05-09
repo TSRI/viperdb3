@@ -7,7 +7,7 @@
 {% endblock extrahead %}
 
 {% block content %}
-<form method="post" enctype="multipart/form-data" id='virus_form'>
+<form method="post" enctype="multipart/form-data" id='initial_virus_form'>
     {% csrf_token %}
     {{ form }}
     <input id="virus_form_submit" type="submit" value="Submit"/>

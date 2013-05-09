@@ -1,5 +1,5 @@
 $ ->
-    $("#virus_form").on 'submit', (e)->
+    $("#initial_virus_form").on 'submit', (e)->
         e.preventDefault()
         $.ajax
             url: "http://localhost:8000/api/v1/virus"
