@@ -1,22 +1,23 @@
 $ -> 
     $("#step_three_form").submit (e) ->
         e.preventDefault()
-        error = false
+        
+        formErrors = []
+        $(".control-group.error").removeClass "error"
         $(".required").each (index, field) ->
-            error = false
             if ($(field).attr("type") is "checkbox")
                 siblings = $(field).siblings ".required"
-                siblings.push(field)
+                siblings.push field
                 for sibling in siblings
                     unless $(sibling).attr('checked') is undefined
                         return
-                error = true
+                formErrors.push field 
             else if (!field.value?) or field.value is ""
-                error = true
-            if error
-                $(field).parents('.control-group').addClass "error"
-            else
-                $(field).parents('.control-group').removeClass "error"
-        unless error
-            e.currentTarget.submit()        
-        not error
+                formErrors.push field
+
+        $(formErrors).parents('.control-group').addClass "error"
+
+        if _.isEmpty(formErrors)
+            return e.currentTarget.submit()        
+
+        false

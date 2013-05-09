@@ -17,12 +17,16 @@ $ ->
 
     $("#virus_form").submit (e) ->
         e.preventDefault()
-        error = false
+        
+        formErrors = []
+        $(".control-group.error").removeClass "error"
         $(".required").each (index, field) ->
-            error = false
             if (!field.value?) or field.value is ""
-                $(field).parent().parent().addClass "error"
-                error = true
-        unless error
-            e.currentTarget.submit()        
-        not error
+                formErrors.push field
+
+        $(formErrors).parents('.control-group').addClass "error"
+        
+        if _.isEmpty(formErrors)
+            return e.currentTarget.submit()
+
+        false
