@@ -10,6 +10,12 @@ from viperdb.helpers import pdb_exists
 
 
 class InitialVirusForm(forms.Form):
+    def __init__(self, *args, **kwargs):
+        super(InitialVirusForm, self).__init__(*args, **kwargs)
+        
+        for key, field in self.fields.iteritems():
+            if field.required:
+                field.widget.attrs.update({'class':'required'})
     FILE_REMOTE = 1
     FILE_LOCAL = 2
     FILE_UPLOAD = 3
