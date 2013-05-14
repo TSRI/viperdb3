@@ -97,7 +97,6 @@ class ChainForm(forms.Form):
         kwargs.update({"initial":{"chain_selection": 1}})
         kwargs.update({"empty_permitted":False})
         super(ChainForm, self).__init__(*args,**kwargs)
-        self.fields['chain_selection'].initial = 1
 
     chain_selection = forms.ChoiceField(widget=forms.RadioSelect, choices=Virus.CHAIN_CHOICES)
     chain_input = forms.CharField(max_length=2, required=False)
