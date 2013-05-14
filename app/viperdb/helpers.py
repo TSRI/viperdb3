@@ -8,17 +8,6 @@ from annoying.functions import get_object_or_None
 
 import requests
 
-# def pdb_exists(entry_id):
-#     # pdb_url = 'http://www.rcsb.org/pdb/rest/describePDB?structureId=' +entry_id 
-
-#     # r = requests.get(pdb_url)
-#     # pdb_info = bindery.parse(r.text)
-
-#     # return len(pdb_info.PDBdescription.xml_children) != 0
-
-
-
-
 def get_mismatched_chains(entry_key):
     mismatched_chains = []
 
