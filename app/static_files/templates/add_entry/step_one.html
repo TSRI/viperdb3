@@ -6,10 +6,29 @@
   {% compressed_js 'step_one' %}
 {% endblock extrahead %}
 
+{% block extrastyle %}
+    {{ block.super }}
+    <style>
+        label.control-label {
+            line-height: 28px;
+        }
+        div.controls {
+          height: 43px;
+        }
+    </style>
+{% endblock extrastyle %}
+
 {% block content %}
-<form method="post" enctype="multipart/form-data" id='virus_form'>
+<form method="post" enctype="multipart/form-data" id='initial_virus_form' class="form-horizontal">
     {% csrf_token %}
-    {{ form }}
+    <p>* = required</p>
+        {% for field in form %}
+            <div class="control-group">
+                <label class="control-label" for="id_{{ field.html_name }}">{{ field.label }}{% if field.field.required %}*{% endif %}:</label>
+                <div class="controls">{{ field }}</div>
+            </div>
+        {% endfor %}
+        <br/>
     <input id="virus_form_submit" type="submit" value="Submit"/>
 </form>
 {% endblock content %}
