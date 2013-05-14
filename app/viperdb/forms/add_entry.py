@@ -13,7 +13,6 @@ class InitialVirusForm(forms.Form):
     def __init__(self, *args, **kwargs):
         kwargs.update({"initial":{"file_source": 1}})
         super(InitialVirusForm, self).__init__(*args, **kwargs)
-        
         for key, field in self.fields.iteritems():
             if field.required:
                 field.widget.attrs.update({'class':'required'})
@@ -74,7 +73,6 @@ class LayerForm(forms.ModelForm):
         for key, field in self.fields.iteritems():
             if field.required:
                 field.widget.attrs.update({'class':'required'})
-
 
     class Meta:
         model = Layer
