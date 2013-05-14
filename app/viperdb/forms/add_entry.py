@@ -11,6 +11,7 @@ from viperdb.helpers import pdb_exists
 
 class InitialVirusForm(forms.Form):
     def __init__(self, *args, **kwargs):
+        kwargs.update({"initial":{"file_source": 1}})
         super(InitialVirusForm, self).__init__(*args, **kwargs)
         
         for key, field in self.fields.iteritems():
@@ -102,6 +103,10 @@ class ChainForm(forms.Form):
     chain_input = forms.CharField(max_length=2, required=False)
 
 class MoveChainForm(forms.Form):
+    def __init__(self, *args, **kwargs):
+        kwargs.update({"initial":{"move_selection": 1}})
+        super(MoveChainForm, self).__init__(*args, **kwargs)
+
     MOVE_NONE = 1
     MOVE_ALL  = 2
     move_choices = ((MOVE_NONE, "Move none"), (MOVE_ALL, "Move all chains"))
@@ -109,14 +114,19 @@ class MoveChainForm(forms.Form):
     matrix_selection = forms.IntegerField(min_value=1, max_value=60, required=False)
 
 class ImageAnalysisForm(forms.Form):
-    IMAGE_ONLY = 1
+    def __init__(self, *args, **kwargs):
+        kwargs.update({"initial":{"analysis_selection": 1}})
+        super(ImageAnalysisForm, self).__init__(*args, **kwargs)
+
+    BOTH_IMAGE_AND_ANALYSIS = 1
     ANALYSIS_ONLY = 2
-    BOTH_IMAGE_AND_ANALYSIS = 3
+    IMAGE_ONLY = 3
     NO_ACTION = 4
+
     analysis_choices = (
-        (IMAGE_ONLY, "Generate images only."),
-        (ANALYSIS_ONLY, "Perform analysis only."),
         (BOTH_IMAGE_AND_ANALYSIS, "Perform analysis and generate images."),
+        (ANALYSIS_ONLY, "Perform analysis only."),
+        (IMAGE_ONLY, "Generate images only."),
         (NO_ACTION, "Do nothing.")
     )
     analysis_selection = forms.ChoiceField(widget=forms.RadioSelect, 
