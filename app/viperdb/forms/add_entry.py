@@ -3,7 +3,7 @@ from django import forms
 from celery.execute import send_task
 
 from viperdb.models import Virus, Layer, Entity, Family
-from viperdb.helpers import pdb_exists
+from viperdb.helpers import get_pdb_info
 
 
 
@@ -33,7 +33,7 @@ class InitialVirusForm(forms.Form):
         entry_id= self.cleaned_data["entry_id"]
 
         if file_source == self.FILE_REMOTE:
-            if not pdb_exists(entry_id):
+            if not get_pdb_info(entry_id):
                 raise forms.ValidationError("PDB id does not exist in RCSB.")
         elif file_source == self.FILE_LOCAL:
             task = send_task('virus.check_file_count', args=[entry_id])
@@ -47,9 +47,11 @@ class InitialVirusForm(forms.Form):
 
 
 class VirusForm(forms.ModelForm):
+
     def __init__(self, *args, **kwargs):
         super(VirusForm, self).__init__(*args, **kwargs)
         self.fields["family"].queryset = Family.objects.order_by('name')
+        self.fields["deposition_date"] = forms.DateField(input_formats=["%m-%d-%Y"])   
         for key, field in self.fields.iteritems():
             if field.required:
                 field.widget.attrs.update({'class':'required'})
@@ -61,6 +63,8 @@ class VirusForm(forms.ModelForm):
 
     def clean(self):
         return self.cleaned_data
+
+
 
 class LayerForm(forms.ModelForm):
     def __init__(self, entry_key, *args, **kwargs):

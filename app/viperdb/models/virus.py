@@ -96,6 +96,9 @@ class Virus (models.Model):
         interfaces = (VirusEnergy.objects.filter(entry_key=self.entry_key)
                 .order_by('assocn_nrg_total'))
 
+        if not interfaces:
+            return
+            
         interface = max(interfaces, key=lambda x: 'assocn_nrg_total')
         max_association_energy = interface.assocn_nrg_total
         for interface in interfaces:

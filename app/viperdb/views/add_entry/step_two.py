@@ -10,14 +10,18 @@ from annoying.functions import get_object_or_None
 
 from viperdb.forms.add_entry import VirusForm
 from viperdb.models import MmsEntry, LayerEntity, Entity, StructRef
+from viperdb.helpers import get_pdb_info
 
 class StepTwoView(FormView):
     template_name = "add_entry/step_two.html"
     form_class = VirusForm
 
     def get_initial(self):
+        pdb_info = get_pdb_info(self.request.session['entry_id'])
+
         initial = super(StepTwoView, self).get_initial()
-        initial.update({'entry_id': self.request.session['entry_id']})
+        initial.update(pdb_info)
+        
         return initial
 
     def get_context_data(self, **kwargs):
@@ -41,6 +45,7 @@ class StepTwoView(FormView):
         return HttpResponseRedirect(self.get_success_url())
 
     def form_invalid(self, virus_form):
+        import pdb; pdb.set_trace()
         return super(StepTwoView, self).form_invalid(virus_form)
 
 
