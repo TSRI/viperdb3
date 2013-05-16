@@ -40,7 +40,7 @@ header span {
   display: inline;
   float: left;
   margin-right: 10px;
-  width: 232.5px;
+  width: 192.08333px;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
@@ -142,11 +142,10 @@ ul.virus-list li a.virus-name {
 
 /* line 2, partials/_virus-info.sass */
 .name {
-  font-size: 1.75em;
   margin-bottom: 0px;
 }
 
-/* line 6, partials/_virus-info.sass */
+/* line 5, partials/_virus-info.sass */
 section.info-section {
   display: inline;
   float: left;
@@ -158,7 +157,7 @@ section.info-section {
   overflow-x: hidden;
 }
 
-/* line 9, partials/_virus-info.sass */
+/* line 8, partials/_virus-info.sass */
 section#virus-info {
   display: inline;
   float: left;
@@ -169,27 +168,27 @@ section#virus-info {
 * html section#virus-info {
   overflow-x: hidden;
 }
-/* line 11, partials/_virus-info.sass */
+/* line 10, partials/_virus-info.sass */
 section#virus-info #virus-nav {
   margin: 5px 0 5px 0;
   padding-left: 0px;
 }
-/* line 14, partials/_virus-info.sass */
+/* line 13, partials/_virus-info.sass */
 section#virus-info #virus-nav li {
   display: inline;
   list-style-type: none;
   padding-right: 20px;
 }
-/* line 19, partials/_virus-info.sass */
+/* line 18, partials/_virus-info.sass */
 section#virus-info .biodata-row {
   margin: 5px 0 5px 0;
 }
-/* line 22, partials/_virus-info.sass */
+/* line 21, partials/_virus-info.sass */
 section#virus-info .biodata-row .title {
   font-weight: bold;
 }
 
-/* line 25, partials/_virus-info.sass */
+/* line 24, partials/_virus-info.sass */
 section#sidebar {
   display: inline;
   float: left;
@@ -202,21 +201,21 @@ section#sidebar {
 * html section#sidebar {
   overflow-x: hidden;
 }
-/* line 30, partials/_virus-info.sass */
+/* line 29, partials/_virus-info.sass */
 section#sidebar h4 {
   margin: 5px 0;
 }
-/* line 32, partials/_virus-info.sass */
+/* line 31, partials/_virus-info.sass */
 section#sidebar ul {
   padding-left: 0px;
   margin-top: 5px;
 }
-/* line 35, partials/_virus-info.sass */
+/* line 34, partials/_virus-info.sass */
 section#sidebar ul li {
   list-style-type: none;
 }
 
-/* line 39, partials/_virus-info.sass */
+/* line 38, partials/_virus-info.sass */
 section#illustrations {
   display: inline;
   float: left;
@@ -228,7 +227,7 @@ section#illustrations {
 * html section#illustrations {
   overflow-x: hidden;
 }
-/* line 43, partials/_virus-info.sass */
+/* line 42, partials/_virus-info.sass */
 section#illustrations #virus-images {
   display: inline;
   float: left;
@@ -241,11 +240,11 @@ section#illustrations #virus-images {
 * html section#illustrations #virus-images {
   overflow-x: hidden;
 }
-/* line 48, partials/_virus-info.sass */
+/* line 47, partials/_virus-info.sass */
 section#illustrations #virus-images img {
   height: 100px;
 }
-/* line 51, partials/_virus-info.sass */
+/* line 50, partials/_virus-info.sass */
 section#illustrations .movement {
   display: inline;
   float: left;
@@ -256,30 +255,30 @@ section#illustrations .movement {
 * html section#illustrations .movement {
   overflow-x: hidden;
 }
-/* line 53, partials/_virus-info.sass */
+/* line 52, partials/_virus-info.sass */
 section#illustrations .movement input {
   height: 100px;
 }
-/* line 56, partials/_virus-info.sass */
+/* line 55, partials/_virus-info.sass */
 section#illustrations .small-images {
   display: inline-block;
 }
 
-/* line 61, partials/_virus-info.sass */
+/* line 60, partials/_virus-info.sass */
 div#tabs {
   width: 960px;
   display: inline-block;
   margin: 5px 0 5px 0;
   padding-left: 0px;
 }
-/* line 66, partials/_virus-info.sass */
+/* line 65, partials/_virus-info.sass */
 div#tabs li {
   display: inline;
   list-style-type: none;
   padding-right: 20px;
 }
 
-/* line 72, partials/_virus-info.sass */
+/* line 71, partials/_virus-info.sass */
 div#association-energies table, div#association-energies tbody, div#association-energies tr, div#qscores table, div#qscores tbody, div#qscores tr {
   display: inline;
   float: left;
@@ -290,7 +289,7 @@ div#association-energies table, div#association-energies tbody, div#association-
 * html div#association-energies table, * html div#association-energies tbody, * html div#association-energies tr, * html div#qscores table, * html div#qscores tbody, * html div#qscores tr {
   overflow-x: hidden;
 }
-/* line 74, partials/_virus-info.sass */
+/* line 73, partials/_virus-info.sass */
 div#association-energies th, div#association-energies td, div#qscores th, div#qscores td {
   display: inline;
   float: left;
@@ -303,12 +302,12 @@ div#association-energies th, div#association-energies td, div#qscores th, div#qs
   overflow-x: hidden;
 }
 
-/* line 79, partials/_virus-info.sass */
+/* line 78, partials/_virus-info.sass */
 div#accessible-surface-profiles .js-asa-chart {
   float: left;
   margin-bottom: 15px;
 }
-/* line 83, partials/_virus-info.sass */
+/* line 82, partials/_virus-info.sass */
 div#accessible-surface-profiles p.title {
   text-indent: 15px;
   margin: 10px 0 5px 0;

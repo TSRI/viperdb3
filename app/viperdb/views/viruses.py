@@ -21,14 +21,14 @@ from viperdb.forms.add_entry import (VirusForm, InitialVirusForm, LayerForm,
 
 class VirusListView(ListView):
     model = Virus
-    template_name = 'virus/index.html'
+    template_name = 'virus_page/index.html'
     context_object_name = 'viruses'
 
 class VirusInfoView(DetailView):
     pk_url_kwarg = 'entry_id'
     context_object_name = 'virus'
     model = Virus
-    template_name = 'virus/info.html'
+    template_name = 'virus_page/info.html'
 
     def get_context_data(self, **kwargs):
         context = super(VirusInfoView, self).get_context_data(**kwargs)
@@ -45,7 +45,7 @@ class VirusInfoView(DetailView):
         })
         return context
 
-@render_to("virus/phi_psi.html")
+@render_to("virus_page/phi_psi.html")
 def phi_psi(request, entry_id):
     virus = get_object_or_404(Virus, entry_id=entry_id)
     residue_types = [{'label_comp_id': u'ALL'}]

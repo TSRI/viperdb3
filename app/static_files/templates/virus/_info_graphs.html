@@ -1,9 +1,0 @@
-<div id="accessible-surface-profiles" class="info-section tab-pane">
-{% for chain in chains %}
-<div id="graph-{{chain.label_asym_id}}" class="js-asa-chart">
-    <input class="js-chain-id" type='hidden' value="{{ chain.label_asym_id }}">
-    </input>
-    <p class='title'>Subunit {{ chain.label_asym_id }}</p>
-</div>
-{% endfor %}
-</div>

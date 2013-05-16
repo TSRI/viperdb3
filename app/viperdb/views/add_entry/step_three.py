@@ -21,7 +21,11 @@ class StepThreeView(FormView):
     input_matrix = []
 
     def get_viperize_matrix(self, entry_id):
-        return send_task('virus.get_matrix', args=[entry_id], kwargs={}).get().split()
+        
+        matrix = send_task('virus.get_matrix', args=[entry_id], kwargs={}).get()
+
+        return matrix.split() if matrix else None
+
 
     def get_layer_formset(self):
         entry_key = get_entry_key(self.request.session['entry_id'])
@@ -31,7 +35,12 @@ class StepThreeView(FormView):
 
     def get_context_data(self, **kwargs):
         virus = Virus.objects.get(entry_id=self.request.session['entry_id'])
+
         self.viperize_matrix = self.get_viperize_matrix(virus.pk)
+
+        if self.viperize_matrix:
+            self.viperize_matrix = make_2d_matrix(self.viperize_matrix, with_vector=True)
+
         mismatched_chains = get_mismatched_chains(virus.entry_key)
 
         layer_formset = self.get_layer_formset()(prefix='layers')
@@ -45,7 +54,7 @@ class StepThreeView(FormView):
         kwargs.update({
             'layer_formset': layer_formset,
             'entry_id': self.request.session['entry_id'],
-            'viperize_matrix': make_2d_matrix(self.viperize_matrix, with_vector=True),
+            'viperize_matrix': self.viperize_matrix,
             'unit_matrix': make_2d_matrix(self.unit_matrix, with_vector=True),
             'chain_formset': chain_formset,
             'matrix_form': self.get_form(self.form_class),
