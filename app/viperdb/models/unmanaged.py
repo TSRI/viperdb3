@@ -190,6 +190,9 @@ class VirusResidueAsa(models.Model):
     radius_min = models.FloatField(db_column="radius_min")
     sasa_bound = models.FloatField(db_column="sasa_bound")
 
+    def __unicode__(self):
+        return "%s%s" % (self.label_asym_id, self.label_seq_id)
+
 class Qscore(models.Model):
     """ Unmanaged model for qscore. Some fields are not completed """
     class Meta:
