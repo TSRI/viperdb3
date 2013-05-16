@@ -17,14 +17,14 @@ $(document).ready ->
         items: 
             start: 0
             visible: 3
-            width: 150
-            height: 150
+            width: 100
+            height: 100
             filter: "img"
         circular: false
         infinite: false
         auto: false
         width: 640 
-        height: 150
+        height: 100
         prev:
             button: "section#illustrations #prev-image"
         next:

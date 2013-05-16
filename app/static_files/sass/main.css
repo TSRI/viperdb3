@@ -235,12 +235,17 @@ section#illustrations #virus-images {
   margin-right: 10px;
   width: 677.08333px;
   margin-left: 10px;
+  margin-right: 10px;
 }
 /* line 147, ../../../../../../var/lib/gems/1.9.1/gems/compass-0.12.2/frameworks/blueprint/stylesheets/blueprint/_grid.scss */
 * html section#illustrations #virus-images {
   overflow-x: hidden;
 }
-/* line 47, partials/_virus-info.sass */
+/* line 48, partials/_virus-info.sass */
+section#illustrations #virus-images img {
+  height: 100px;
+}
+/* line 51, partials/_virus-info.sass */
 section#illustrations .movement {
   display: inline;
   float: left;
@@ -251,30 +256,30 @@ section#illustrations .movement {
 * html section#illustrations .movement {
   overflow-x: hidden;
 }
-/* line 49, partials/_virus-info.sass */
+/* line 53, partials/_virus-info.sass */
 section#illustrations .movement input {
-  height: 150px;
+  height: 100px;
 }
-/* line 52, partials/_virus-info.sass */
+/* line 56, partials/_virus-info.sass */
 section#illustrations .small-images {
   display: inline-block;
 }
 
-/* line 57, partials/_virus-info.sass */
+/* line 61, partials/_virus-info.sass */
 div#tabs {
   width: 960px;
   display: inline-block;
   margin: 5px 0 5px 0;
   padding-left: 0px;
 }
-/* line 62, partials/_virus-info.sass */
+/* line 66, partials/_virus-info.sass */
 div#tabs li {
   display: inline;
   list-style-type: none;
   padding-right: 20px;
 }
 
-/* line 68, partials/_virus-info.sass */
+/* line 72, partials/_virus-info.sass */
 div#association-energies table, div#association-energies tbody, div#association-energies tr, div#qscores table, div#qscores tbody, div#qscores tr {
   display: inline;
   float: left;
@@ -285,7 +290,7 @@ div#association-energies table, div#association-energies tbody, div#association-
 * html div#association-energies table, * html div#association-energies tbody, * html div#association-energies tr, * html div#qscores table, * html div#qscores tbody, * html div#qscores tr {
   overflow-x: hidden;
 }
-/* line 70, partials/_virus-info.sass */
+/* line 74, partials/_virus-info.sass */
 div#association-energies th, div#association-energies td, div#qscores th, div#qscores td {
   display: inline;
   float: left;
@@ -298,12 +303,12 @@ div#association-energies th, div#association-energies td, div#qscores th, div#qs
   overflow-x: hidden;
 }
 
-/* line 75, partials/_virus-info.sass */
+/* line 79, partials/_virus-info.sass */
 div#accessible-surface-profiles .js-asa-chart {
   float: left;
   margin-bottom: 15px;
 }
-/* line 79, partials/_virus-info.sass */
+/* line 83, partials/_virus-info.sass */
 div#accessible-surface-profiles p.title {
   text-indent: 15px;
   margin: 10px 0 5px 0;
