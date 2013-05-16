@@ -1,0 +1,22 @@
+<div id="association-energies" class="info-section tab-pane active">
+  <table>
+    <tr>
+      <th>Interface</th>
+      <th>Symmetry</th>
+      <th>Association Energy</th>
+      <th>Buried Surface Area</th>
+      <th>Solvation Energy</th>
+      <th>Relative Strength</th>
+    </tr>
+    {% for interface in interfaces %}
+    <tr>
+      <td>{{ interface }}</td>
+      <td>{{ interface.get_symmetry }}</td>
+      <td>{{ interface.assocn_nrg_total }}</td>
+      <td>{{ interface.bsa_total }}</td>
+      <td>{{ interface.solvn_nrg_total }}</td>
+      <td>{{ interface.relative_strength }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+</div>

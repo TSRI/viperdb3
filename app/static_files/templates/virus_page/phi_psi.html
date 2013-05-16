@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% load compressed %}
+
+{% block scripts %}
+    {% compressed_js "graph" %}
+{% endblock scripts %}
+
+{% block styles %}
+    {% compressed_css "graph" %}
+{% endblock styles %}
+
+{% block content %}
+
+<input id="js-entry_key" type='hidden' value="{{ virus.entry_key }}"></input>
+
+<input type='button' id='js-color-by-chain' value="Chain"></input>
+<input type='button' id='js-color-by-identity' value="Identity"></input>
+<input type='button' id='js-color-by-SASA' value="SASA"></input>
+<input type='button' id='js-color-by-interactions' 
+       value="Number of Interactions"></input>
+<label for="js-residue_type">Residue Type:</label>
+<select id="js-residue_type">
+    {% for residue_type in residue_types %}
+    <option value="{{residue_type.label_comp_id}}">{{ residue_type.label_comp_id }}</option>
+    {% endfor %}
+</select>
+
+<p id="js-information">More information here</p>
+
+<input type='button' id='js-select-interface' value="Interface"></input>
+<input type='button' id='js-select-core' value="Core"></input>
+<input type='button' id='js-select-surfout' value="Surface Out"></input>
+<input type='button' id='js-select-surfin' value="Surface In"></input>
+
+<div id="graph"></div>
+
+{% endblock content %}

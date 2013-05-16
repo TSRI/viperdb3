@@ -1,0 +1,27 @@
+<div id='tabs'>
+  <br/>
+  <h4>Viperdb Analysis Results</h4>
+  <ul class="nav nav-tabs">
+    <li class="active">
+      <a href="#association-energies" data-toggle="tab">
+      Association Energies
+      </a>
+    </li>
+    <li><a href="#qscores" data-toggle="tab">
+      Qscores
+      </a>
+    </li>
+    <li><a href="#accessible-surface-profiles" data-toggle="tab">   
+      Accessible Surface Profiles
+      </a>
+    </li>
+  </ul>
+</div>
+
+  <div class="tab-content">  
+    {% include "virus_page/analysis/_info_association_energies.html" %}
+    {% include "virus_page/analysis/_info_qscore.html" %}
+    {% include "virus_page/analysis/_info_graphs.html" %}
+  </div>
+
+</div>

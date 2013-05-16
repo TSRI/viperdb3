@@ -1,0 +1,50 @@
+<section id="virus-info" class="info-section">
+  <br/>
+  <h4>General Information</h4>
+  <div id="main-info">
+    <ul id="virus-nav" class="nav nav-tabs">
+      <li class="active">
+        <a href="#biodata" data-toggle="tab">Biodata</a>
+      </li>
+      <li>
+        <a href="#related-viruses" data-toggle="tab">Related Viruses</a>
+      </li>
+      <li>
+        <a href="#references" data-toggle="tab">References</a></li>
+    </ul>
+
+    <div class="tab-content">
+      <div id="biodata" class="info-section tab-pane active">
+        <p class="biodata-row">
+          <span class="title">PDB ID: </span>
+          <span class="text">{{ virus }}</span>
+        </p>
+        <p class="biodata-row">
+          <span class="title">Entry Key: </span> 
+          <span class="text">{{ virus.entry_key }}</span>
+        </p>
+        <p class="biodata-row">
+          <span class="title">Family: </span>
+          <span class="text"> 
+            <a href="{% url families:info virus.family %}">{{ virus.family }}</a>
+          </span>
+        </p>
+        <p class="biodata-row">
+          <span class="title">Genus: </span>
+          <span class="text">{{ virus.genus }}</span>
+        </p>
+        <p class="biodata-row">
+          <span class="title">T-Number: </span>
+          <span class="text">{{ virus.get_tnumber }}</span>
+        </p>
+      </div>
+
+      <div id="related-viruses" class="info-section tab-pane">
+        text
+      </div>
+      <div id="references" class="info-section tab-pane">
+        text
+      </div>
+    </div>
+  </div>
+</section>

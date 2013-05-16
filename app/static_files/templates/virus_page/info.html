@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% load compressed %}
+
+{% block scripts %}
+    {% compressed_js 'graph' %}
+    {% compressed_js 'images' %}
+{% endblock scripts %}
+
+{% block styles %}
+  {% compressed_css 'graph' %}
+  {% compressed_css 'images' %}
+{% endblock styles %}
+
+{% block content %}
+  <input id="js-entry_key" type='hidden' value="{{ virus.entry_key }}"></input>
+  <h2 class="name">{{ virus }}</h2>
+  <h4 class="name">{{ virus.name }}</h4>
+  {% include "virus_page/_info_illustrations.html" %}
+  {% include "virus_page/general_information/base.html" %}
+  {% include "virus_page/_downloads.html" %}
+  {% include "virus_page/analysis/base.html" %}
+
+
+
+{% endblock content %}
+<!-- <a href="{% url viruses:phi_psi virus.entry_id %}">Phi-Psi Explorer</a> -->
+
