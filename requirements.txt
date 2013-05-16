@@ -1,5 +1,5 @@
 Amara
-Django
+Django==1.4.5
 Fabric
 PIL
 PyYAML
