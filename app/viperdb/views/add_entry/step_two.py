@@ -45,7 +45,6 @@ class StepTwoView(FormView):
         return HttpResponseRedirect(self.get_success_url())
 
     def form_invalid(self, virus_form):
-        import pdb; pdb.set_trace()
         return super(StepTwoView, self).form_invalid(virus_form)
 
 
