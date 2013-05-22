@@ -1,14 +1,16 @@
 from fabric.api import *
 
-env.activate = "source ~/.env/bin/activate"
+env.activate = "source ~/.virtualenvs/viperdb/bin/activate"
 env.hosts = ["localhost"]
+env.f = sudo
 
 def virtualenv(command):
-    "Run a command within a virtualenv"
-    return "%s %s" % (env.activate, command)
+    """Run a command within a virtualenv"""
+    with cd("viperdb3"):
+        env.f("%s && %s" % (env.activate, command))
 
 def manage(cmd):
-    local('export DJANGO_SETTINGS_MODULE=settings.development && python app/manage.py %s' % (cmd))
+    virtualenv('honcho run python app/manage.py %s' % (cmd))
 
 def bootstrap():
     bootstrap_server()
@@ -22,10 +24,5 @@ def bootstrap_server(_local=True):
         f("npm install -g coffee-script")
         f(virtualenv("pip install -r requirements.txt"))
 
-def serve():
-    with cd('viperdb'):
-        manage('runserver_plus --threaded')
-    
-
-
-
+        manage("syncdb")
+        manage("migrate")

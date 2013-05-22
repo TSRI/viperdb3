@@ -19,7 +19,7 @@ if [[ $(which berks) ]]; then
 fi
 
 if which chef-solo >/dev/null; then
-  sudo /usr/local/bin/chef-solo -c solo.rb -j node.json
+  sudo /usr/bin/chef-solo -c /export/viperdb/viperdb3/solo.rb -j node.json
 else
   sudo true && curl -L https://www.opscode.com/chef/install.sh | sudo bash
 fi
