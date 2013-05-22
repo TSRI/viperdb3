@@ -1,7 +1,7 @@
 cookbook 'database'
 cookbook 'mysql'
 cookbook 'python'
-cookbook 'redis', github: "miah/chef-redis"
+cookbook 'redis', github: "jenrzzz/chef-redis"
 cookbook 'discovery', github: "jkl1337/discovery", branch: 'support-1.8'
 cookbook 'java'
 cookbook 'nodejs'

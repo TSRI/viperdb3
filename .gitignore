@@ -16,3 +16,5 @@ app/static/
 .vagrant*
 data_bags/
 app/static/
+
+.env
