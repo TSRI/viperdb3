@@ -1,6 +1,7 @@
 from fabric.api import *
+import envoy
 
-env.activate = "source ~/.virtualenvs/viperdb/bin/activate"
+env.activate = "source /export/viperdb/.virtualenvs/viperdb/bin/activate"
 env.hosts = ["localhost"]
 env.f = sudo
 
@@ -26,3 +27,6 @@ def bootstrap_server(_local=True):
 
         manage("syncdb")
         manage("migrate")
+
+def deploy():
+    local('honcho start deploy')
