@@ -1,7 +1,9 @@
 {% extends 'base.html' %}
 
 {% load compressed %}
-
+{% block title %}
+Virus Page: {{virus.entry_id}}
+{% endblock %}
 {% block scripts %}
     {% compressed_js 'graph' %}
     {% compressed_js 'images' %}

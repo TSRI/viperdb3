@@ -5,6 +5,7 @@ from django.db.models.deletion import CASCADE
 from celery.execute import send_task
 
 from viperdb.models import VirusResidueAsa, VirusEnergy
+from viperdb.models.mixins import MatrixMixin
 
 
 class Family(models.Model):
@@ -18,12 +19,10 @@ class Family(models.Model):
         return self.name
 
 
-class Virus (models.Model):
+class Virus (models.Model, MatrixMixin):
     class Meta:
         app_label = "viperdb"
         verbose_name_plural = 'Viruses'
-
-
 
     CHAIN_REVERT = 1
     CHAIN_MAINTAIN = 2

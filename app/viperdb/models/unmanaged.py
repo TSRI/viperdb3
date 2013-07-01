@@ -1,5 +1,6 @@
 
 from django.db import models
+from viperdb.models.mixins import MatrixMixin
 
 class MmsEntry(models.Model):
     class Meta:
@@ -29,12 +30,26 @@ class AtomSite(models.Model):
         db_table = 'ATOM_SITE'
         managed = False
 
+    id = models.AutoField(primary_key=True, db_column='id')
     atom_site_key = models.IntegerField(primary_key=True)
     entry_key = models.ForeignKey(MmsEntry, to_field='entry_key', related_name='atom_site', db_column='entry_key')
     auth_asym_id = models.CharField(max_length=255, db_column='auth_asym_id')
+    auth_atom_id = models.CharField(max_length=255, db_column='auth_atom_id')
+    auth_comp_id = models.CharField(max_length=255, db_column='auth_comp_id')
     auth_seq_id = models.IntegerField(db_column='auth_seq_id')
     label_asym_id = models.CharField(max_length=255, db_column='label_asym_id')
     label_entity_key = models.ForeignKey('Entity', db_column='label_entity_key')
+    cartn_x = models.FloatField(db_column='cartn_x')
+    cartn_y = models.FloatField(db_column='cartn_y')
+    cartn_z = models.FloatField(db_column='cartn_z')
+    occupancy = models.FloatField(db_column='occupancy')
+    b_iso_or_equiv = models.FloatField(db_column='b_iso_or_equiv')
+
+    def __unicode__(self):
+        return str(self.__dict__)
+
+    def get_2d_matrix(self):
+        return [[getattr(self, 'cartn_%s' % x)] for x in ['x','y','z']]
 
 class Entity(models.Model):
     class Meta:
@@ -61,7 +76,8 @@ class StructRef(models.Model):
     entity_key = models.ForeignKey(Entity, db_column='entity_key')
     pdbx_db_accession = models.CharField(max_length=255)
 
-class IcosMatrix(models.Model):
+
+class IcosMatrix(models.Model, MatrixMixin):
     class Meta:
         app_label = "viperdb"
         db_table = 'icos_matrix'
