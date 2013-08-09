@@ -26,3 +26,4 @@ nose
 requests
 kombu
 envoy
+honcho

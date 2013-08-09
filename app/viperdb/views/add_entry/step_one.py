@@ -55,7 +55,8 @@ class StepOneView(FormView):
                return redirect(reverse('virus:initial_virus'))
                
         send_task('virus.run_pdbase', args=[entry_id], kwargs={})
-        
+        # TODO options to forgo analysis
+
         self.request.session['entry_id'] = entry_id
 
         return super(StepOneView, self).form_valid(form)
