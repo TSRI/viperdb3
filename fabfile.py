@@ -28,5 +28,3 @@ def bootstrap_server(_local=True):
         manage("syncdb")
         manage("migrate")
 
-def deploy():
-    local('honcho start deploy')
